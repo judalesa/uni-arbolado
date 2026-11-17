@@ -20,7 +20,7 @@ public class Usuario {
 	/** Identificador generado por la base de datos; no se asigna desde el código. */
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private Long id; // skipcq: JAVA-E1065
 
 	/** Documento de 10 dígitos; se guarda como texto porque puede empezar en cero. */
 	@Column(nullable = false, unique = true, length = 10)

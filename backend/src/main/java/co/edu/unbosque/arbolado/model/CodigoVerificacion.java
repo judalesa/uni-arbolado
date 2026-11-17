@@ -23,7 +23,7 @@ public class CodigoVerificacion {
 	/** Identificador generado por la base de datos. */
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private Long id; // skipcq: JAVA-E1065
 
 	/** Cuenta a la que se envió el código. */
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)

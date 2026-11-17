@@ -18,7 +18,7 @@ public class Prerrequisito {
 	/** Identificador generado por la base de datos. */
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private Long id; // skipcq: JAVA-E1065
 
 	/** Asignatura que exige el requisito. */
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)

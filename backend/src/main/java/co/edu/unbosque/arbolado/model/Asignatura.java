@@ -21,7 +21,7 @@ public class Asignatura {
 	/** Identificador generado por la base de datos. */
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private Long id; // skipcq: JAVA-E1065
 
 	/** Código único, por ejemplo {@code MAT101}. */
 	@Column(nullable = false, unique = true, length = 10)
