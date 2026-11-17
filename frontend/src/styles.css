@@ -1,0 +1,13 @@
+/*
+ * Estilos GLOBALES de la aplicación.
+ *
+ * Bootstrap 5 y Font Awesome se cargan desde `angular.json` (arreglo "styles"), por eso no se importan aquí.
+ * Este archivo solo debe contener ajustes que afecten a toda la aplicación; los estilos propios de cada
+ * pantalla van en el archivo .css de su componente.
+ */
+
+/* Hace que el pie de página quede abajo aunque la pantalla tenga poco contenido. */
+html,
+body {
+  height: 100%;
+}
