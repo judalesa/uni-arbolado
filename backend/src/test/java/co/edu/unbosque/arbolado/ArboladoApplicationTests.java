@@ -21,7 +21,7 @@ class ArboladoApplicationTests {
 	@Test
 	void elContextoArrancaYLaConfiguracionTipadaSeCarga() {
 		assertThat(propiedades.seguridad().jwtExpiracionMinutos()).isEqualTo(60);
-		assertThat(propiedades.cors().allowedOrigins()).contains("http://localhost:4200");
+		assertThat(propiedades.cors().allowedOrigins()).contains("http://localhost:4200"); // skipcq: JAVA-S1000
 		assertThat(propiedades.correo().modo()).isEqualTo(PropiedadesApp.ModoCorreo.LOG);
 	}
 }

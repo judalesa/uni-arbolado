@@ -98,6 +98,15 @@ class PropiedadesAppTest {
 				.run(contexto -> assertThat(contexto).hasFailed());
 	}
 
+	/** Un origen CORS con comodín, sin esquema o con barra final se rechaza: solo valen orígenes exactos. */
+	@Test
+	void conOrigenesCorsInseguroNoArranca() {
+		for (String origen : new String[] {"*", "https://*.netlify.app", "localhost:4200", "http://localhost:4200/"}) {
+			ejecutor.withPropertyValues(cambiando("app.cors.allowed-origins", "app.cors.allowed-origins=" + origen))
+					.run(contexto -> assertThat(contexto).hasFailed());
+		}
+	}
+
 	/** Un modo de correo que no sea LOG ni SMTP se rechaza. */
 	@Test
 	void conModoDeCorreoDesconocidoNoArranca() {

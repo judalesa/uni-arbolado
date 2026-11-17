@@ -64,9 +64,11 @@ public record PropiedadesApp(
 	/**
 	 * Política de CORS.
 	 *
-	 * @param allowedOrigins orígenes permitidos (por ejemplo el sitio de Netlify), separados por coma
+	 * @param allowedOrigins orígenes exactos con esquema y sin comodines (por ejemplo el sitio de Netlify),
+	 *                       separados por coma; un {@code *} impide que la aplicación arranque
 	 */
-	public record Cors(@NotEmpty List<@NotBlank String> allowedOrigins) {
+	public record Cors(@NotEmpty List<@NotBlank @Pattern(regexp = "^https?://[^*\\s/]+$",
+			message = "debe ser un origen exacto, con http o https y sin comodines ni barra final") String> allowedOrigins) {
 	}
 
 	/**
