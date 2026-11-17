@@ -24,8 +24,9 @@ public class LoadDatabase {
 	public CommandLineRunner cargarDatosIniciales(CargaInicialService carga) {
 		return args -> {
 			CargaInicialService.ResultadoCarga resultado = carga.cargarPlanDeEstudios();
-			LOG.info("Carga inicial: {} asignaturas y {} prerrequisitos nuevos",
-					resultado.asignaturasNuevas(), resultado.prerrequisitosNuevos());
+			LOG.info("Carga inicial: {} asignaturas y {} prerrequisitos nuevos; en la base hay {} asignaturas y {} prerrequisitos",
+					resultado.asignaturasNuevas(), resultado.prerrequisitosNuevos(),
+					resultado.totalAsignaturas(), resultado.totalPrerrequisitos());
 		};
 	}
 }
