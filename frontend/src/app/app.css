@@ -1,0 +1,9 @@
+/*
+ * Estilos propios del componente raíz.
+ * El diseño se apoya en las clases de Bootstrap usadas en app.html; aquí no hace falta nada adicional.
+ * Se deja el archivo documentado (y no vacío) para dejar claro que es intencional.
+ */
+:host {
+  /* El componente raíz ocupa todo el ancho disponible. */
+  display: block;
+}

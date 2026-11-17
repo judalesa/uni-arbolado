@@ -1,0 +1,24 @@
+<!-- Contenedor general: columna de al menos la altura de la pantalla para que el pie quede abajo. -->
+<div class="d-flex flex-column min-vh-100">
+
+  <!-- Encabezado: barra de navegación de Bootstrap con el nombre de la institución. -->
+  <nav class="navbar navbar-dark bg-success" aria-label="Navegación principal">
+    <div class="container">
+      <!-- Logo y nombre: llevan siempre a la pantalla de inicio. -->
+      <a class="navbar-brand" routerLink="/">
+        <!-- Ícono de Font Awesome (árbol); aria-hidden evita que el lector de pantalla lo lea. -->
+        <i class="fa-solid fa-tree me-2" aria-hidden="true"></i>{{ institucion }}
+      </a>
+    </div>
+  </nav>
+
+  <!-- Contenido principal: aquí Angular intercambia las pantallas según la ruta. -->
+  <main class="container flex-grow-1 py-4">
+    <router-outlet />
+  </main>
+
+  <!-- Pie de página con el nombre del sistema y el año. -->
+  <footer class="bg-light border-top py-3 text-center text-muted small">
+    Sistema de Gestión Académica en Línea · {{ institucion }} · {{ anio }}
+  </footer>
+</div>
