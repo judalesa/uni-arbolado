@@ -5,7 +5,7 @@ import co.edu.unbosque.arbolado.configuration.PropiedadesApp;
 import java.util.List;
 
 /** Fábrica de configuración con valores falsos para las pruebas unitarias de seguridad. */
-final class PropiedadesDePrueba {
+public final class PropiedadesDePrueba {
 
 	/** Llave AES-256 falsa: 32 bytes en cero, codificados en Base64. */
 	static final String LLAVE_AES = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=";
@@ -38,7 +38,7 @@ final class PropiedadesDePrueba {
 	 *
 	 * @return la configuración de prueba
 	 */
-	static PropiedadesApp estandar() {
+	public static PropiedadesApp estandar() {
 		return con(SECRETO_JWT, LLAVE_AES, 60);
 	}
 }

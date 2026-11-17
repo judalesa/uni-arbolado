@@ -123,6 +123,21 @@ public class Usuario {
 	}
 
 	/**
+	 * Reemplaza los datos de una cuenta pendiente que se vuelve a registrar (RF-06).
+	 *
+	 * @param documento      documento de 10 dígitos
+	 * @param nombreCompleto nombre completo
+	 * @param correo         correo electrónico (se normaliza a minúsculas)
+	 * @param contrasena     contraseña ya codificada
+	 */
+	public void actualizarRegistro(String documento, String nombreCompleto, String correo, String contrasena) {
+		this.documento = documento;
+		this.nombreCompleto = nombreCompleto;
+		this.correo = correo.trim().toLowerCase(Locale.ROOT);
+		this.contrasena = contrasena;
+	}
+
+	/**
 	 * Representación para registros: omite la contraseña a propósito.
 	 *
 	 * @return texto con identificador, correo, rol y estado

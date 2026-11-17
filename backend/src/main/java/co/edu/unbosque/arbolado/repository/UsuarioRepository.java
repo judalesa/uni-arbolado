@@ -17,6 +17,14 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 	Optional<Usuario> findByCorreo(String correo);
 
 	/**
+	 * Busca una cuenta por documento.
+	 *
+	 * @param documento documento de 10 dígitos
+	 * @return la cuenta, si existe
+	 */
+	Optional<Usuario> findByDocumento(String documento);
+
+	/**
 	 * Indica si ya existe una cuenta con ese correo.
 	 *
 	 * @param correo correo en minúsculas
