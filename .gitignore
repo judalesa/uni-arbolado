@@ -1,0 +1,80 @@
+# ============================================================
+# Repositorio PUBLICO: nada de secretos aqui.
+# Los valores reales viven solo en archivos locales ignorados.
+# ============================================================
+
+# --- Configuracion y secretos (solo se versiona el *-example) ---
+application-local.properties
+application-dev.properties
+application-prod.properties
+application-secret*.properties
+.env
+.env.*
+*.pem
+*.key
+*.p12
+*.jks
+*.keystore
+secrets/
+*.zip
+Notas*Clase*
+
+# --- Documentos y respaldos que no son codigo (la documentacion vive fuera del repo) ---
+*.docx
+*.pdf
+*.pptx
+*.xlsx
+*.sql
+*.dump
+*.bak
+
+# --- Nada de documentacion ni memoria de IA dentro del repo ---
+CLAUDE.md
+.claude/
+HELP.md
+
+# --- Artefactos que contienen secretos (el WAR lleva la configuracion de produccion) ---
+*.war
+*.jar
+*.ear
+
+# --- Backend (Maven / Java) ---
+target/
+**/.mvn/wrapper/maven-wrapper.jar
+*.class
+*.log
+logs/
+hs_err_pid*
+replay_pid*
+
+# --- Frontend (Angular / Node) ---
+node_modules/
+dist/
+.angular/
+.netlify/
+coverage/
+out-tsc/
+*.tsbuildinfo
+.sass-cache/
+testem.log
+npm-debug.log*
+yarn-error.log*
+
+# --- IDE y sistema ---
+.idea/
+*.iml
+*.iws
+*.ipr
+.vscode/
+.project
+.classpath
+.settings/
+.factorypath
+.apt_generated/
+.sts4-cache/
+.springBeans
+nbproject/
+.obsidian/
+.DS_Store
+Thumbs.db
+*.swp
