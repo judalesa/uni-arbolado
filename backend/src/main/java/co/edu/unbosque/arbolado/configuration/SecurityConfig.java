@@ -15,14 +15,6 @@ import org.springframework.security.web.SecurityFilterChain;
 
 /**
  * Cadena de seguridad HTTP de la API.
- *
- * <p><b>Estado actual (FT-01):</b> estructura base. Todo requiere autenticación salvo la documentación
- * y la verificación previa de CORS. Los endpoints públicos (registro, verificación, inicio de sesión) y el
- * filtro JWT se agregan en la feature de autenticación (FT-04); mientras tanto la API queda cerrada, que
- * es la opción segura por omisión.</p>
- *
- * <p><b>Decisiones:</b> sin sesiones en el servidor (STATELESS: cada petición trae su token), sin CSRF
- * (no hay cookies de sesión que falsificar) y sin formulario ni autenticación básica de Spring.</p>
  */
 @Configuration
 @EnableMethodSecurity

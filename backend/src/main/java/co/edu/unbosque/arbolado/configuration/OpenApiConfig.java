@@ -10,11 +10,6 @@ import org.springframework.context.annotation.Configuration;
 
 /**
  * Metadatos de la documentación interactiva (Swagger UI) generada por springdoc.
- *
- * <p>La documentación está apagada por defecto ({@code springdoc.*.enabled=false}) para no exponer la
- * API en el servidor compartido; se enciende en {@code application-local.properties} cuando se necesita.
- * El contrato oficial entre backend y frontend es {@code openapi.yaml}; esta salida es la versión viva
- * que se compara con él.</p>
  */
 @Configuration
 public class OpenApiConfig {

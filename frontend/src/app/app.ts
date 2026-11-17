@@ -1,26 +1,21 @@
 import { Component } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
 
-/**
- * Componente raíz de la aplicación: dibuja el encabezado y el pie de página, y deja el espacio central
- * (`<router-outlet>`) donde Angular muestra la pantalla que corresponda a la ruta actual.
- *
- * Es un componente independiente (standalone): declara aquí mismo lo que usa en su plantilla, sin módulos.
- */
+/** Componente raíz: encabezado, contenido de la ruta actual y pie de página. */
 @Component({
-  /** Etiqueta con la que `index.html` monta este componente. */
+  /** Etiqueta con la que `index.html` monta el componente. */
   selector: 'app-root',
-  /** Directivas que la plantilla necesita: el enlace del logo y el punto de salida de las rutas. */
+  /** Dependencias usadas en la plantilla. */
   imports: [RouterOutlet, RouterLink],
-  /** Archivo de plantilla HTML. */
+  /** Plantilla HTML. */
   templateUrl: './app.html',
-  /** Archivo de estilos propios del componente. */
+  /** Estilos del componente. */
   styleUrl: './app.css',
 })
 export class App {
-  /** Nombre de la institución que se muestra en el encabezado. */
+  /** Nombre de la institución mostrado en el encabezado. */
   protected readonly institucion = 'Universidad El Arbolado';
 
-  /** Año actual, mostrado en el pie de página. */
+  /** Año actual para el pie de página. */
   protected readonly anio = new Date().getFullYear();
 }

@@ -3,10 +3,6 @@ package co.edu.unbosque.arbolado.exception;
 /**
  * Base de las excepciones de negocio de la API. Cada una lleva un {@link CodigoError} estable, del que
  * el {@link GlobalExceptionHandler} deduce el estado HTTP y el cuerpo de la respuesta.
- *
- * <p><b>Por qué excepciones propias:</b> los servicios expresan "qué falló" (no existe, está duplicado,
- * incumple una regla) sin conocer HTTP; el manejador global lo traduce en un único lugar. Así ningún
- * controlador repite bloques try/catch.</p>
  */
 public abstract class ApiException extends RuntimeException {
 

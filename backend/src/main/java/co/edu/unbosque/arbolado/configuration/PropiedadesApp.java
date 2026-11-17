@@ -18,10 +18,6 @@ import java.util.List;
  * Configuración propia de la aplicación (prefijo {@code app}), leída de
  * {@code application-local.properties}.
  *
- * <p><b>Por qué una clase tipada y validada:</b> el repositorio es público, así que ningún secreto
- * tiene valor por defecto. Si falta alguno (o es débil), Spring aborta el arranque con un mensaje que
- * nombra la propiedad. Es mejor fallar al iniciar que arrancar con una llave vacía.</p>
- *
  * @param seguridad parámetros de JWT, cifrado de contraseñas y códigos de verificación
  * @param admin     datos del administrador precargado (RN-05)
  * @param cors      orígenes del frontend autorizados

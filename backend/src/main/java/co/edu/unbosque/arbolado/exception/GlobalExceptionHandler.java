@@ -29,13 +29,6 @@ import java.util.List;
 /**
  * Traduce TODA excepción de la aplicación al formato {@link ErrorResponse} del contrato, con un código
  * HTTP estándar y un {@link CodigoError} estable.
- *
- * <p><b>Por qué extiende {@link ResponseEntityExceptionHandler}:</b> esa clase de Spring ya conoce las
- * excepciones propias de Spring MVC (método no permitido, tipo de contenido, ruta inexistente, JSON mal
- * formado…). Se reutiliza para no olvidar ninguna y solo se cambia el cuerpo de la respuesta.</p>
- *
- * <p>Regla de seguridad: el mensaje de los errores inesperados es genérico. La traza completa se escribe
- * en el registro del servidor y nunca se envía al cliente.</p>
  */
 @RestControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {

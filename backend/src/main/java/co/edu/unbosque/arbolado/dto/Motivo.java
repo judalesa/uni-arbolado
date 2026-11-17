@@ -5,9 +5,6 @@ import co.edu.unbosque.arbolado.exception.CodigoMotivo;
 /**
  * Uno de los incumplimientos de una regla de negocio (solo aparece en respuestas 422).
  *
- * <p>Una inscripción rechazada puede traer varios motivos a la vez (RN-22): el estudiante ve la lista
- * completa y no tiene que descubrirlos uno por uno.</p>
- *
  * @param codigo  código estable del motivo, por ejemplo {@code CREDITOS_EXCEDIDOS}
  * @param mensaje explicación legible para el estudiante
  */

@@ -6,9 +6,6 @@ import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 
 /**
  * Punto de entrada del backend del Sistema de Gestión Académica en Línea de la Universidad El Arbolado.
- *
- * <p>{@link ConfigurationPropertiesScan} registra automáticamente las clases de configuración tipada
- * (por ejemplo {@code PropiedadesApp}), que validan al arrancar que no falte ningún secreto.</p>
  */
 @SpringBootApplication
 @ConfigurationPropertiesScan

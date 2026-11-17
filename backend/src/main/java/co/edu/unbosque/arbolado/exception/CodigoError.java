@@ -2,10 +2,6 @@ package co.edu.unbosque.arbolado.exception;
 
 /**
  * Catálogo de códigos de error estables de la API, cada uno con su estado HTTP estándar.
- *
- * <p><b>Por qué códigos propios además del HTTP:</b> con solo el número, el frontend no distingue
- * "documento duplicado" de "correo duplicado" (ambos 409). El código textual sí, y no cambia aunque
- * cambie el mensaje. La tabla coincide con la del contrato {@code openapi.yaml}.</p>
  */
 public enum CodigoError {
 
