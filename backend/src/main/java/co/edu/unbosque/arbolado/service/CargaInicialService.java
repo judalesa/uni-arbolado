@@ -21,8 +21,11 @@ public class CargaInicialService {
 	 *
 	 * @param asignaturasNuevas    asignaturas insertadas
 	 * @param prerrequisitosNuevos relaciones de prerrequisito insertadas
+	 * @param totalAsignaturas     asignaturas que hay en la base al terminar
+	 * @param totalPrerrequisitos  relaciones de prerrequisito que hay en la base al terminar
 	 */
-	public record ResultadoCarga(int asignaturasNuevas, int prerrequisitosNuevos) {
+	public record ResultadoCarga(int asignaturasNuevas, int prerrequisitosNuevos,
+								 long totalAsignaturas, long totalPrerrequisitos) {
 	}
 
 	/** Repositorio de asignaturas. */
@@ -74,6 +77,7 @@ public class CargaInicialService {
 				}
 			}
 		}
-		return new ResultadoCarga(asignaturasNuevas, prerrequisitosNuevos);
+		return new ResultadoCarga(asignaturasNuevas, prerrequisitosNuevos,
+				asignaturaRepository.count(), prerrequisitoRepository.count());
 	}
 }
