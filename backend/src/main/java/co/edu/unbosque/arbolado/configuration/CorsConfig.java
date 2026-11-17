@@ -23,10 +23,12 @@ public class CorsConfig {
 	@Bean
 	public CorsConfigurationSource corsConfigurationSource(PropiedadesApp propiedades) {
 		CorsConfiguration politica = new CorsConfiguration();
-		// Orígenes exactos (nunca "*"): la API usa cabecera Authorization.
-		politica.setAllowedOrigins(propiedades.cors().allowedOrigins().stream().map(String::trim).toList());
+		// Orígenes exactos: PropiedadesApp rechaza "*" al arrancar, y la API usa la cabecera Authorization.
+		politica.setAllowedOrigins(propiedades.cors().allowedOrigins().stream().map(String::trim).toList()); // skipcq: JAVA-S1000
 		politica.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "OPTIONS"));
 		politica.setAllowedHeaders(List.of("Authorization", "Content-Type"));
+		// Sin esto el navegador no deja leer Retry-After en un 429 entre orígenes distintos.
+		politica.setExposedHeaders(List.of("Retry-After"));
 		// El navegador recuerda la respuesta de la verificación previa durante una hora.
 		politica.setMaxAge(3600L);
 		UrlBasedCorsConfigurationSource fuente = new UrlBasedCorsConfigurationSource();

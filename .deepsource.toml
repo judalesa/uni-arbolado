@@ -1,0 +1,17 @@
+version = 1
+
+# Archivos generados por Maven: no son código del proyecto.
+exclude_patterns = [
+  "backend/mvnw",
+  "backend/mvnw.cmd",
+  "backend/.mvn/**"
+]
+
+[[analyzers]]
+name = "java"
+
+[[analyzers]]
+name = "javascript"
+
+[[analyzers]]
+name = "secrets"

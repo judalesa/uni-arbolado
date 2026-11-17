@@ -24,7 +24,7 @@ public class Auditoria {
 	/** Identificador generado por la base de datos. */
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private Long id; // skipcq: JAVA-E1065
 
 	/** Identificador del usuario; es {@code null} en eventos anónimos. Sin llave foránea a propósito. */
 	@Column(name = "usuario_id", updatable = false)

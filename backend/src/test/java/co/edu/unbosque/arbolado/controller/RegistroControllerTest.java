@@ -314,16 +314,22 @@ class RegistroControllerTest {
 				.andExpect(status().isConflict());
 	}
 
-	/** Un segundo registro antes de 60 s responde 429 con Retry-After y no cambia la cuenta ni envía otro correo. */
+	/**
+	 * Un segundo registro antes de 60 s responde 429 con Retry-After (legible desde el navegador por CORS) y no
+	 * cambia la cuenta ni envía otro correo.
+	 */
 	@Test
 	void limitaLosEnviosSeguidos() throws Exception {
 		String documento = documentoNuevo();
 		registrar(documento).andExpect(status().isCreated());
 
-		enviar("/api/auth/registro", registroJson(documento, "Otro Nombre", correoDe(documento), CLAVE))
+		mvc.perform(post("/api/auth/registro").contentType(MediaType.APPLICATION_JSON)
+						.header("Origin", "http://localhost:4200")
+						.content(registroJson(documento, "Otro Nombre", correoDe(documento), CLAVE)))
 				.andExpect(status().isTooManyRequests())
 				.andExpect(jsonPath("$.codigo").value("DEMASIADOS_INTENTOS"))
-				.andExpect(header().exists("Retry-After"));
+				.andExpect(header().exists("Retry-After"))
+				.andExpect(header().string("Access-Control-Expose-Headers", "Retry-After"));
 
 		assertThat(usuarios.findByDocumento(documento).orElseThrow().getNombreCompleto()).isEqualTo("Ana María Pérez");
 	}

@@ -98,6 +98,6 @@ public class AsignaturaDto {
 
 	/** @param prerrequisitos prerrequisitos de la asignatura */
 	public void setPrerrequisitos(List<AsignaturaResumenDto> prerrequisitos) {
-		this.prerrequisitos = prerrequisitos;
+		this.prerrequisitos = prerrequisitos == null ? new ArrayList<>() : new ArrayList<>(prerrequisitos);
 	}
 }

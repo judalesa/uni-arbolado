@@ -17,7 +17,7 @@ public class TokenRevocado {
 	/** Identificador generado por la base de datos. */
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private Long id; // skipcq: JAVA-E1065
 
 	/** Identificador único del token ({@code jti}). */
 	@Column(nullable = false, unique = true, length = 36, updatable = false)
