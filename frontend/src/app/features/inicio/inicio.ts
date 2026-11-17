@@ -1,20 +1,14 @@
 import { Component } from '@angular/core';
 
-/**
- * Pantalla de bienvenida (ruta `/`).
- *
- * Es un marcador del esqueleto: se reemplaza por la pantalla de inicio de sesión cuando se construya la
- * funcionalidad de autenticación. Demuestra el patrón que seguirán todas las pantallas: componente
- * independiente cargado de forma diferida desde `app.routes.ts`.
- */
+/** Pantalla de bienvenida (ruta `/`). */
 @Component({
-  /** Etiqueta del componente (solo se usa si otro componente lo incluye directamente). */
+  /** Etiqueta del componente. */
   selector: 'app-inicio',
-  /** Archivo de plantilla HTML. */
+  /** Plantilla HTML. */
   templateUrl: './inicio.html',
 })
 export class Inicio {
-  /** Título principal de la pantalla. */
+  /** Título principal. */
   protected readonly titulo = 'Sistema de Gestión Académica en Línea';
 
   /** Texto de apoyo bajo el título. */

@@ -10,10 +10,6 @@ import java.util.List;
 
 /**
  * Política de CORS: qué páginas web (orígenes) pueden llamar a esta API desde el navegador.
- *
- * <p><b>Por qué se lee de la configuración:</b> el ejemplo visto en clase fija el origen en el código.
- * Aquí la lista sale de {@code app.cors.allowed-origins}, así el mismo WAR sirve para Netlify, para
- * {@code localhost:4200} y para cualquier URL nueva sin recompilar. Se verificó en el spike.</p>
  */
 @Configuration
 public class CorsConfig {

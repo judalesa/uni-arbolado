@@ -18,11 +18,6 @@ import java.io.IOException;
 /**
  * Responde con el formato {@link ErrorResponse} los rechazos que ocurren <b>dentro de los filtros</b> de
  * Spring Security, antes de llegar a cualquier controlador.
- *
- * <p><b>Por qué hace falta:</b> el {@code GlobalExceptionHandler} solo ve excepciones lanzadas desde los
- * controladores. Una petición sin token se rechaza antes, en el filtro, y por defecto Spring devolvería un
- * 403 vacío. Aquí se entrega el 401 {@code NO_AUTENTICADO} o el 403 {@code ACCESO_DENEGADO} del contrato,
- * para que el frontend reaccione igual en todos los casos.</p>
  */
 @Component
 public class ManejadorErroresSeguridad implements AuthenticationEntryPoint, AccessDeniedHandler {

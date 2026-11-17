@@ -9,10 +9,6 @@ import java.util.List;
 /**
  * Cuerpo de TODA respuesta de error de la API (esquema {@code ErrorResponse} del contrato OpenAPI).
  *
- * <p>El frontend decide qué mostrar con {@link #codigo()}, que es estable; el {@link #mensaje()} es
- * solo texto para personas. Las listas {@link #detalles()} y {@link #motivos()} solo se serializan
- * cuando existen.</p>
- *
  * @param timestamp instante del error, en UTC
  * @param status    código HTTP
  * @param codigo    código estable del error (ver {@link CodigoError})
