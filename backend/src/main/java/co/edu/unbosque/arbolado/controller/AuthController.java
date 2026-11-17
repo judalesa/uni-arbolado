@@ -2,8 +2,13 @@ package co.edu.unbosque.arbolado.controller;
 
 import co.edu.unbosque.arbolado.dto.LoginRequest;
 import co.edu.unbosque.arbolado.dto.LoginResponse;
+import co.edu.unbosque.arbolado.dto.MensajeResponse;
+import co.edu.unbosque.arbolado.dto.ReenviarRequest;
+import co.edu.unbosque.arbolado.dto.RegistroRequest;
+import co.edu.unbosque.arbolado.dto.VerificarRequest;
 import co.edu.unbosque.arbolado.security.UsuarioAutenticado;
 import co.edu.unbosque.arbolado.service.AuthService;
+import co.edu.unbosque.arbolado.service.RegistroService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -16,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-/** Inicio y cierre de sesión. */
+/** Registro, verificación de correo, inicio y cierre de sesión. */
 @RestController
 @RequestMapping("/api/auth")
 @Tag(name = "Autenticación")
@@ -25,13 +30,55 @@ public class AuthController {
 	/** Servicio de autenticación. */
 	private final AuthService servicio;
 
+	/** Servicio de registro y verificación. */
+	private final RegistroService registro;
+
 	/**
 	 * Crea el controlador.
 	 *
 	 * @param servicio servicio de autenticación
+	 * @param registro servicio de registro y verificación
 	 */
-	public AuthController(AuthService servicio) {
+	public AuthController(AuthService servicio, RegistroService registro) {
 		this.servicio = servicio;
+		this.registro = registro;
+	}
+
+	/**
+	 * Registra a un estudiante y le envía el código de verificación (público).
+	 *
+	 * @param solicitud datos del registro
+	 * @return mensaje de confirmación
+	 */
+	@PostMapping("/registro")
+	@ResponseStatus(HttpStatus.CREATED)
+	@Operation(summary = "Registrar un estudiante")
+	public MensajeResponse registrar(@Valid @RequestBody RegistroRequest solicitud) {
+		return registro.registrar(solicitud);
+	}
+
+	/**
+	 * Verifica el correo con el código y activa la cuenta (público).
+	 *
+	 * @param solicitud correo y código
+	 * @return mensaje de confirmación
+	 */
+	@PostMapping("/verificar")
+	@Operation(summary = "Verificar el correo con el código")
+	public MensajeResponse verificar(@Valid @RequestBody VerificarRequest solicitud) {
+		return registro.verificar(solicitud);
+	}
+
+	/**
+	 * Envía un código nuevo que invalida el anterior (público).
+	 *
+	 * @param solicitud correo de la cuenta
+	 * @return mensaje de confirmación
+	 */
+	@PostMapping("/reenviar-codigo")
+	@Operation(summary = "Reenviar el código de verificación")
+	public MensajeResponse reenviar(@Valid @RequestBody ReenviarRequest solicitud) {
+		return registro.reenviar(solicitud);
 	}
 
 	/**
