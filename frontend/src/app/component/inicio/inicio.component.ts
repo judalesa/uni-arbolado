@@ -5,12 +5,13 @@ import { Component } from '@angular/core';
   /** Etiqueta del componente. */
   selector: 'app-inicio',
   /** Plantilla HTML. */
-  templateUrl: './inicio.html',
+  templateUrl: './inicio.component.html',
 })
-export class Inicio {
+export class InicioComponent {
   /** Título principal. */
   protected readonly titulo = 'Sistema de Gestión Académica en Línea';
 
   /** Texto de apoyo bajo el título. */
-  protected readonly descripcion = 'Consulta tu plan de estudios, inscribe asignaturas y revisa tus notas.';
+  protected readonly descripcion =
+    'Consulta tu plan de estudios, inscribe asignaturas y revisa tus notas.';
 }
