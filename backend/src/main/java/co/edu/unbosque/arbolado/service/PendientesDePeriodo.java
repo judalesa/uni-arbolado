@@ -1,13 +1,28 @@
 package co.edu.unbosque.arbolado.service;
 
+import co.edu.unbosque.arbolado.model.EstadoInscripcion;
+import co.edu.unbosque.arbolado.repository.InscripcionRepository;
 import org.springframework.stereotype.Component;
 
 /**
- * Cuenta las inscripciones de un periodo que aún no tienen nota definitiva (decisión A-02). Hasta que
- * existan inscripciones (FT-09 y FT-11) no hay nada pendiente; entonces solo cambia esta consulta.
+ * Cuenta las inscripciones de un periodo que aún no tienen nota definitiva (decisión A-02). Una
+ * inscripción pasa de cursando a aprobada o reprobada al calcular la definitiva, así que las pendientes
+ * son exactamente las que siguen cursando.
  */
 @Component
 public class PendientesDePeriodo {
+
+	/** Repositorio de inscripciones. */
+	private final InscripcionRepository inscripciones;
+
+	/**
+	 * Crea el componente.
+	 *
+	 * @param inscripciones repositorio de inscripciones
+	 */
+	public PendientesDePeriodo(InscripcionRepository inscripciones) {
+		this.inscripciones = inscripciones;
+	}
 
 	/**
 	 * Cuenta las inscripciones sin nota definitiva.
@@ -16,6 +31,6 @@ public class PendientesDePeriodo {
 	 * @return cantidad de inscripciones pendientes
 	 */
 	public long contarSinDefinitiva(Long periodoId) {
-		return 0L;
+		return inscripciones.countByPeriodoIdAndEstado(periodoId, EstadoInscripcion.CURSANDO);
 	}
 }
