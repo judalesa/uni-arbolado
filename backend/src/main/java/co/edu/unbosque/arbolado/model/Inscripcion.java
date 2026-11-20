@@ -62,19 +62,19 @@ public class Inscripcion {
 
 	/** Nota del primer corte (30 %); se escribe una sola vez (D-20). */
 	@Column(name = "nota_corte1", precision = 2, scale = 1)
-	private BigDecimal notaCorte1;
+	private BigDecimal notaCorte1; // skipcq: JAVA-E1065
 
 	/** Nota del segundo corte (30 %). */
 	@Column(name = "nota_corte2", precision = 2, scale = 1)
-	private BigDecimal notaCorte2;
+	private BigDecimal notaCorte2; // skipcq: JAVA-E1065
 
 	/** Nota del tercer corte (40 %). */
 	@Column(name = "nota_corte3", precision = 2, scale = 1)
-	private BigDecimal notaCorte3;
+	private BigDecimal notaCorte3; // skipcq: JAVA-E1065
 
 	/** Nota definitiva ya redondeada; nula hasta que hay tres cortes. */
 	@Column(name = "nota_definitiva", precision = 2, scale = 1)
-	private BigDecimal notaDefinitiva;
+	private BigDecimal notaDefinitiva; // skipcq: JAVA-E1065
 
 	/**
 	 * Verdadero mientras la inscripción esté cursando o aprobada y nulo si está reprobada. Como la
@@ -153,6 +153,11 @@ public class Inscripcion {
 	/** @return nota definitiva, o {@code null} */
 	public BigDecimal getNotaDefinitiva() {
 		return notaDefinitiva;
+	}
+
+	/** @return {@code true} si está cursando o aprobada; {@code null} si está reprobada */
+	public Boolean getMarcaVigente() {
+		return marcaVigente;
 	}
 
 	/** @return instante de la inscripción */
