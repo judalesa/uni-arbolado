@@ -30,8 +30,8 @@ export class ConfirmacionComponent {
   readonly procesando = input(false);
 
   /** Se emite cuando el usuario confirma. */
-  readonly confirmar = output<void>();
+  readonly confirmar = output();
 
   /** Se emite cuando el usuario cancela o cierra el cuadro. */
-  readonly cancelar = output<void>();
+  readonly cancelar = output();
 }

@@ -140,6 +140,20 @@ export class FormularioComponent {
   }
 
   /**
+   * Nota que va bajo el campo: el error si lo hay y, si no, la ayuda.
+   *
+   * @param campo definición del campo
+   * @return texto y clase de la nota, o `null` si no hay nada que mostrar
+   */
+  protected pie(campo: CampoFormulario): { texto: string; clase: string } | null {
+    const mensaje = this.error(campo);
+    if (mensaje) {
+      return { texto: mensaje, clase: 'invalid-feedback d-block' };
+    }
+    return campo.ayuda ? { texto: campo.ayuda, clase: 'form-text' } : null;
+  }
+
+  /**
    * Construye el grupo de controles con sus validaciones.
    *
    * @param campos definiciones de los campos

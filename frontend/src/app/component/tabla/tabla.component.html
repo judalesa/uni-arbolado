@@ -4,8 +4,8 @@
     <!-- Encabezados -->
     <thead class="table-light">
       <tr>
-        @for (columna of columnas(); track columna.titulo) {
-          <th scope="col" [class]="columna.clase ?? ''">{{ columna.titulo }}</th>
+        @for (encabezado of encabezados(); track encabezado.titulo) {
+          <th scope="col" [class]="encabezado.clase">{{ encabezado.titulo }}</th>
         }
         @if (acciones()) {
           <th scope="col" class="text-end">{{ tituloAcciones() }}</th>
@@ -17,28 +17,25 @@
     <tbody>
       @if (cargando()) {
         <tr>
-          <td [attr.colspan]="columnas().length + (acciones() ? 1 : 0)" class="text-center py-4">
+          <td [attr.colspan]="totalColumnas()" class="text-center py-4">
             <span class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span>Cargando…
           </td>
         </tr>
       } @else {
-        @for (fila of filas(); track $index) {
+        @for (item of filasVista(); track $index) {
           <tr>
-            @for (columna of columnas(); track columna.titulo) {
-              <td [class]="columna.clase ?? ''">{{ celda(fila, columna) }}</td>
+            @for (celda of item.celdas; track $index) {
+              <td [class]="celda.clase">{{ celda.texto }}</td>
             }
             @if (acciones(); as plantilla) {
               <td class="text-end text-nowrap">
-                <ng-container *ngTemplateOutlet="plantilla; context: { $implicit: fila }" />
+                <ng-container *ngTemplateOutlet="plantilla; context: { $implicit: item.fila }" />
               </td>
             }
           </tr>
         } @empty {
           <tr>
-            <td
-              [attr.colspan]="columnas().length + (acciones() ? 1 : 0)"
-              class="text-center text-muted py-4"
-            >
+            <td [attr.colspan]="totalColumnas()" class="text-center text-muted py-4">
               {{ vacio() }}
             </td>
           </tr>
@@ -49,31 +46,26 @@
 </div>
 
 <!-- Pie con paginación -->
-@if (paginacion(); as datos) {
-  @if (datos.totalPaginas > 1) {
-    <nav class="d-flex justify-content-between align-items-center mt-3" aria-label="Paginación">
-      <span class="text-muted small">
-        Página {{ datos.pagina + 1 }} de {{ datos.totalPaginas }} ·
-        {{ datos.totalElementos }} registros
-      </span>
-      <div class="btn-group">
-        <button
-          type="button"
-          class="btn btn-outline-secondary btn-sm"
-          [disabled]="datos.pagina === 0"
-          (click)="ir(datos.pagina - 1)"
-        >
-          <i class="fa-solid fa-chevron-left" aria-hidden="true"></i> Anterior
-        </button>
-        <button
-          type="button"
-          class="btn btn-outline-secondary btn-sm"
-          [disabled]="datos.pagina >= datos.totalPaginas - 1"
-          (click)="ir(datos.pagina + 1)"
-        >
-          Siguiente <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
-        </button>
-      </div>
-    </nav>
-  }
+@if (pie(); as p) {
+  <nav class="d-flex justify-content-between align-items-center mt-3" aria-label="Paginación">
+    <span class="text-muted small">{{ p.texto }}</span>
+    <div class="btn-group">
+      <button
+        type="button"
+        class="btn btn-outline-secondary btn-sm"
+        [disabled]="!p.hayAnterior"
+        (click)="ir(p.pagina - 1)"
+      >
+        <i class="fa-solid fa-chevron-left" aria-hidden="true"></i> Anterior
+      </button>
+      <button
+        type="button"
+        class="btn btn-outline-secondary btn-sm"
+        [disabled]="!p.haySiguiente"
+        (click)="ir(p.pagina + 1)"
+      >
+        Siguiente <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+      </button>
+    </div>
+  </nav>
 }

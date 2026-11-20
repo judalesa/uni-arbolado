@@ -15,7 +15,7 @@ const ESTADOS: Record<string, { texto: string; clase: string }> = {
   /** Etiqueta del componente. */
   selector: 'app-etiqueta-estado',
   /** Plantilla en línea: es un solo elemento. */
-  template: `<span class="badge" [class]="datos().clase">{{ datos().texto }}</span>`,
+  template: '<span class="badge" [class]="datos().clase">{{ datos().texto }}</span>',
 })
 export class EtiquetaEstadoComponent {
   /** Código del estado, tal como llega de la API. */

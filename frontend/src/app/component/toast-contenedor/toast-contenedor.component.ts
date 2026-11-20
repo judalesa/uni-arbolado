@@ -21,13 +21,6 @@ export class ToastContenedorComponent {
   /** Servicio con la cola de avisos. */
   protected readonly toast = inject(ToastService);
 
-  /**
-   * Clase de color de un tipo de aviso.
-   *
-   * @param tipo tipo de aviso
-   * @return clase CSS de Bootstrap
-   */
-  protected clase(tipo: TipoAviso): string {
-    return CLASES[tipo];
-  }
+  /** Clase de color de cada tipo de aviso, consultada desde la plantilla. */
+  protected readonly clases = CLASES;
 }

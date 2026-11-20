@@ -12,8 +12,9 @@ import { SesionService } from '../service/sesion.service';
  * @param roles roles permitidos
  * @return guard de ruta: sin sesión lleva a `/login`, con otro rol a `/403`
  */
-export function rolGuard(...roles: Rol[]): CanMatchFn {
-  return () => {
+export const rolGuard =
+  (...roles: Rol[]): CanMatchFn =>
+  () => {
     const sesion = inject(SesionService);
     const router = inject(Router);
     const rol = sesion.rol();
@@ -22,7 +23,6 @@ export function rolGuard(...roles: Rol[]): CanMatchFn {
     }
     return roles.includes(rol) ? true : router.createUrlTree(['/403']);
   };
-}
 
 /**
  * Guard de rutas para cualquier usuario con sesión (por ejemplo el perfil).
