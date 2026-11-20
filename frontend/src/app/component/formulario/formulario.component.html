@@ -1,0 +1,70 @@
+<!-- Formulario generado a partir de la lista de campos -->
+<form [formGroup]="grupo()" (ngSubmit)="alEnviar()" novalidate>
+  @for (campo of campos(); track campo.nombre) {
+    <!-- Un campo: etiqueta, entrada según el tipo, ayuda y error -->
+    <div class="mb-3">
+      <label class="form-label" [for]="'campo-' + campo.nombre">
+        {{ campo.etiqueta }}
+        @if (campo.requerido) {
+          <span class="text-danger"> *</span>
+        }
+      </label>
+
+      @switch (campo.tipo) {
+        @case ('select') {
+          <select
+            class="form-select"
+            [id]="'campo-' + campo.nombre"
+            [formControlName]="campo.nombre"
+            [class.is-invalid]="error(campo)"
+          >
+            <option value="">Selecciona…</option>
+            @for (opcion of campo.opciones; track opcion.valor) {
+              <option [value]="opcion.valor">{{ opcion.etiqueta }}</option>
+            }
+          </select>
+        }
+        @case ('textarea') {
+          <textarea
+            class="form-control"
+            rows="3"
+            [id]="'campo-' + campo.nombre"
+            [formControlName]="campo.nombre"
+            [attr.placeholder]="campo.marcador"
+            [class.is-invalid]="error(campo)"
+          ></textarea>
+        }
+        @default {
+          <input
+            class="form-control"
+            [type]="campo.tipo"
+            [id]="'campo-' + campo.nombre"
+            [formControlName]="campo.nombre"
+            [attr.placeholder]="campo.marcador"
+            [attr.autocomplete]="campo.autocompletar"
+            [attr.min]="campo.valorMinimo"
+            [attr.max]="campo.valorMaximo"
+            [attr.step]="campo.paso"
+            [class.is-invalid]="error(campo)"
+          />
+        }
+      }
+
+      <!-- Error del campo o, si no hay, su texto de ayuda -->
+      @if (pie(campo); as nota) {
+        <div [class]="nota.clase">{{ nota.texto }}</div>
+      }
+    </div>
+  }
+
+  <!-- Contenido extra de la pantalla (enlaces, avisos) -->
+  <ng-content />
+
+  <!-- Botón de envío -->
+  <button type="submit" class="btn btn-success" [disabled]="enviando()">
+    @if (enviando()) {
+      <span class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span>
+    }
+    {{ etiquetaEnviar() }}
+  </button>
+</form>

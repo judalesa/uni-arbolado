@@ -1,12 +1,9 @@
 <div class="d-flex flex-column min-vh-100">
-  <!-- Encabezado -->
-  <nav class="navbar navbar-dark bg-success" aria-label="Navegación principal">
-    <div class="container">
-      <a class="navbar-brand" routerLink="/">
-        <i class="fa-solid fa-tree me-2" aria-hidden="true"></i>{{ institucion }}
-      </a>
-    </div>
-  </nav>
+  <!-- Barra de navegación -->
+  <app-navbar />
+
+  <!-- Avisos (Toast) -->
+  <app-toast-contenedor />
 
   <!-- Contenido de la ruta -->
   <main class="container flex-grow-1 py-4">

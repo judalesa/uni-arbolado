@@ -1,0 +1,17 @@
+<!-- Zona fija donde aparecen los avisos; anuncia los cambios a lectores de pantalla -->
+<div class="toast-container position-fixed top-0 end-0 p-3" aria-live="polite" aria-atomic="true">
+  @for (aviso of toast.avisos(); track aviso.id) {
+    <!-- Un aviso -->
+    <div class="toast show align-items-center border-0" [class]="clases[aviso.tipo]" role="status">
+      <div class="d-flex">
+        <div class="toast-body">{{ aviso.mensaje }}</div>
+        <button
+          type="button"
+          class="btn-close btn-close-white me-2 m-auto"
+          aria-label="Cerrar"
+          (click)="toast.cerrar(aviso.id)"
+        ></button>
+      </div>
+    </div>
+  }
+</div>

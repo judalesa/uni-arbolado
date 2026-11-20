@@ -1,0 +1,43 @@
+<!-- Encabezado con menú del rol -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-success" aria-label="Navegación principal">
+  <div class="container">
+    <a class="navbar-brand" routerLink="/">
+      <i class="fa-solid fa-tree me-2" aria-hidden="true"></i>{{ institucion }}
+    </a>
+
+    @if (usuario()) {
+      <!-- Botón de menú en pantallas angostas -->
+      <button
+        class="navbar-toggler"
+        type="button"
+        aria-label="Abrir menú"
+        [attr.aria-expanded]="menuAbierto()"
+        (click)="alternarMenu()"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <!-- Opciones del rol y datos de la sesión -->
+      <div class="collapse navbar-collapse" [class.show]="menuAbierto()">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          @for (item of menu(); track item.ruta) {
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                [routerLink]="item.ruta"
+                routerLinkActive="active"
+                (click)="menuAbierto.set(false)"
+              >
+                <i class="fa-solid {{ item.icono }} me-1" aria-hidden="true"></i>{{ item.etiqueta }}
+              </a>
+            </li>
+          }
+        </ul>
+        <span class="navbar-text me-3">{{ usuario()?.nombreCompleto }}</span>
+        <button type="button" class="btn btn-outline-light btn-sm" (click)="salir()">
+          <i class="fa-solid fa-right-from-bracket me-1" aria-hidden="true"></i>Salir
+        </button>
+      </div>
+    }
+  </div>
+</nav>

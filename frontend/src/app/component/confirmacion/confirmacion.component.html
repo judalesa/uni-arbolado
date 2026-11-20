@@ -1,0 +1,55 @@
+<!-- Modal de confirmación, visible solo cuando "abierto" es verdadero -->
+@if (abierto()) {
+  <div
+    class="modal fade show d-block"
+    tabindex="-1"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="titulo-confirmacion"
+  >
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <!-- Encabezado -->
+        <div class="modal-header">
+          <h2 class="modal-title fs-5" id="titulo-confirmacion">{{ titulo() }}</h2>
+          <button
+            type="button"
+            class="btn-close"
+            aria-label="Cerrar"
+            [disabled]="procesando()"
+            (click)="cancelar.emit()"
+          ></button>
+        </div>
+        <!-- Cuerpo -->
+        <div class="modal-body">
+          <p class="mb-0">{{ mensaje() }}</p>
+          <ng-content />
+        </div>
+        <!-- Botones -->
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-outline-secondary"
+            [disabled]="procesando()"
+            (click)="cancelar.emit()"
+          >
+            {{ textoCancelar() }}
+          </button>
+          <button
+            type="button"
+            class="btn btn-success"
+            [disabled]="procesando()"
+            (click)="confirmar.emit()"
+          >
+            @if (procesando()) {
+              <span class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span>
+            }
+            {{ textoConfirmar() }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Fondo oscuro -->
+  <div class="modal-backdrop fade show"></div>
+}
