@@ -1,6 +1,9 @@
+import { provideHttpClient } from '@angular/common/http';
+import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { Router, provideRouter } from '@angular/router';
 
+import { environment } from '../../../environments/environment';
 import { SesionService } from '../../service/sesion.service';
 import { loginDePrueba } from '../../util/pruebas.util';
 import { NavbarComponent } from './navbar.component';
@@ -12,7 +15,7 @@ describe('NavbarComponent', () => {
     sessionStorage.clear();
     await TestBed.configureTestingModule({
       imports: [NavbarComponent],
-      providers: [provideRouter([])],
+      providers: [provideRouter([]), provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
   });
 
@@ -45,7 +48,7 @@ describe('NavbarComponent', () => {
     expect(texto).not.toContain('Oferta e inscripción');
   });
 
-  /** Al salir se borra la sesión. */
+  /** Al salir se revoca el token en el servidor y se borra la sesión. */
   it('cierra la sesión al pulsar Salir', async () => {
     const sesion = TestBed.inject(SesionService);
     vi.spyOn(TestBed.inject(Router), 'navigateByUrl').mockResolvedValue(true);
@@ -55,6 +58,9 @@ describe('NavbarComponent', () => {
       b.textContent?.includes('Salir'),
     );
     salir?.click();
+    TestBed.inject(HttpTestingController)
+      .expectOne(`${environment.apiUrl}/api/auth/logout`)
+      .flush(null, { status: 204, statusText: 'No Content' });
 
     expect(sesion.estaVigente()).toBe(false);
   });

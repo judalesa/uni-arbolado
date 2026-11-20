@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 
-import { rolGuard } from './guard/acceso.guard';
+import { rolGuard, visitanteGuard } from './guard/acceso.guard';
 
 /** Rutas de la aplicación. Cada rama por rol se carga de forma diferida y solo si el rol coincide. */
 export const routes: Routes = [
@@ -10,6 +10,26 @@ export const routes: Routes = [
     title: 'Inicio',
     loadComponent: () =>
       import('./component/inicio/inicio.component').then((m) => m.InicioComponent),
+  },
+  {
+    path: 'login',
+    canMatch: [visitanteGuard],
+    title: 'Iniciar sesión',
+    loadComponent: () => import('./component/login/login.component').then((m) => m.LoginComponent),
+  },
+  {
+    path: 'registro',
+    canMatch: [visitanteGuard],
+    title: 'Registro',
+    loadComponent: () =>
+      import('./component/registro/registro.component').then((m) => m.RegistroComponent),
+  },
+  {
+    path: 'verificar',
+    canMatch: [visitanteGuard],
+    title: 'Verificar correo',
+    loadComponent: () =>
+      import('./component/verificar/verificar.component').then((m) => m.VerificarComponent),
   },
   {
     path: 'estudiante',

@@ -3,6 +3,14 @@
   <div class="card-body text-center p-5">
     <i class="fa-solid fa-graduation-cap fa-3x text-success mb-3" aria-hidden="true"></i>
     <h1 class="h3">{{ titulo }}</h1>
-    <p class="text-muted mb-0">{{ descripcion }}</p>
+    <p class="text-muted">{{ descripcion }}</p>
+
+    <!-- Accesos: ir al panel si hay sesión; si no, ingresar o registrarse -->
+    @if (panel(); as destino) {
+      <a class="btn btn-success" [routerLink]="destino">Ir a mi panel</a>
+    } @else {
+      <a class="btn btn-success me-2" routerLink="/login">Iniciar sesión</a>
+      <a class="btn btn-outline-success" routerLink="/registro">Registrarme</a>
+    }
   </div>
 </section>
