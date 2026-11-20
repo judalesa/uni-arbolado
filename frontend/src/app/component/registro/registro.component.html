@@ -1,0 +1,26 @@
+<!-- Tarjeta de registro de estudiante -->
+<section class="card shadow-sm mx-auto" style="max-width: 32rem">
+  <div class="card-body p-4">
+    <h1 class="h4 mb-3">
+      <i class="fa-solid fa-user-plus me-2" aria-hidden="true"></i>Registro de estudiante
+    </h1>
+
+    <!-- Errores generales -->
+    <app-alerta-errores [mensajes]="errores()" />
+
+    <!-- Formulario -->
+    <app-formulario
+      [campos]="campos"
+      etiquetaEnviar="Registrarme"
+      [enviando]="enviando()"
+      [erroresServidor]="erroresCampo()"
+      (enviar)="registrar($event)"
+    />
+
+    <!-- Enlaces a login y verificación -->
+    <p class="mt-3 mb-1 small">¿Ya tienes cuenta? <a routerLink="/login">Inicia sesión</a></p>
+    <p class="mb-0 small">
+      ¿Ya tienes un código? <a routerLink="/verificar">Verifica tu correo</a>
+    </p>
+  </div>
+</section>
