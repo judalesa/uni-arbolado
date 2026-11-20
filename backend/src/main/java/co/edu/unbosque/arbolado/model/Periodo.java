@@ -9,7 +9,7 @@ import jakarta.persistence.Table;
 
 import java.time.LocalDate;
 
-/** Periodo académico con código único, por ejemplo 2026-2 (RN-13). Solo uno puede estar activo (RN-14). */
+/** Periodo académico con código único, por ejemplo 2026-2. Solo uno puede estar activo. */
 @Entity
 @Table(name = "periodo")
 public class Periodo {

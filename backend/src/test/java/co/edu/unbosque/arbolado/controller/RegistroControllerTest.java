@@ -232,7 +232,7 @@ class RegistroControllerTest {
 				.andExpect(jsonPath("$.detalles[0].campo").value("contrasena"));
 	}
 
-	/** Un documento de una cuenta activa se rechaza por duplicado (RN-01) y no se envía ningún correo. */
+	/** Un documento de una cuenta activa se rechaza por duplicado y no se envía ningún correo. */
 	@Test
 	void rechazaUnDocumentoDeUnaCuentaActiva() throws Exception {
 		String documento = documentoNuevo();
@@ -269,7 +269,7 @@ class RegistroControllerTest {
 				.andExpect(jsonPath("$.codigo").value("DOCUMENTO_DUPLICADO"));
 	}
 
-	/** Re-registrar una cuenta pendiente actualiza sus datos y no crea otra cuenta (RF-06). */
+	/** Re-registrar una cuenta pendiente actualiza sus datos y no crea otra cuenta. */
 	@Test
 	void unReRegistroActualizaLaCuentaPendiente() throws Exception {
 		String documento = documentoNuevo();
@@ -346,7 +346,7 @@ class RegistroControllerTest {
 		assertThat(usuarios.findByDocumento(documento)).isEmpty();
 	}
 
-	/** Una cuenta pendiente no inicia sesión, ni siquiera con la clave correcta (RF-07). */
+	/** Una cuenta pendiente no inicia sesión, ni siquiera con la clave correcta. */
 	@Test
 	void laCuentaPendienteNoInicia() throws Exception {
 		String documento = documentoNuevo();
@@ -404,7 +404,7 @@ class RegistroControllerTest {
 		assertThat(u.getEstado()).isEqualTo(EstadoCuenta.PENDIENTE);
 	}
 
-	/** Tras 5 intentos fallidos el código ya no sirve, ni siquiera el correcto (RN-03). */
+	/** Tras 5 intentos fallidos el código ya no sirve, ni siquiera el correcto. */
 	@Test
 	void seBloqueaTrasCincoIntentosFallidos() throws Exception {
 		String documento = documentoNuevo();

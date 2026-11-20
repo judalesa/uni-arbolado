@@ -8,7 +8,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-/** Cuenta las inscripciones de los grupos: cupos ocupados y restricción de edición (RN-11, A-07). */
+/** Cuenta las inscripciones de los grupos: cupos ocupados y restricción de edición. */
 @Component
 public class InscritosDeGrupo {
 
@@ -25,7 +25,7 @@ public class InscritosDeGrupo {
 	}
 
 	/**
-	 * Cuenta las inscripciones en estado CURSANDO, que son las que ocupan cupo (RN-11).
+	 * Cuenta las inscripciones en estado CURSANDO, que son las que ocupan cupo.
 	 *
 	 * @param grupoIds grupos a consultar
 	 * @return cantidad por grupo; los grupos sin inscritos faltan
@@ -43,7 +43,7 @@ public class InscritosDeGrupo {
 
 	/**
 	 * Cuenta todas las inscripciones del grupo, sin importar su estado; con alguna, el grupo queda
-	 * restringido (A-07).
+	 * restringido.
 	 *
 	 * @param grupoId grupo a consultar
 	 * @return cantidad de inscripciones

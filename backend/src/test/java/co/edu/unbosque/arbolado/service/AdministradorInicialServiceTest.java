@@ -13,7 +13,7 @@ import org.springframework.test.context.ActiveProfiles;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-/** Pruebas de la precarga del administrador (RN-05). */
+/** Pruebas de la precarga del administrador. */
 @SpringBootTest
 @ActiveProfiles("test")
 class AdministradorInicialServiceTest {

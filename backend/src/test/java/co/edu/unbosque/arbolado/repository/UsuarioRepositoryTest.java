@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-/** Pruebas de la persistencia de usuarios y de sus restricciones de unicidad (RN-01). */
+/** Pruebas de la persistencia de usuarios y de sus restricciones de unicidad. */
 @SpringBootTest
 @ActiveProfiles("test")
 @Transactional

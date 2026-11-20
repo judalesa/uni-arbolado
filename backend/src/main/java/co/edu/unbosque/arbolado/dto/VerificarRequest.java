@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
-/** Correo y código para activar una cuenta (RF-04). */
+/** Correo y código para activar una cuenta. */
 public class VerificarRequest {
 
 	/** Correo de la cuenta. */

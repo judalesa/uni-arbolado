@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
-/** Datos para registrar a un estudiante (RF-01). */
+/** Datos para registrar a un estudiante. */
 public class RegistroRequest {
 
 	/** Documento de exactamente 10 dígitos. */

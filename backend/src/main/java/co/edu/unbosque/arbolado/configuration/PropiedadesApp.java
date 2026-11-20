@@ -19,7 +19,7 @@ import java.util.List;
  * {@code application-local.properties}.
  *
  * @param seguridad parámetros de JWT, cifrado de contraseñas y códigos de verificación
- * @param admin     datos del administrador precargado (RN-05)
+ * @param admin     datos del administrador precargado
  * @param cors      orígenes del frontend autorizados
  * @param correo    modo de envío de correos
  */
@@ -35,7 +35,7 @@ public record PropiedadesApp(
 	 * Secretos y parámetros de seguridad.
 	 *
 	 * @param jwtSecreto            llave HS256 del JWT (al menos 32 caracteres)
-	 * @param jwtExpiracionMinutos  vigencia del token en minutos (decisión D-33: 60)
+	 * @param jwtExpiracionMinutos  vigencia del token en minutos (60 para todos los roles)
 	 * @param aesLlaveBase64        llave AES de 256 bits codificada en Base64
 	 * @param codigoHmacSecreto     secreto con el que se firma (HMAC) el código de verificación
 	 */

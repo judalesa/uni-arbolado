@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>co.edu.unbosque</groupId>
 	<artifactId>arbolado</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0.1</version>
 	<packaging>war</packaging>
 	<name>uni-arbolado</name>
 	<description>Sistema de Gestion Academica en Linea - Universidad El Arbolado (backend)</description>

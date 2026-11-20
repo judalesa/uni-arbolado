@@ -11,7 +11,7 @@ import java.lang.annotation.Target;
 
 /**
  * El texto no puede ocupar más de {@link #value()} bytes en UTF-8. BCrypt solo procesa 72 bytes y una
- * clave con tildes o ñ ocupa más bytes que caracteres (decisión TD-04).
+ * clave con tildes o ñ ocupa más bytes que caracteres.
  */
 @Documented
 @Constraint(validatedBy = MaximoBytesValidator.class)

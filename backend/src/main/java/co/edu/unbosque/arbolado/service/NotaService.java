@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * Registro de notas por corte (RF-40 a RF-43). Cada corte se escribe una sola vez (D-20); con el tercero la
+ * Registro de notas por corte. Cada corte se escribe una sola vez; con el tercero la
  * inscripción queda aprobada o reprobada y deja de ocupar cupo.
  */
 @Service
@@ -50,7 +50,7 @@ public class NotaService {
 
 	/**
 	 * Registra la nota de un corte. La inscripción se bloquea para que dos registros simultáneos del mismo
-	 * corte no se pisen. Los rechazos se auditan en una transacción aparte (RN-28).
+	 * corte no se pisen. Los rechazos se auditan en una transacción aparte.
 	 *
 	 * @param inscripcionId inscripción a calificar
 	 * @param solicitud     corte y nota
@@ -106,7 +106,7 @@ public class NotaService {
 	}
 
 	/**
-	 * Texto de auditoría con el valor anterior y el nuevo (RF-50) y, si la hay, la definitiva.
+	 * Texto de auditoría con el valor anterior y el nuevo y, si la hay, la definitiva.
 	 *
 	 * @param inscripcion inscripción ya calificada
 	 * @param corte       corte registrado

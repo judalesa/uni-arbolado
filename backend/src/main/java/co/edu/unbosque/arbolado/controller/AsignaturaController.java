@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-/** Consulta del plan de estudios (RF-17). Solo lectura, para estudiantes y administradores. */
+/** Consulta del plan de estudios. Solo lectura, para estudiantes y administradores. */
 @RestController
 @RequestMapping("/api/asignaturas")
 @Tag(name = "Plan de estudios")

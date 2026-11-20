@@ -20,9 +20,9 @@ import java.math.RoundingMode;
 import java.time.Instant;
 
 /**
- * Un intento de un estudiante en un grupo. El historial conserva todos los intentos (RN-20). Las dos
+ * Un intento de un estudiante en un grupo. El historial conserva todos los intentos. Las dos
  * restricciones únicas son la red de seguridad de la base: nadie se inscribe dos veces en el mismo grupo y
- * nadie tiene dos inscripciones vigentes de la misma asignatura (RN-19), aun con peticiones simultáneas.
+ * nadie tiene dos inscripciones vigentes de la misma asignatura, aun con peticiones simultáneas.
  */
 @Entity
 @Table(name = "inscripcion", uniqueConstraints = {
@@ -62,7 +62,7 @@ public class Inscripcion {
 	@Column(nullable = false, length = 10)
 	private EstadoInscripcion estado = EstadoInscripcion.CURSANDO;
 
-	/** Nota del primer corte (30 %); se escribe una sola vez (D-20). */
+	/** Nota del primer corte (30 %); se escribe una sola vez. */
 	@Column(name = "nota_corte1", precision = 2, scale = 1)
 	private BigDecimal notaCorte1; // skipcq: JAVA-E1065
 
@@ -80,7 +80,7 @@ public class Inscripcion {
 
 	/**
 	 * Verdadero mientras la inscripción esté cursando o aprobada y nulo si está reprobada. Como la
-	 * restricción única ignora los nulos, una reprobada no impide reinscribir la asignatura (RN-20).
+	 * restricción única ignora los nulos, una reprobada no impide reinscribir la asignatura.
 	 */
 	@Column(name = "marca_vigente")
 	private Boolean marcaVigente = Boolean.TRUE;
@@ -125,11 +125,11 @@ public class Inscripcion {
 
 	/**
 	 * Escribe la nota de un corte vacío. Si con ella quedan los tres cortes, fija la definitiva y el estado;
-	 * una reprobada pierde la marca vigente para poder recursar (RN-20) y deja de ocupar cupo.
+	 * una reprobada pierde la marca vigente para poder recursar y deja de ocupar cupo.
 	 *
 	 * @param corte 1, 2 o 3
 	 * @param valor nota entre 0.0 y 5.0
-	 * @throws IllegalStateException si el corte ya tiene nota (D-20)
+	 * @throws IllegalStateException si el corte ya tiene nota
 	 */
 	public void registrarNota(int corte, BigDecimal valor) {
 		if (notaDelCorte(corte) != null) {

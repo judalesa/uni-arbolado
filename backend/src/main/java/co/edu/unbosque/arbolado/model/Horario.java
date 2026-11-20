@@ -15,7 +15,7 @@ import org.hibernate.annotations.Check;
 
 import java.time.LocalTime;
 
-/** Franja semanal de un grupo: día, hora de inicio y hora de fin (RN-10). */
+/** Franja semanal de un grupo: día, hora de inicio y hora de fin. */
 @Entity
 @Table(name = "horario")
 @Check(constraints = "hora_inicio < hora_fin")

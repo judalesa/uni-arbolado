@@ -33,7 +33,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Consultas de solo lectura del estudiante y del profesor (RF-25, RF-35 a RF-39, RF-44, RF-45). Quien consulta
+ * Consultas de solo lectura del estudiante y del profesor. Quien consulta
  * siempre sale del token: nadie puede pedir los datos de otro cambiando un parámetro.
  */
 @Service
@@ -94,7 +94,7 @@ public class ConsultaService {
 	}
 
 	/**
-	 * Inscripciones del estudiante en un periodo, con sus notas (RF-35, RF-44).
+	 * Inscripciones del estudiante en un periodo, con sus notas.
 	 *
 	 * @param estudianteId estudiante autenticado
 	 * @param periodoId    periodo a consultar; sin él, el activo
@@ -109,7 +109,7 @@ public class ConsultaService {
 	}
 
 	/**
-	 * Estado de cada asignatura del plan para el estudiante (RF-35). Si hay varios intentos, manda el que
+	 * Estado de cada asignatura del plan para el estudiante. Si hay varios intentos, manda el que
 	 * aprobó; si no, el que cursa; si no, el último reprobado.
 	 *
 	 * @param estudianteId estudiante autenticado
@@ -132,7 +132,7 @@ public class ConsultaService {
 	}
 
 	/**
-	 * Horario del estudiante en el periodo activo: una fila por franja de lo que está cursando (RF-36).
+	 * Horario del estudiante en el periodo activo: una fila por franja de lo que está cursando.
 	 *
 	 * @param estudianteId estudiante autenticado
 	 * @return las franjas ordenadas por día y hora
@@ -147,7 +147,7 @@ public class ConsultaService {
 
 	/**
 	 * Historial académico del estudiante: todos los intentos agrupados por periodo, del más reciente al más
-	 * antiguo (RF-38).
+	 * antiguo.
 	 *
 	 * @param estudianteId estudiante autenticado
 	 * @return el historial
@@ -168,7 +168,7 @@ public class ConsultaService {
 	}
 
 	/**
-	 * Estudiantes de un grupo del profesor, con sus notas (RF-39, RF-45).
+	 * Estudiantes de un grupo del profesor, con sus notas.
 	 *
 	 * @param profesorId profesor autenticado
 	 * @param grupoId    grupo a consultar
@@ -185,7 +185,7 @@ public class ConsultaService {
 	}
 
 	/**
-	 * Horario del profesor en el periodo activo (RF-37).
+	 * Horario del profesor en el periodo activo.
 	 *
 	 * @param profesorId profesor autenticado
 	 * @return las franjas de sus grupos ordenadas por día y hora
@@ -195,7 +195,7 @@ public class ConsultaService {
 	}
 
 	/**
-	 * Historial de un estudiante que tiene o tuvo alguna inscripción en un grupo del profesor (RF-45).
+	 * Historial de un estudiante que tiene o tuvo alguna inscripción en un grupo del profesor.
 	 *
 	 * @param profesorId   profesor autenticado
 	 * @param estudianteId estudiante a consultar

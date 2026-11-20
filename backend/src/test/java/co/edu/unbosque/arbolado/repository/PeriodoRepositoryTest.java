@@ -14,7 +14,7 @@ import java.time.LocalDate;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-/** Comprueba que la base de datos misma impide dos periodos activos o repetidos (RN-13, RN-14). */
+/** Comprueba que la base de datos misma impide dos periodos activos o repetidos. */
 @SpringBootTest
 @ActiveProfiles("test")
 class PeriodoRepositoryTest {

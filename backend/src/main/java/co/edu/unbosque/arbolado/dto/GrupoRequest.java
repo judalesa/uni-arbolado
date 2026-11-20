@@ -7,9 +7,11 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
-/** Datos para crear o editar un grupo (RF-21 a RF-23). El cupo no se pide: siempre es 30. */
+/** Datos para crear o editar un grupo. El cupo no se pide: siempre es 30. */
 public class GrupoRequest {
 
 	/** Asignatura que se ofrece. */
@@ -38,7 +40,7 @@ public class GrupoRequest {
 	@NotEmpty(message = "Debe tener al menos un horario")
 	@Size(max = 14, message = "No puede tener más de 14 horarios")
 	@Valid
-	private List<HorarioDto> horarios;
+	private List<HorarioDto> horarios = new ArrayList<>();
 
 	/** Constructor sin argumentos que exige Jackson. */
 	public GrupoRequest() {
@@ -94,13 +96,13 @@ public class GrupoRequest {
 		this.salon = salon;
 	}
 
-	/** @return franjas semanales */
+	/** @return franjas semanales, en una vista de solo lectura */
 	public List<HorarioDto> getHorarios() {
-		return horarios;
+		return Collections.unmodifiableList(horarios);
 	}
 
-	/** @param horarios franjas semanales */
+	/** @param horarios franjas semanales; se guarda una copia, y {@code null} queda como lista vacía */
 	public void setHorarios(List<HorarioDto> horarios) {
-		this.horarios = horarios == null ? null : new ArrayList<>(horarios);
+		this.horarios = new ArrayList<>(Objects.requireNonNullElse(horarios, List.of()));
 	}
 }

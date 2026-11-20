@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 /**
- * Cálculo de la nota definitiva (RN-24 a RN-27). Usa {@link BigDecimal} porque con {@code double} un 2.95
+ * Cálculo de la nota definitiva. Usa {@link BigDecimal} porque con {@code double} un 2.95
  * puede quedar en 2.9499… y reprobar a quien aprobó.
  */
 public final class CalculoNota {
@@ -18,7 +18,7 @@ public final class CalculoNota {
 	/** Peso del tercer corte. */
 	static final BigDecimal PESO_CORTE_3 = new BigDecimal("0.40");
 
-	/** Nota mínima para aprobar, comparada con la definitiva ya redondeada (RN-27). */
+	/** Nota mínima para aprobar, comparada con la definitiva ya redondeada. */
 	public static final BigDecimal NOTA_APROBATORIA = new BigDecimal("3.0");
 
 	/** Clase de utilidades: no se instancia. */
@@ -26,7 +26,7 @@ public final class CalculoNota {
 	}
 
 	/**
-	 * Calcula la definitiva 30/30/40 redondeada a un decimal con {@link RoundingMode#HALF_UP} (RN-26).
+	 * Calcula la definitiva 30/30/40 redondeada a un decimal con {@link RoundingMode#HALF_UP}.
 	 *
 	 * @param corte1 nota del primer corte
 	 * @param corte2 nota del segundo corte

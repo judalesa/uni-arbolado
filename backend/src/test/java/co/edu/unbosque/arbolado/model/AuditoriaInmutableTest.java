@@ -13,7 +13,7 @@ import java.util.Arrays;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-/** Comprueba por reflexión que la auditoría no ofrece ninguna forma de editarse ni borrarse (RN-30). */
+/** Comprueba por reflexión que la auditoría no ofrece ninguna forma de editarse ni borrarse. */
 class AuditoriaInmutableTest {
 
 	/** La entidad está marcada como inmutable para Hibernate. */

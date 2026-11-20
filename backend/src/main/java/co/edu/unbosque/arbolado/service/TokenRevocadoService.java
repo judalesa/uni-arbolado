@@ -7,7 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 
-/** Lista de tokens cerrados con el logout (RF-08). */
+/** Lista de tokens cerrados con el logout. */
 @Service
 public class TokenRevocadoService {
 

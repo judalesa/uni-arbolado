@@ -12,7 +12,7 @@ import jakarta.persistence.Table;
 
 import java.time.Instant;
 
-/** Código de verificación de correo enviado a un usuario; solo se guarda su huella HMAC (RN-03). */
+/** Código de verificación de correo enviado a un usuario; solo se guarda su huella HMAC. */
 @Entity
 @Table(name = "codigoverificacion")
 public class CodigoVerificacion {

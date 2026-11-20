@@ -22,7 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Locale;
 import java.util.Optional;
 
-/** Registro de estudiantes y verificación del correo (RF-01 a RF-06, RN-01 a RN-04). */
+/** Registro de estudiantes y verificación del correo. */
 @Service
 public class RegistroService {
 
@@ -67,7 +67,7 @@ public class RegistroService {
 
 	/**
 	 * Registra a un estudiante en estado pendiente y le envía el código. Si el documento o el correo son de
-	 * una cuenta pendiente, se actualizan sus datos y se envía un código nuevo (RF-06); si son de una cuenta
+	 * una cuenta pendiente, se actualizan sus datos y se envía un código nuevo; si son de una cuenta
 	 * activa, se rechaza por duplicado. El correo se envía al final: si falla, todo se revierte y la persona
 	 * puede reintentar sin quedar con una cuenta sin código.
 	 *
@@ -175,7 +175,7 @@ public class RegistroService {
 	}
 
 	/**
-	 * Envía un código nuevo a una cuenta pendiente; el anterior queda invalidado (RF-05).
+	 * Envía un código nuevo a una cuenta pendiente; el anterior queda invalidado.
 	 *
 	 * @param solicitud correo de la cuenta
 	 * @return mensaje de confirmación

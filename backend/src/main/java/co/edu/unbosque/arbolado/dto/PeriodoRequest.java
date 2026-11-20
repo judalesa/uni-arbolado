@@ -7,7 +7,7 @@ import jakarta.validation.constraints.Pattern;
 
 import java.time.LocalDate;
 
-/** Datos para crear o modificar un periodo (RF-19). */
+/** Datos para crear o modificar un periodo. */
 public class PeriodoRequest {
 
 	/** Código con formato AAAA-N, por ejemplo 2026-2. */

@@ -39,7 +39,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-/** Pruebas de las consultas del estudiante y del profesor: cada rol solo ve lo suyo (RF-35 a RF-39, RF-44, RF-45). */
+/** Pruebas de las consultas del estudiante y del profesor: cada rol solo ve lo suyo. */
 @SpringBootTest
 @AutoConfigureMockMvc
 @ActiveProfiles("test")

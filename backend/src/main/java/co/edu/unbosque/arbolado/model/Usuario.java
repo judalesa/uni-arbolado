@@ -123,7 +123,7 @@ public class Usuario {
 	}
 
 	/**
-	 * Reemplaza los datos de una cuenta pendiente que se vuelve a registrar (RF-06).
+	 * Reemplaza los datos de una cuenta pendiente que se vuelve a registrar.
 	 *
 	 * @param documento      documento de 10 dígitos
 	 * @param nombreCompleto nombre completo

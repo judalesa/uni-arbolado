@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.time.OffsetDateTime;
 
-/** Consulta de la auditoría; exclusiva del administrador y solo de lectura (RN-30). */
+/** Consulta de la auditoría; exclusiva del administrador y solo de lectura. */
 @RestController
 @RequestMapping("/api/admin/auditoria")
 @Tag(name = "Auditoría")

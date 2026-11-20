@@ -21,7 +21,7 @@ import java.util.HexFormat;
 import java.util.Optional;
 
 /**
- * Genera y valida los códigos de verificación de correo (RF-04, RF-05, RN-03): 6 dígitos, vencen a los
+ * Genera y valida los códigos de verificación de correo: 6 dígitos, vencen a los
  * 15 minutos, un solo uso, 5 intentos y solo se guarda su HMAC.
  */
 @Service
@@ -92,7 +92,7 @@ public class CodigoVerificacionService {
 	}
 
 	/**
-	 * Crea un código nuevo e invalida los anteriores de la cuenta (RF-05).
+	 * Crea un código nuevo e invalida los anteriores de la cuenta.
 	 *
 	 * @param usuario cuenta destinataria
 	 * @return el código de 6 dígitos en claro, solo para enviarlo por correo; no se guarda

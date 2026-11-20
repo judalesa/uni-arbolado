@@ -143,7 +143,7 @@ class CodigoVerificacionServiceTest {
 		assertThat(servicio.validar(usuario, codigo).resultado()).isEqualTo(Resultado.NO_VIGENTE);
 	}
 
-	/** Un código nuevo invalida el anterior (RF-05): solo sirve el último. */
+	/** Un código nuevo invalida el anterior: solo sirve el último. */
 	@Test
 	void elCodigoNuevoInvalidaAlAnterior() {
 		String primero = servicio.generar(usuario);

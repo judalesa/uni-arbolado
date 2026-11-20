@@ -5,7 +5,7 @@ import co.edu.unbosque.arbolado.repository.InscripcionRepository;
 import org.springframework.stereotype.Component;
 
 /**
- * Cuenta las inscripciones de un periodo que aún no tienen nota definitiva (decisión A-02). Una
+ * Cuenta las inscripciones de un periodo que aún no tienen nota definitiva. Una
  * inscripción pasa de cursando a aprobada o reprobada al calcular la definitiva, así que las pendientes
  * son exactamente las que siguen cursando.
  */

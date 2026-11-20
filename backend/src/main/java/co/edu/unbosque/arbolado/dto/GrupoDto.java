@@ -1,7 +1,9 @@
 package co.edu.unbosque.arbolado.dto;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 /** Grupo con su asignatura, periodo, profesor, horarios y cupos. */
 public class GrupoDto {
@@ -37,7 +39,7 @@ public class GrupoDto {
 	private long cuposDisponibles;
 
 	/** Franjas semanales, ordenadas por día y hora. */
-	private List<HorarioDto> horarios;
+	private List<HorarioDto> horarios = new ArrayList<>();
 
 	/** Constructor sin argumentos. */
 	public GrupoDto() {
@@ -143,13 +145,13 @@ public class GrupoDto {
 		this.cuposDisponibles = cuposDisponibles;
 	}
 
-	/** @return franjas semanales */
+	/** @return franjas semanales, en una vista de solo lectura */
 	public List<HorarioDto> getHorarios() {
-		return horarios;
+		return Collections.unmodifiableList(horarios);
 	}
 
-	/** @param horarios franjas semanales */
+	/** @param horarios franjas semanales; se guarda una copia, y {@code null} queda como lista vacía */
 	public void setHorarios(List<HorarioDto> horarios) {
-		this.horarios = horarios == null ? null : new ArrayList<>(horarios);
+		this.horarios = new ArrayList<>(Objects.requireNonNullElse(horarios, List.of()));
 	}
 }

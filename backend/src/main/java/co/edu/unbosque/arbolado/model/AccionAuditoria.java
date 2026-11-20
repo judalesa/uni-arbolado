@@ -1,6 +1,6 @@
 package co.edu.unbosque.arbolado.model;
 
-/** Lista cerrada de eventos auditables (RN-31). */
+/** Lista cerrada de eventos auditables. */
 public enum AccionAuditoria {
 	/** Inicio de sesión, exitoso o fallido. */
 	INICIO_SESION,
@@ -16,7 +16,7 @@ public enum AccionAuditoria {
 	REENVIO_CODIGO,
 	/** Verificación del código, exitosa o fallida. */
 	VERIFICACION_CODIGO,
-	/** Actualización de datos de usuario (se conserva en la lista aunque no ocurra, decisión A-10). */
+	/** Actualización de datos de usuario (se conserva en la lista aunque no ocurra). */
 	ACTUALIZACION_USUARIO,
 	/** Creación de un periodo académico. */
 	CREACION_PERIODO,
@@ -30,6 +30,6 @@ public enum AccionAuditoria {
 	INSCRIPCION,
 	/** Registro de una nota. */
 	REGISTRO_NOTA,
-	/** Modificación de una nota (se conserva en la lista aunque no ocurra, decisión A-06). */
+	/** Modificación de una nota (se conserva en la lista aunque no ocurra). */
 	MODIFICACION_NOTA
 }

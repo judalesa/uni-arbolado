@@ -9,7 +9,7 @@ import jakarta.validation.constraints.NotNull;
 
 import java.math.BigDecimal;
 
-/** Cuerpo de {@code POST /api/profesor/inscripciones/{id}/notas}: el corte y su nota (RN-24). */
+/** Cuerpo de {@code POST /api/profesor/inscripciones/{id}/notas}: el corte y su nota. */
 public class NotaRequest {
 
 	/** Corte: 1, 2 o 3. */

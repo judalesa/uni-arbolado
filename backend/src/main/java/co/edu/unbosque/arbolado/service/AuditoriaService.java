@@ -17,7 +17,7 @@ import java.time.Instant;
 import java.util.Objects;
 
 /**
- * Escribe y consulta la auditoría (RN-30, RN-31, RF-51). Los eventos exitosos van en la transacción de la
+ * Escribe y consulta la auditoría. Los eventos exitosos van en la transacción de la
  * operación; los fallidos, en una transacción independiente para que sobrevivan a la reversión.
  */
 @Service
@@ -42,7 +42,7 @@ public class AuditoriaService {
 	}
 
 	/**
-	 * Consulta la auditoría con filtros opcionales, del registro más reciente al más antiguo (RF-51).
+	 * Consulta la auditoría con filtros opcionales, del registro más reciente al más antiguo.
 	 *
 	 * @param usuarioId usuario que originó el evento
 	 * @param accion    evento
