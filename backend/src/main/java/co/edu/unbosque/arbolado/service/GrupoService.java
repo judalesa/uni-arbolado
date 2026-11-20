@@ -251,6 +251,18 @@ public class GrupoService {
 	}
 
 	/**
+	 * Convierte un grupo ya cargado en su DTO, contando sus cupos en ese momento. Lo usan los servicios
+	 * que devuelven un grupo dentro de otro recurso (por ejemplo la inscripción).
+	 *
+	 * @param grupo grupo con asignatura, periodo, profesor y horarios accesibles
+	 * @return el DTO con cupos
+	 */
+	@Transactional(readOnly = true)
+	public GrupoDto detalle(Grupo grupo) {
+		return aDto(grupo, cursando(List.of(grupo)).getOrDefault(grupo.getId(), 0L));
+	}
+
+	/**
 	 * Busca al responsable y comprueba que sea profesor; un estudiante o administrador no puede dictar grupos.
 	 *
 	 * @param profesorId identificador pedido
