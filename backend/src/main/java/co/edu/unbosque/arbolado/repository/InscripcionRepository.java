@@ -2,13 +2,16 @@ package co.edu.unbosque.arbolado.repository;
 
 import co.edu.unbosque.arbolado.model.EstadoInscripcion;
 import co.edu.unbosque.arbolado.model.Inscripcion;
+import jakarta.persistence.LockModeType;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 /** Acceso a datos de {@link Inscripcion}. */
@@ -101,6 +104,17 @@ public interface InscripcionRepository extends JpaRepository<Inscripcion, Long> 
 	@EntityGraph(attributePaths = {"estudiante", "grupo", "grupo.asignatura", "grupo.periodo", "grupo.profesor",
 			"grupo.horarios"})
 	List<Inscripcion> findByGrupoIdOrderByEstudianteNombreCompletoAsc(Long grupoId);
+
+	/**
+	 * Una inscripción con bloqueo de escritura: dos registros del mismo corte se turnan y el segundo ve la
+	 * nota del primero.
+	 *
+	 * @param id identificador
+	 * @return la inscripción, si existe
+	 */
+	@Lock(LockModeType.PESSIMISTIC_WRITE)
+	@Query("select i from Inscripcion i where i.id = :id")
+	Optional<Inscripcion> findConBloqueoById(@Param("id") Long id);
 
 	/**
 	 * Indica si un estudiante tiene o tuvo alguna inscripción en un grupo de un profesor.
