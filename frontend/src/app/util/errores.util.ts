@@ -11,7 +11,7 @@ export const MENSAJE_GENERICO = 'No se pudo completar la operación. Inténtalo 
  * @param error error capturado
  * @return el cuerpo del error, o `null` si no es una respuesta de la API (por ejemplo sin conexión)
  */
-export function leerError(error: unknown): ErrorResponse | null {
+export const leerError = (error: unknown): ErrorResponse | null => {
   if (error instanceof HttpErrorResponse && error.error && typeof error.error === 'object') {
     const cuerpo = error.error as Partial<ErrorResponse>;
     if (typeof cuerpo.codigo === 'string' && typeof cuerpo.mensaje === 'string') {
@@ -19,7 +19,16 @@ export function leerError(error: unknown): ErrorResponse | null {
     }
   }
   return null;
-}
+};
+
+/**
+ * Extrae los textos de una lista de motivos o detalles.
+ *
+ * @param lista elementos con un campo `mensaje`, o `undefined`
+ * @return los mensajes; vacío si no hay lista
+ */
+const textosDe = (lista: { mensaje: string }[] | undefined): string[] =>
+  (lista ?? []).map((elemento) => elemento.mensaje);
 
 /**
  * Convierte un error en la lista de mensajes que ve el usuario. Un 422 trae todos los motivos y se
@@ -28,19 +37,16 @@ export function leerError(error: unknown): ErrorResponse | null {
  * @param error error capturado
  * @return mensajes en español, al menos uno
  */
-export function mensajesDe(error: unknown): string[] {
+export const mensajesDe = (error: unknown): string[] => {
   const cuerpo = leerError(error);
   if (cuerpo === null) {
     return [MENSAJE_GENERICO];
   }
-  if (cuerpo.motivos && cuerpo.motivos.length > 0) {
-    return cuerpo.motivos.map((motivo) => motivo.mensaje);
-  }
-  if (cuerpo.detalles && cuerpo.detalles.length > 0) {
-    return cuerpo.detalles.map((detalle) => detalle.mensaje);
-  }
-  return [cuerpo.mensaje];
-}
+  const especificos = [textosDe(cuerpo.motivos), textosDe(cuerpo.detalles)].find(
+    (lista) => lista.length > 0,
+  );
+  return especificos ?? [cuerpo.mensaje];
+};
 
 /**
  * Agrupa los errores de validación (400) por nombre de campo para mostrarlos junto a cada campo.
@@ -48,10 +54,10 @@ export function mensajesDe(error: unknown): string[] {
  * @param error error capturado
  * @return mapa campo → mensaje; vacío si el error no trae detalles
  */
-export function erroresPorCampo(error: unknown): Record<string, string> {
+export const erroresPorCampo = (error: unknown): Record<string, string> => {
   const resultado: Record<string, string> = {};
   for (const detalle of leerError(error)?.detalles ?? []) {
     resultado[detalle.campo] ??= detalle.mensaje;
   }
   return resultado;
-}
+};
