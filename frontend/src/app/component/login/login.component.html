@@ -1,0 +1,24 @@
+<!-- Tarjeta de inicio de sesión -->
+<section class="card shadow-sm mx-auto" style="max-width: 28rem">
+  <div class="card-body p-4">
+    <h1 class="h4 mb-3">
+      <i class="fa-solid fa-right-to-bracket me-2" aria-hidden="true"></i>Iniciar sesión
+    </h1>
+
+    <!-- Errores generales -->
+    <app-alerta-errores [mensajes]="errores()" />
+
+    <!-- Formulario -->
+    <app-formulario
+      [campos]="campos"
+      etiquetaEnviar="Ingresar"
+      [enviando]="enviando()"
+      [erroresServidor]="erroresCampo()"
+      (enviar)="ingresar($event)"
+    />
+
+    <!-- Enlaces a registro y verificación -->
+    <p class="mt-3 mb-1 small">¿Eres estudiante nuevo? <a routerLink="/registro">Regístrate</a></p>
+    <p class="mb-0 small">¿Tienes un código? <a routerLink="/verificar">Verifica tu correo</a></p>
+  </div>
+</section>

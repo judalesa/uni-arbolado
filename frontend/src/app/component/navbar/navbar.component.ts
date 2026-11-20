@@ -1,6 +1,7 @@
 import { Component, computed, inject, signal } from '@angular/core';
-import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 
+import { AuthService } from '../../service/auth.service';
 import { SesionService } from '../../service/sesion.service';
 import { MENU_POR_ROL } from '../../util/rutas-por-rol.util';
 
@@ -17,8 +18,8 @@ export class NavbarComponent {
   /** Sesión actual. */
   private readonly sesion = inject(SesionService);
 
-  /** Enrutador, para volver a `/login` al salir. */
-  private readonly router = inject(Router);
+  /** Servicio de autenticación, para cerrar la sesión. */
+  private readonly auth = inject(AuthService);
 
   /** Nombre de la institución mostrado en la marca. */
   protected readonly institucion = 'Universidad El Arbolado';
@@ -40,10 +41,9 @@ export class NavbarComponent {
     this.menuAbierto.update((abierto) => !abierto);
   }
 
-  /** Cierra la sesión local y vuelve al inicio de sesión; FE-02 añade el cierre en el servidor. */
+  /** Cierra la sesión (revoca el token en el servidor y borra la local) y vuelve al login. */
   protected salir(): void {
-    this.sesion.cerrar();
     this.menuAbierto.set(false);
-    void this.router.navigateByUrl('/login');
+    this.auth.salir();
   }
 }

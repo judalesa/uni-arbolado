@@ -10,22 +10,20 @@ export interface ItemMenu {
   icono: string;
 }
 
+/** Pantalla a la que se lleva a cada rol después de iniciar sesión (mapa de pantallas, sección 1). */
+const RUTA_INICIAL: Record<Rol, string> = {
+  ESTUDIANTE: '/estudiante/plan',
+  PROFESOR: '/profesor/grupos',
+  ADMINISTRADOR: '/admin/periodos',
+};
+
 /**
- * Pantalla a la que se lleva a cada rol después de iniciar sesión (mapa de pantallas, sección 1).
+ * Pantalla inicial de un rol. Con un mapa tipado, agregar un rol nuevo obliga a definir su ruta.
  *
  * @param rol rol del usuario
  * @return ruta inicial
  */
-export function rutaInicial(rol: Rol): string {
-  switch (rol) {
-    case 'ESTUDIANTE':
-      return '/estudiante/plan';
-    case 'PROFESOR':
-      return '/profesor/grupos';
-    case 'ADMINISTRADOR':
-      return '/admin/periodos';
-  }
-}
+export const rutaInicial = (rol: Rol): string => RUTA_INICIAL[rol];
 
 /** Menú de cada rol: solo se muestra lo que el rol puede usar (el backend igualmente valida). */
 export const MENU_POR_ROL: Record<Rol, ItemMenu[]> = {
