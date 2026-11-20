@@ -12,9 +12,11 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
+import co.edu.unbosque.arbolado.util.CalculoNota;
 import org.hibernate.annotations.Check;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.Instant;
 
 /**
@@ -103,6 +105,47 @@ public class Inscripcion {
 		this.periodo = grupo.getPeriodo();
 		this.asignatura = grupo.getAsignatura();
 		this.fechaInscripcion = Instant.now();
+	}
+
+	/**
+	 * Nota de un corte.
+	 *
+	 * @param corte 1, 2 o 3
+	 * @return la nota, o {@code null} si aún no se registra
+	 * @throws IllegalArgumentException si el corte no es 1, 2 ni 3
+	 */
+	public BigDecimal notaDelCorte(int corte) {
+		return switch (corte) {
+			case 1 -> notaCorte1;
+			case 2 -> notaCorte2;
+			case 3 -> notaCorte3;
+			default -> throw new IllegalArgumentException("Corte inválido: " + corte);
+		};
+	}
+
+	/**
+	 * Escribe la nota de un corte vacío. Si con ella quedan los tres cortes, fija la definitiva y el estado;
+	 * una reprobada pierde la marca vigente para poder recursar (RN-20) y deja de ocupar cupo.
+	 *
+	 * @param corte 1, 2 o 3
+	 * @param valor nota entre 0.0 y 5.0
+	 * @throws IllegalStateException si el corte ya tiene nota (D-20)
+	 */
+	public void registrarNota(int corte, BigDecimal valor) {
+		if (notaDelCorte(corte) != null) {
+			throw new IllegalStateException("El corte " + corte + " ya tiene nota");
+		}
+		BigDecimal nota = valor.setScale(1, RoundingMode.HALF_UP);
+		switch (corte) {
+			case 1 -> notaCorte1 = nota;
+			case 2 -> notaCorte2 = nota;
+			default -> notaCorte3 = nota;
+		}
+		if (notaCorte1 != null && notaCorte2 != null && notaCorte3 != null) {
+			notaDefinitiva = CalculoNota.definitiva(notaCorte1, notaCorte2, notaCorte3);
+			estado = CalculoNota.aprueba(notaDefinitiva) ? EstadoInscripcion.APROBADA : EstadoInscripcion.REPROBADA;
+			marcaVigente = estado == EstadoInscripcion.APROBADA ? Boolean.TRUE : null;
+		}
 	}
 
 	/** @return identificador */
