@@ -4,7 +4,9 @@ import co.edu.unbosque.arbolado.model.Rol;
 import co.edu.unbosque.arbolado.model.Usuario;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import jakarta.persistence.LockModeType;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -20,6 +22,17 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 	 * @return la cuenta, si existe
 	 */
 	Optional<Usuario> findByCorreo(String correo);
+
+	/**
+	 * Busca una cuenta con bloqueo de escritura: las inscripciones de un mismo estudiante se turnan, así
+	 * sus créditos, duplicados y traslapes se validan sin carreras (diseño 4.1).
+	 *
+	 * @param id identificador
+	 * @return la cuenta, si existe
+	 */
+	@Lock(LockModeType.PESSIMISTIC_WRITE)
+	@Query("select u from Usuario u where u.id = :id")
+	Optional<Usuario> findConBloqueoById(@Param("id") Long id);
 
 	/**
 	 * Busca una cuenta por documento.
