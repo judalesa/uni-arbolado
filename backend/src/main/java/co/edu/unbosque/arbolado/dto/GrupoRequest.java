@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /** Datos para crear o editar un grupo (RF-21 a RF-23). El cupo no se pide: siempre es 30. */
@@ -100,6 +101,6 @@ public class GrupoRequest {
 
 	/** @param horarios franjas semanales */
 	public void setHorarios(List<HorarioDto> horarios) {
-		this.horarios = horarios;
+		this.horarios = horarios == null ? null : new ArrayList<>(horarios);
 	}
 }

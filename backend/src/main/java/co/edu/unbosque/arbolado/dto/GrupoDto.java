@@ -1,5 +1,6 @@
 package co.edu.unbosque.arbolado.dto;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /** Grupo con su asignatura, periodo, profesor, horarios y cupos. */
@@ -149,6 +150,6 @@ public class GrupoDto {
 
 	/** @param horarios franjas semanales */
 	public void setHorarios(List<HorarioDto> horarios) {
-		this.horarios = horarios;
+		this.horarios = horarios == null ? null : new ArrayList<>(horarios);
 	}
 }

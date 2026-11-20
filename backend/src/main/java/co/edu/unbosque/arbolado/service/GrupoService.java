@@ -71,7 +71,10 @@ public class GrupoService {
 	 * @param inicio hora de inicio
 	 * @param fin    hora de fin
 	 */
-	record Franja(DiaSemana dia, LocalTime inicio, LocalTime fin) {
+	record Franja(
+			DiaSemana dia,
+			LocalTime inicio,
+			LocalTime fin) {
 
 		/**
 		 * Indica si dos franjas se pisan. Empezar justo cuando otra termina no es traslape.
@@ -79,7 +82,7 @@ public class GrupoService {
 		 * @param otra la otra franja
 		 * @return {@code true} si comparten algún minuto del mismo día
 		 */
-		boolean seTraslapaCon(Franja otra) {
+		boolean seTraslapaCon(final Franja otra) {
 			return dia == otra.dia && inicio.isBefore(otra.fin) && otra.inicio.isBefore(fin);
 		}
 	}
