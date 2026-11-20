@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Locale;
 
-/** Precarga el administrador (RN-05) con las credenciales de la configuración local. */
+/** Precarga el administrador con las credenciales de la configuración local. */
 @Service
 public class AdministradorInicialService {
 

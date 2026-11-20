@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 
-/** Periodos académicos: creación, modificación sin eliminación y activación (RF-19, RF-20, RN-13, RN-14). */
+/** Periodos académicos: creación, modificación sin eliminación y activación. */
 @Service
 public class PeriodoService {
 
@@ -110,7 +110,7 @@ public class PeriodoService {
 
 	/**
 	 * Activa un periodo y desactiva el vigente en la misma transacción. Si el vigente tiene inscripciones
-	 * sin nota definitiva se rechaza (decisión A-02): quedarían sin poder calificarse. Activar el que ya
+	 * sin nota definitiva se rechaza: quedarían sin poder calificarse. Activar el que ya
 	 * está activo no cambia nada.
 	 *
 	 * @param id    periodo a activar

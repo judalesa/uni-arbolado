@@ -6,7 +6,7 @@ import java.util.List;
 
 /**
  * Una regla de negocio no se cumple (HTTP 422). Puede traer varios {@link Motivo}: las validaciones de
- * inscripción se evalúan todas y se informan juntas (RN-22).
+ * inscripción se evalúan todas y se informan juntas.
  */
 public class ReglaNegocioException extends ApiException {
 

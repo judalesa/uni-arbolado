@@ -94,7 +94,7 @@ class AsignaturaControllerTest {
 				.andExpect(jsonPath("$.codigo").value("VALIDACION"));
 	}
 
-	/** El plan es de solo lectura: no existe ningún método de escritura (RN-08). */
+	/** El plan es de solo lectura: no existe ningún método de escritura. */
 	@Test
 	void noSePuedeEscribirElPlan() throws Exception {
 		mvc.perform(post("/api/asignaturas").with(user("root").roles("ADMINISTRADOR"))

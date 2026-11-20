@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
-/** Datos para que el administrador cree un profesor (RF-10). */
+/** Datos para que el administrador cree un profesor. */
 public class CrearProfesorRequest {
 
 	/** Documento de exactamente 10 dígitos. */

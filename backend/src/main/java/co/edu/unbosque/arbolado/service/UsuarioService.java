@@ -24,7 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Locale;
 
-/** Administración de usuarios: creación de profesores, listados, consulta y perfil propio (RF-10, RF-13, RF-14). */
+/** Administración de usuarios: creación de profesores, listados, consulta y perfil propio. */
 @Service
 public class UsuarioService {
 
@@ -69,7 +69,7 @@ public class UsuarioService {
 	}
 
 	/**
-	 * Crea un profesor activo, sin verificación de correo (RN-05). El documento y el correo deben ser
+	 * Crea un profesor activo, sin verificación de correo. El documento y el correo deben ser
 	 * únicos en todo el sistema, incluso frente a cuentas pendientes.
 	 *
 	 * @param solicitud datos del profesor
@@ -140,7 +140,7 @@ public class UsuarioService {
 	}
 
 	/**
-	 * Devuelve la cuenta de quien hace la petición (solo lectura, decisión A-10).
+	 * Devuelve la cuenta de quien hace la petición (solo lectura).
 	 *
 	 * @param actual identidad tomada del token
 	 * @return los datos de la cuenta

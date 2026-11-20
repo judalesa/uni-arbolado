@@ -41,7 +41,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-/** Pruebas del registro de notas: rango, inmutabilidad, permisos, definitiva y auditoría (RF-40 a RF-43, RF-50). */
+/** Pruebas del registro de notas: rango, inmutabilidad, permisos, definitiva y auditoría. */
 @SpringBootTest
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
@@ -259,7 +259,7 @@ class NotaControllerTest {
 				.andExpect(jsonPath("$.estado").value("APROBADA"));
 	}
 
-	/** Un corte con nota no se vuelve a escribir: 409 y la nota original se conserva (D-20). */
+	/** Un corte con nota no se vuelve a escribir: 409 y la nota original se conserva. */
 	@Test
 	void segundoRegistroDelMismoCorteRechazado() throws Exception {
 		nota(1, "3.5").andExpect(status().isCreated());

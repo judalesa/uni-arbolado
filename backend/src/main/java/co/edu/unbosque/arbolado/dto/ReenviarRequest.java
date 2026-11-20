@@ -4,7 +4,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
-/** Correo de la cuenta que pide un código nuevo (RF-05). */
+/** Correo de la cuenta que pide un código nuevo. */
 public class ReenviarRequest {
 
 	/** Correo de la cuenta. */

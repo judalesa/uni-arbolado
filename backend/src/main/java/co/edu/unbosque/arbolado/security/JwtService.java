@@ -21,7 +21,7 @@ import java.util.UUID;
 
 /**
  * Genera y valida los JWT de la API: HS256, con el correo como {@code sub}, el rol, el identificador del
- * usuario y un {@code jti} único para poder revocarlos (decisión TD-02).
+ * usuario y un {@code jti} único para poder revocarlos.
  */
 @Component
 public class JwtService {

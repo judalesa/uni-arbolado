@@ -33,7 +33,7 @@ public enum CodigoError {
 	CUENTA_YA_ACTIVA(409),
 	/** Ya existe un periodo con ese nombre. */
 	PERIODO_DUPLICADO(409),
-	/** El corte ya tiene nota (las notas no se modifican, decisión A-06). */
+	/** El corte ya tiene nota (las notas no se modifican). */
 	NOTA_YA_REGISTRADA(409),
 	/** Ya existe un grupo con ese número en la asignatura y el periodo. */
 	GRUPO_DUPLICADO(409),
@@ -41,11 +41,11 @@ public enum CodigoError {
 	/** El cuerpo no es {@code application/json}. */
 	TIPO_NO_SOPORTADO(415),
 
-	/** Regla de negocio incumplida; trae la lista de motivos (RN-22). */
+	/** Regla de negocio incumplida; trae la lista de motivos. */
 	REGLA_NEGOCIO(422),
 	/** Código de verificación incorrecto, vencido o ya usado. */
 	CODIGO_INVALIDO(422),
-	/** No se puede activar otro periodo mientras haya notas pendientes (decisión A-02). */
+	/** No se puede activar otro periodo mientras haya notas pendientes. */
 	PERIODO_CON_NOTAS_PENDIENTES(422),
 	/** La operación exige un periodo activo y no lo hay. */
 	PERIODO_NO_ACTIVO(422),

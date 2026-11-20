@@ -18,7 +18,7 @@ import java.util.Date;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-/** Pruebas de generación y validación del JWT (decisión TD-02). */
+/** Pruebas de generación y validación del JWT. */
 class JwtServiceTest {
 
 	/** Instante fijo para que las pruebas no dependan del reloj. */

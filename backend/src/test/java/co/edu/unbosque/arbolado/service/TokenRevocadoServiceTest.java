@@ -11,7 +11,7 @@ import java.time.Instant;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-/** Pruebas de la lista de tokens revocados (RF-08). */
+/** Pruebas de la lista de tokens revocados. */
 @SpringBootTest
 @ActiveProfiles("test")
 class TokenRevocadoServiceTest {

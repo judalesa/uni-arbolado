@@ -6,7 +6,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-/** Pruebas del límite de bytes (TD-04): los caracteres con tilde o ñ ocupan dos bytes. */
+/** Pruebas del límite de bytes: los caracteres con tilde o ñ ocupan dos bytes. */
 class MaximoBytesValidatorTest {
 
 	/** Validador configurado con un máximo de 72 bytes. */

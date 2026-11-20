@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-/** Consulta del plan de estudios. Solo lectura: las asignaturas no se modifican (RN-08). */
+/** Consulta del plan de estudios. Solo lectura: las asignaturas no se modifican. */
 @Service
 @Transactional(readOnly = true)
 public class AsignaturaService {

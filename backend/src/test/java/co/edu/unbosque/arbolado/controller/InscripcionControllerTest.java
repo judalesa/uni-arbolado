@@ -46,7 +46,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-/** Pruebas de la inscripción (RN-14 y RN-16 a RN-23) con la cadena de seguridad y la base reales. */
+/** Pruebas de la inscripción con la cadena de seguridad y la base reales. */
 @SpringBootTest
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
@@ -328,7 +328,7 @@ class InscripcionControllerTest {
 				.andExpect(status().isNotFound());
 	}
 
-	/** Un grupo de un periodo que no es el activo se rechaza (RN-14). */
+	/** Un grupo de un periodo que no es el activo se rechaza. */
 	@Test
 	void rechazaUnGrupoDeUnPeriodoNoActivo() throws Exception {
 		Grupo futuro = grupoEn(periodo(), "DSI101", DiaSemana.LUNES, 8, 10);
@@ -338,7 +338,7 @@ class InscripcionControllerTest {
 		assertThat(cuantas(estudiante)).isZero();
 	}
 
-	/** Falta aprobar el prerrequisito: cursarlo no cuenta (RN-16). */
+	/** Falta aprobar el prerrequisito: cursarlo no cuenta. */
 	@Test
 	void exigeElPrerrequisitoAprobado() throws Exception {
 		cursando(estudiante, grupo("MAT101", DiaSemana.MARTES, 8, 10));
@@ -357,7 +357,7 @@ class InscripcionControllerTest {
 		inscribir(estudiante, grupo("MAT201", DiaSemana.LUNES, 8, 10)).andExpect(status().isCreated());
 	}
 
-	/** El grupo con 30 cursando está lleno, y el cupo 30 se puede ocupar (RN-11, RN-18). */
+	/** El grupo con 30 cursando está lleno, y el cupo 30 se puede ocupar. */
 	@Test
 	void respetaElCupoDe30() throws Exception {
 		Grupo grupo = grupo("DSI101", DiaSemana.LUNES, 8, 10);
@@ -379,7 +379,7 @@ class InscripcionControllerTest {
 		inscribir(estudiante, grupo).andExpect(status().isCreated());
 	}
 
-	/** Todos los incumplimientos se informan juntos, no solo el primero (RN-22). */
+	/** Todos los incumplimientos se informan juntos, no solo el primero. */
 	@Test
 	void informaTodosLosMotivosJuntos() throws Exception {
 		Grupo lleno = grupo("MAT201", DiaSemana.LUNES, 8, 10);
@@ -390,7 +390,7 @@ class InscripcionControllerTest {
 				.andExpect(jsonPath("$.motivos[*].codigo", containsInAnyOrder("GRUPO_LLENO", "PREREQUISITO_NO_CUMPLIDO")));
 	}
 
-	/** Una asignatura ya aprobada no se vuelve a inscribir (RN-19). */
+	/** Una asignatura ya aprobada no se vuelve a inscribir. */
 	@Test
 	void rechazaUnaAsignaturaYaAprobada() throws Exception {
 		aprobada(estudiante, "DSI101");
@@ -399,7 +399,7 @@ class InscripcionControllerTest {
 				.andExpect(jsonPath("$.motivos[0].codigo").value("ASIGNATURA_YA_APROBADA"));
 	}
 
-	/** La misma asignatura no se cursa en dos grupos a la vez (RN-19). */
+	/** La misma asignatura no se cursa en dos grupos a la vez. */
 	@Test
 	void rechazaUnaAsignaturaYaCursando() throws Exception {
 		cursando(estudiante, grupo("DSI101", DiaSemana.LUNES, 8, 10));
@@ -408,7 +408,7 @@ class InscripcionControllerTest {
 				.andExpect(jsonPath("$.motivos[0].codigo").value("ASIGNATURA_YA_CURSANDO"));
 	}
 
-	/** Los créditos cursando más los nuevos no pueden pasar de 12 (RN-17). */
+	/** Los créditos cursando más los nuevos no pueden pasar de 12. */
 	@Test
 	void rechazaSuperarLos12Creditos() throws Exception {
 		aprobada(estudiante, "MAT101");
@@ -433,7 +433,7 @@ class InscripcionControllerTest {
 		inscribir(estudiante, grupo("MAT201", DiaSemana.JUEVES, 8, 10)).andExpect(status().isCreated());
 	}
 
-	/** Un horario que se cruza con el de otra asignatura cursando se rechaza (RN-21). */
+	/** Un horario que se cruza con el de otra asignatura cursando se rechaza. */
 	@Test
 	void rechazaUnHorarioTraslapado() throws Exception {
 		cursando(estudiante, grupo("MAT101", DiaSemana.LUNES, 8, 10));
@@ -451,7 +451,7 @@ class InscripcionControllerTest {
 		inscribir(estudiante, grupo("DSI101", DiaSemana.MARTES, 8, 10)).andExpect(status().isCreated());
 	}
 
-	/** Una asignatura reprobada se puede reinscribir en un periodo posterior (RN-20). */
+	/** Una asignatura reprobada se puede reinscribir en un periodo posterior. */
 	@Test
 	void permiteReinscribirUnaReprobada() throws Exception {
 		Grupo anterior = grupoEn(periodo(), "DSI101", DiaSemana.SABADO, 6, 7);
@@ -461,7 +461,7 @@ class InscripcionControllerTest {
 		assertThat(cuantas(estudiante)).isEqualTo(2);
 	}
 
-	/** Si falla algo no se inscribe nada, y el rechazo queda auditado como fallido (RN-22, RN-30). */
+	/** Si falla algo no se inscribe nada, y el rechazo queda auditado como fallido. */
 	@Test
 	void todoONadaYAuditaElRechazo() throws Exception {
 		Grupo lleno = grupo("MAT201", DiaSemana.LUNES, 8, 10);
@@ -474,7 +474,7 @@ class InscripcionControllerTest {
 		assertThat(auditorias(estudiante, "EXITOSO")).isZero();
 	}
 
-	/** Con inscripciones pendientes no se puede activar otro periodo (A-02): el puerto ya cuenta de verdad. */
+	/** Con inscripciones pendientes no se puede activar otro periodo: el puerto ya cuenta de verdad. */
 	@Test
 	void conInscripcionesPendientesNoSeActivaOtroPeriodo() throws Exception {
 		inscribir(estudiante, grupo("DSI101", DiaSemana.LUNES, 8, 10)).andExpect(status().isCreated());

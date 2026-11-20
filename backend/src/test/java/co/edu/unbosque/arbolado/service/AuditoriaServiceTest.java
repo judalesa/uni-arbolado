@@ -14,7 +14,7 @@ import org.springframework.transaction.support.TransactionTemplate;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-/** Pruebas de la auditoría: transacción independiente para los fallidos (RN-30). */
+/** Pruebas de la auditoría: transacción independiente para los fallidos. */
 @SpringBootTest
 @ActiveProfiles("test")
 class AuditoriaServiceTest {

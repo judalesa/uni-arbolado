@@ -16,12 +16,12 @@ import jakarta.persistence.UniqueConstraint;
 import java.util.ArrayList;
 import java.util.List;
 
-/** Oferta de una asignatura en un periodo, con profesor, bloque, salón, horarios y cupo de 30 (RN-09, RN-11). */
+/** Oferta de una asignatura en un periodo, con profesor, bloque, salón, horarios y cupo de 30. */
 @Entity
 @Table(name = "grupo", uniqueConstraints = @UniqueConstraint(columnNames = {"asignatura_id", "periodo_id", "numero"}))
 public class Grupo {
 
-	/** Cupo máximo de todos los grupos (RN-11); no se puede cambiar desde la API. */
+	/** Cupo máximo de todos los grupos; no se puede cambiar desde la API. */
 	public static final int CUPO_MAXIMO = 30;
 
 	/** Identificador generado por la base de datos. */

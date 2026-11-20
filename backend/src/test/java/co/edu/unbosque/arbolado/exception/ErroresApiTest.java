@@ -66,7 +66,7 @@ class ErroresApiTest {
 				.andExpect(jsonPath("$.codigo").value("DOCUMENTO_DUPLICADO"));
 	}
 
-	/** Una regla de negocio incumplida responde 422 con todos los motivos (RN-22). */
+	/** Una regla de negocio incumplida responde 422 con todos los motivos. */
 	@Test
 	void reglaDeNegocioResponde422ConTodosLosMotivos() throws Exception {
 		mvc.perform(get("/api/prueba/regla").with(user("ana")))

@@ -114,7 +114,7 @@ class InscripcionRepositoryTest {
 				.isInstanceOf(DataIntegrityViolationException.class);
 	}
 
-	/** Dos inscripciones vigentes de la misma asignatura en grupos distintos violan RN-19 en la base. */
+	/** Dos inscripciones vigentes de la misma asignatura en grupos distintos las rechaza la propia base. */
 	@Test
 	void laBaseRechazaDosInscripcionesVigentesDeLaMismaAsignatura() {
 		Periodo periodo = periodo("8000-2");
@@ -128,7 +128,7 @@ class InscripcionRepositoryTest {
 				.isInstanceOf(DataIntegrityViolationException.class);
 	}
 
-	/** Una reprobada deja de ser vigente (marca nula) y no impide reinscribir la asignatura (RN-20). */
+	/** Una reprobada deja de ser vigente (marca nula) y no impide reinscribir la asignatura. */
 	@Test
 	void unaReprobadaNoImpideReinscribir() {
 		Periodo anterior = periodo("8000-3");

@@ -15,7 +15,7 @@ import java.security.SecureRandom;
 import java.util.Base64;
 
 /**
- * Codifica contraseñas como {@code Base64(IV ‖ AES-GCM(BCrypt(clave)))} (RN-06, decisión D-08).
+ * Codifica contraseñas como {@code Base64(IV ‖ AES-GCM(BCrypt(clave)))}.
  * BCrypt aporta el hash lento con sal; AES-GCM lo cifra con una llave que vive solo en la configuración
  * local, así un volcado de la base de datos no basta para atacar las claves. El IV es aleatorio y distinto
  * en cada cifrado: repetirlo con la misma llave rompe GCM.
@@ -29,7 +29,7 @@ public class CodificadorContrasena implements PasswordEncoder {
 	/** Longitud de la etiqueta de autenticación de GCM, en bits. */
 	private static final int BITS_ETIQUETA = 128;
 
-	/** BCrypt solo procesa los primeros 72 bytes de la clave (decisión TD-04). */
+	/** BCrypt solo procesa los primeros 72 bytes de la clave. */
 	private static final int MAX_BYTES_CLAVE = 72;
 
 	/** Longitud de una llave AES-256, en bytes. */

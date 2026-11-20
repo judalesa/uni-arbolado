@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-/** Pruebas del cálculo de la definitiva: pesos, redondeo HALF_UP y aprobación en 3.0 (RN-24 a RN-27). */
+/** Pruebas del cálculo de la definitiva: pesos, redondeo HALF_UP y aprobación en 3.0. */
 class CalculoNotaTest {
 
 	/**

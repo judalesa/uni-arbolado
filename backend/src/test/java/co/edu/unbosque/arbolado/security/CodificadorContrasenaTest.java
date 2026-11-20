@@ -7,7 +7,7 @@ import java.util.Base64;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-/** Pruebas del codificador AES-GCM sobre BCrypt (RN-06). */
+/** Pruebas del codificador AES-GCM sobre BCrypt. */
 class CodificadorContrasenaTest {
 
 	/** Codificador bajo prueba. */

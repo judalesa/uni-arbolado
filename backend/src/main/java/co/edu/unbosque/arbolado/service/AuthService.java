@@ -20,7 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Locale;
 import java.util.Optional;
 
-/** Inicio y cierre de sesión (RF-07, RF-08) con su auditoría (RN-30, RN-31). */
+/** Inicio y cierre de sesión con su auditoría. */
 @Service
 public class AuthService {
 

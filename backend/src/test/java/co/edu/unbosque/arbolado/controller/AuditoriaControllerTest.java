@@ -29,7 +29,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-/** Pruebas de la consulta de auditoría: solo el administrador, filtros, orden y paginación (RF-51, RN-30). */
+/** Pruebas de la consulta de auditoría: solo el administrador, filtros, orden y paginación. */
 @SpringBootTest
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
@@ -195,7 +195,7 @@ class AuditoriaControllerTest {
 		mvc.perform(get(RUTA)).andExpect(status().isUnauthorized());
 	}
 
-	/** No existen rutas para modificar ni borrar la auditoría (RN-30). */
+	/** No existen rutas para modificar ni borrar la auditoría. */
 	@Test
 	void noSePuedeModificarNiBorrar() throws Exception {
 		mvc.perform(delete(RUTA + "/1").header(HttpHeaders.AUTHORIZATION, bearer(admin)))

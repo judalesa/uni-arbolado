@@ -31,8 +31,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
- * Inscripción de un estudiante en un grupo (RF-26 a RF-34). Las validaciones RN-14 y RN-16 a RN-21 se
- * evalúan todas y se informan juntas; si alguna falla no se inscribe nada (RN-22).
+ * Inscripción de un estudiante en un grupo. Las validaciones se
+ * evalúan todas y se informan juntas; si alguna falla no se inscribe nada.
  */
 @Service
 public class InscripcionService {
@@ -40,7 +40,7 @@ public class InscripcionService {
 	/** Tipo de recurso que se anota en la auditoría. */
 	private static final String ENTIDAD = "INSCRIPCION";
 
-	/** Máximo de créditos cursando a la vez (RN-17). */
+	/** Máximo de créditos cursando a la vez. */
 	static final int MAXIMO_CREDITOS = 12;
 
 	/** Repositorio de inscripciones. */
@@ -116,7 +116,7 @@ public class InscripcionService {
 	}
 
 	/**
-	 * Evalúa todas las reglas de inscripción sin detenerse en la primera que falla (RN-22).
+	 * Evalúa todas las reglas de inscripción sin detenerse en la primera que falla.
 	 *
 	 * @param estudiante estudiante ya bloqueado
 	 * @param grupo      grupo ya bloqueado
@@ -139,7 +139,7 @@ public class InscripcionService {
 	}
 
 	/**
-	 * Solo se inscribe en grupos del periodo activo (RN-14).
+	 * Solo se inscribe en grupos del periodo activo.
 	 *
 	 * @param grupo   grupo elegido
 	 * @param motivos lista a la que se agrega el motivo
@@ -152,7 +152,7 @@ public class InscripcionService {
 	}
 
 	/**
-	 * El grupo no puede tener ya 30 estudiantes cursando (RN-11, RN-18).
+	 * El grupo no puede tener ya 30 estudiantes cursando.
 	 *
 	 * @param grupo   grupo elegido
 	 * @param motivos lista a la que se agrega el motivo
@@ -166,7 +166,7 @@ public class InscripcionService {
 	}
 
 	/**
-	 * La asignatura no puede estar ya aprobada ni cursándose en otro grupo (RN-19).
+	 * La asignatura no puede estar ya aprobada ni cursándose en otro grupo.
 	 *
 	 * @param asignatura asignatura del grupo elegido
 	 * @param aprobadas  asignaturas aprobadas del estudiante
@@ -184,7 +184,7 @@ public class InscripcionService {
 	}
 
 	/**
-	 * Cada prerrequisito debe estar aprobado; cursarlo no basta (RN-16). Se informa uno por cada faltante.
+	 * Cada prerrequisito debe estar aprobado; cursarlo no basta. Se informa uno por cada faltante.
 	 *
 	 * @param asignatura asignatura del grupo elegido
 	 * @param aprobadas  asignaturas aprobadas del estudiante
@@ -200,7 +200,7 @@ public class InscripcionService {
 	}
 
 	/**
-	 * Los créditos cursando más los de esta asignatura no pueden pasar de 12 (RN-17).
+	 * Los créditos cursando más los de esta asignatura no pueden pasar de 12.
 	 *
 	 * @param asignatura asignatura del grupo elegido
 	 * @param cursando   inscripciones cursando del estudiante
@@ -216,7 +216,7 @@ public class InscripcionService {
 
 	/**
 	 * El horario no puede traslaparse con el de otro grupo cursando; empezar justo cuando otro termina no
-	 * es traslape (RN-21). Se informa una vez por cada asignatura con la que choca.
+	 * es traslape. Se informa una vez por cada asignatura con la que choca.
 	 *
 	 * @param grupo    grupo elegido
 	 * @param cursando inscripciones cursando del estudiante
