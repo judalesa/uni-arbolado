@@ -1,0 +1,49 @@
+<!-- Tarjeta de verificación del correo -->
+<section class="card shadow-sm mx-auto" style="max-width: 28rem">
+  <div class="card-body p-4">
+    <h1 class="h4 mb-3">
+      <i class="fa-solid fa-envelope-circle-check me-2" aria-hidden="true"></i>Verifica tu correo
+    </h1>
+
+    <!-- Errores generales -->
+    <app-alerta-errores [mensajes]="errores()" />
+
+    @if (correo(); as direccion) {
+      <!-- Paso 2: código enviado al correo -->
+      <p>
+        Enviamos un código de 6 dígitos a <strong>{{ direccion }}</strong>. Vence en 15 minutos.
+      </p>
+      <app-formulario
+        [campos]="camposCodigo"
+        etiquetaEnviar="Verificar"
+        [enviando]="enviando()"
+        (enviar)="verificar($event)"
+      />
+
+      <!-- Reenvío con espera de 60 s -->
+      <div class="d-flex flex-wrap gap-2 mt-3">
+        <button
+          type="button"
+          class="btn btn-outline-secondary btn-sm"
+          [disabled]="espera() > 0 || reenviando()"
+          (click)="reenviar()"
+        >
+          {{ textoReenviar() }}
+        </button>
+        <button type="button" class="btn btn-link btn-sm" (click)="cambiarCorreo()">
+          Usar otro correo
+        </button>
+      </div>
+    } @else {
+      <!-- Paso 1: pedir el correo de la cuenta -->
+      <app-formulario
+        [campos]="camposCorreo"
+        etiquetaEnviar="Continuar"
+        (enviar)="continuar($event)"
+      />
+    }
+
+    <!-- Enlace de regreso -->
+    <p class="mt-3 mb-0 small">¿Ya verificaste? <a routerLink="/login">Inicia sesión</a></p>
+  </div>
+</section>
