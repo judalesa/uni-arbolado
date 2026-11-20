@@ -70,4 +70,44 @@ public interface InscripcionRepository extends JpaRepository<Inscripcion, Long> 
 	@Query("select i.grupo.id, count(i) from Inscripcion i where i.grupo.id in :grupoIds "
 			+ "and i.estado = co.edu.unbosque.arbolado.model.EstadoInscripcion.CURSANDO group by i.grupo.id")
 	List<Object[]> cursandoPorGrupo(@Param("grupoIds") Collection<Long> grupoIds);
+
+	/**
+	 * Inscripciones de un estudiante en un periodo, con todo lo que muestra el DTO en una sola sentencia.
+	 *
+	 * @param estudianteId estudiante
+	 * @param periodoId    periodo
+	 * @return las inscripciones ordenadas por código de asignatura
+	 */
+	@EntityGraph(attributePaths = {"estudiante", "grupo", "grupo.asignatura", "grupo.periodo", "grupo.profesor",
+			"grupo.horarios"})
+	List<Inscripcion> findByEstudianteIdAndPeriodoIdOrderByAsignaturaCodigoAsc(Long estudianteId, Long periodoId);
+
+	/**
+	 * Todos los intentos de un estudiante, del periodo más reciente al más antiguo.
+	 *
+	 * @param estudianteId estudiante
+	 * @return las inscripciones con su detalle
+	 */
+	@EntityGraph(attributePaths = {"estudiante", "grupo", "grupo.asignatura", "grupo.periodo", "grupo.profesor",
+			"grupo.horarios"})
+	List<Inscripcion> findByEstudianteIdOrderByPeriodoCodigoDescAsignaturaCodigoAsc(Long estudianteId);
+
+	/**
+	 * Inscripciones de un grupo, en cualquier estado, ordenadas por nombre del estudiante.
+	 *
+	 * @param grupoId grupo
+	 * @return las inscripciones con su detalle
+	 */
+	@EntityGraph(attributePaths = {"estudiante", "grupo", "grupo.asignatura", "grupo.periodo", "grupo.profesor",
+			"grupo.horarios"})
+	List<Inscripcion> findByGrupoIdOrderByEstudianteNombreCompletoAsc(Long grupoId);
+
+	/**
+	 * Indica si un estudiante tiene o tuvo alguna inscripción en un grupo de un profesor.
+	 *
+	 * @param estudianteId estudiante
+	 * @param profesorId   profesor
+	 * @return {@code true} si existe al menos una
+	 */
+	boolean existsByEstudianteIdAndGrupoProfesorId(Long estudianteId, Long profesorId);
 }

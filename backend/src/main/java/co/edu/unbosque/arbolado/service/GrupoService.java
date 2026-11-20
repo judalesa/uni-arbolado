@@ -30,7 +30,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -260,6 +262,37 @@ public class GrupoService {
 	@Transactional(readOnly = true)
 	public GrupoDto detalle(Grupo grupo) {
 		return aDto(grupo, cursando(List.of(grupo)).getOrDefault(grupo.getId(), 0L));
+	}
+
+	/**
+	 * Convierte varios grupos ya cargados en DTO con una sola consulta de cupos, para no contar grupo por
+	 * grupo al listar inscripciones.
+	 *
+	 * @param lista grupos con detalle; puede repetir grupos
+	 * @return DTO por identificador de grupo
+	 */
+	@Transactional(readOnly = true)
+	public Map<Long, GrupoDto> detalles(Collection<Grupo> lista) {
+		List<Grupo> unicos = lista.stream().distinct().toList();
+		Map<Long, Long> conteo = cursando(unicos);
+		Map<Long, GrupoDto> resultado = new HashMap<>();
+		for (Grupo grupo : unicos) {
+			resultado.put(grupo.getId(), aDto(grupo, conteo.getOrDefault(grupo.getId(), 0L)));
+		}
+		return resultado;
+	}
+
+	/**
+	 * Grupos de un profesor en el periodo activo, para armar su horario (RF-37).
+	 *
+	 * @param profesorId profesor autenticado
+	 * @return los grupos con horarios; vacío si no hay periodo activo
+	 */
+	@Transactional(readOnly = true)
+	public List<Grupo> delProfesorEnPeriodoActivo(Long profesorId) {
+		return periodos.findByActivoTrue()
+				.map(p -> grupos.findByProfesorIdAndPeriodoIdOrderByAsignaturaCodigoAscNumeroAsc(profesorId, p.getId()))
+				.orElseGet(List::of);
 	}
 
 	/**

@@ -3,7 +3,6 @@ package co.edu.unbosque.arbolado.service;
 import co.edu.unbosque.arbolado.dto.InscripcionDto;
 import co.edu.unbosque.arbolado.dto.InscripcionRequest;
 import co.edu.unbosque.arbolado.dto.Motivo;
-import co.edu.unbosque.arbolado.dto.UsuarioResumenDto;
 import co.edu.unbosque.arbolado.exception.AccesoDenegadoException;
 import co.edu.unbosque.arbolado.exception.CodigoError;
 import co.edu.unbosque.arbolado.exception.CodigoMotivo;
@@ -22,7 +21,6 @@ import co.edu.unbosque.arbolado.repository.GrupoRepository;
 import co.edu.unbosque.arbolado.repository.InscripcionRepository;
 import co.edu.unbosque.arbolado.repository.UsuarioRepository;
 import co.edu.unbosque.arbolado.security.UsuarioAutenticado;
-import org.modelmapper.ModelMapper;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -54,33 +52,28 @@ public class InscripcionService {
 	/** Repositorio de usuarios. */
 	private final UsuarioRepository usuarios;
 
-	/** Servicio de grupos, para devolver el grupo con sus cupos. */
-	private final GrupoService servicioGrupos;
-
 	/** Registro de auditoría. */
 	private final AuditoriaService auditoria;
 
-	/** Conversor de entidades a DTO. */
-	private final ModelMapper mapper;
+	/** Conversor de inscripciones a DTO. */
+	private final InscripcionConversor conversor;
 
 	/**
 	 * Crea el servicio.
 	 *
-	 * @param inscripciones  repositorio de inscripciones
-	 * @param grupos         repositorio de grupos
-	 * @param usuarios       repositorio de usuarios
-	 * @param servicioGrupos servicio de grupos
-	 * @param auditoria      registro de auditoría
-	 * @param mapper         conversor de entidades a DTO
+	 * @param inscripciones repositorio de inscripciones
+	 * @param grupos        repositorio de grupos
+	 * @param usuarios      repositorio de usuarios
+	 * @param auditoria     registro de auditoría
+	 * @param conversor     conversor de inscripciones a DTO
 	 */
 	public InscripcionService(InscripcionRepository inscripciones, GrupoRepository grupos, UsuarioRepository usuarios,
-							  GrupoService servicioGrupos, AuditoriaService auditoria, ModelMapper mapper) {
+							  AuditoriaService auditoria, InscripcionConversor conversor) {
 		this.inscripciones = inscripciones;
 		this.grupos = grupos;
 		this.usuarios = usuarios;
-		this.servicioGrupos = servicioGrupos;
 		this.auditoria = auditoria;
-		this.mapper = mapper;
+		this.conversor = conversor;
 	}
 
 	/**
@@ -119,7 +112,7 @@ public class InscripcionService {
 		}
 		auditoria.registrarExitoso(AccionAuditoria.INSCRIPCION, actor.id(), actor.correo(), ENTIDAD,
 				String.valueOf(nueva.getId()), "Inscrito en " + etiqueta(grupo));
-		return aDto(nueva, estudiante, grupo);
+		return conversor.aDto(nueva);
 	}
 
 	/**
@@ -265,28 +258,6 @@ public class InscripcionService {
 		auditoria.registrarFallido(AccionAuditoria.INSCRIPCION, actor.id(), actor.correo(), ENTIDAD, null,
 				"Rechazada en " + etiqueta(grupo) + ": " + codigos);
 		return new ReglaNegocioException("No se pudo realizar la inscripción", motivos);
-	}
-
-	/**
-	 * Convierte la inscripción en su DTO.
-	 *
-	 * @param inscripcion inscripción creada
-	 * @param estudiante  estudiante
-	 * @param grupo       grupo con detalle
-	 * @return el DTO
-	 */
-	private InscripcionDto aDto(Inscripcion inscripcion, Usuario estudiante, Grupo grupo) {
-		InscripcionDto dto = new InscripcionDto();
-		dto.setId(inscripcion.getId());
-		dto.setEstudiante(mapper.map(estudiante, UsuarioResumenDto.class));
-		dto.setGrupo(servicioGrupos.detalle(grupo));
-		dto.setEstado(inscripcion.getEstado());
-		dto.setNotaCorte1(inscripcion.getNotaCorte1());
-		dto.setNotaCorte2(inscripcion.getNotaCorte2());
-		dto.setNotaCorte3(inscripcion.getNotaCorte3());
-		dto.setNotaDefinitiva(inscripcion.getNotaDefinitiva());
-		dto.setFechaInscripcion(inscripcion.getFechaInscripcion());
-		return dto;
 	}
 
 	/**
