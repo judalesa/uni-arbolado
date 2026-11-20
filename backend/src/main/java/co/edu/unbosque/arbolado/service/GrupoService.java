@@ -38,7 +38,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-/** Grupos y horarios: creación y edición por el administrador y consultas de oferta (RF-21 a RF-25, RN-09 a RN-11). */
+/** Grupos y horarios: creación y edición por el administrador y consultas de oferta. */
 @Service
 public class GrupoService {
 
@@ -85,7 +85,7 @@ public class GrupoService {
 		 * @return {@code true} si comparten algún minuto del mismo día
 		 */
 		boolean seTraslapaCon(final Franja otra) {
-			return dia == otra.dia && inicio.isBefore(otra.fin) && otra.inicio.isBefore(fin);
+			return dia == otra.dia() && inicio.isBefore(otra.fin()) && otra.inicio().isBefore(fin);
 		}
 	}
 
@@ -148,7 +148,7 @@ public class GrupoService {
 
 	/**
 	 * Edita un grupo. Siempre se pueden cambiar profesor, bloque y salón; la asignatura, el periodo y los
-	 * horarios solo mientras no haya inscripciones (decisión A-07). El grupo se bloquea durante la edición
+	 * horarios solo mientras no haya inscripciones. El grupo se bloquea durante la edición
 	 * para que no se inscriba nadie a la vez.
 	 *
 	 * @param id        grupo a editar
@@ -227,7 +227,7 @@ public class GrupoService {
 	}
 
 	/**
-	 * Oferta del periodo activo con los cupos disponibles de cada grupo (RF-24).
+	 * Oferta del periodo activo con los cupos disponibles de cada grupo.
 	 *
 	 * @return los grupos del periodo activo; vacío si no hay periodo activo
 	 */
@@ -239,7 +239,7 @@ public class GrupoService {
 	}
 
 	/**
-	 * Grupos de los que es responsable un profesor (RF-25). El profesor sale del token, no de un parámetro.
+	 * Grupos de los que es responsable un profesor. El profesor sale del token, no de un parámetro.
 	 *
 	 * @param profesorId profesor autenticado
 	 * @param periodoId  periodo a filtrar, o {@code null} para todos
@@ -283,7 +283,7 @@ public class GrupoService {
 	}
 
 	/**
-	 * Grupos de un profesor en el periodo activo, para armar su horario (RF-37).
+	 * Grupos de un profesor en el periodo activo, para armar su horario.
 	 *
 	 * @param profesorId profesor autenticado
 	 * @return los grupos con horarios; vacío si no hay periodo activo
@@ -314,7 +314,7 @@ public class GrupoService {
 
 	/**
 	 * Convierte los horarios recibidos en franjas y valida que cada una termine después de empezar y que no
-	 * se pisen entre sí (RN-10).
+	 * se pisen entre sí.
 	 *
 	 * @param recibidos horarios del cuerpo de la petición
 	 * @param accion    acción que se audita si se rechaza
