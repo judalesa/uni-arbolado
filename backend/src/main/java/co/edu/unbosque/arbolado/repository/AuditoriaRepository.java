@@ -1,8 +1,15 @@
 package co.edu.unbosque.arbolado.repository;
 
+import co.edu.unbosque.arbolado.model.AccionAuditoria;
 import co.edu.unbosque.arbolado.model.Auditoria;
+import co.edu.unbosque.arbolado.model.Resultado;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;
+import org.springframework.data.repository.query.Param;
 
+import java.time.Instant;
 import java.util.Optional;
 
 /**
@@ -26,6 +33,25 @@ public interface AuditoriaRepository extends Repository<Auditoria, Long> {
 	 * @return el registro, si existe
 	 */
 	Optional<Auditoria> findById(Long id);
+
+	/**
+	 * Busca registros con filtros opcionales; un filtro nulo no restringe. Se usa una consulta propia y no
+	 * {@code JpaSpecificationExecutor} porque esa interfaz trae un método para borrar.
+	 *
+	 * @param usuarioId usuario que originó el evento
+	 * @param accion    evento
+	 * @param resultado exitoso o fallido
+	 * @param desde     instante inicial, inclusive
+	 * @param hasta     instante final, inclusive
+	 * @param paginado  página y orden
+	 * @return la página de registros
+	 */
+	@Query("select a from Auditoria a where (:usuarioId is null or a.usuarioId = :usuarioId) "
+			+ "and (:accion is null or a.accion = :accion) and (:resultado is null or a.resultado = :resultado) "
+			+ "and (:desde is null or a.fechaHora >= :desde) and (:hasta is null or a.fechaHora <= :hasta)")
+	Page<Auditoria> buscar(@Param("usuarioId") Long usuarioId, @Param("accion") AccionAuditoria accion,
+						   @Param("resultado") Resultado resultado, @Param("desde") Instant desde,
+						   @Param("hasta") Instant hasta, Pageable paginado);
 
 	/**
 	 * Cuenta los registros guardados.
