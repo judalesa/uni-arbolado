@@ -77,7 +77,7 @@ export class LoginComponent {
     this.auth.login({ correo, contrasena: String(valores['contrasena']) }).subscribe({
       next: (respuesta) => {
         this.sesion.iniciar(respuesta);
-        void this.router.navigateByUrl(rutaInicial(respuesta.usuario.rol));
+        this.router.navigateByUrl(rutaInicial(respuesta.usuario.rol));
       },
       error: (error: unknown) => this.alFallar(error, correo),
     });
@@ -96,7 +96,7 @@ export class LoginComponent {
       this.avisos.advertencia(
         'Tu cuenta aún no está verificada. Ingresa el código que te enviamos.',
       );
-      void this.router.navigateByUrl('/verificar');
+      this.router.navigateByUrl('/verificar');
       return;
     }
     this.errores.set(mensajesDe(error));

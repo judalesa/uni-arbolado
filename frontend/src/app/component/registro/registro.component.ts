@@ -108,7 +108,7 @@ export class RegistroComponent {
         next: (respuesta) => {
           this.auth.correoPendiente.set(correo);
           this.avisos.exito(respuesta.mensaje);
-          void this.router.navigateByUrl('/verificar');
+          this.router.navigateByUrl('/verificar');
         },
         error: (error: unknown) => this.alFallar(error),
       });

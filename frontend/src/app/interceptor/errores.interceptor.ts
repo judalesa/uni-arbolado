@@ -29,9 +29,9 @@ export const erroresInterceptor: HttpInterceptorFn = (peticion, siguiente) => {
         if (error.status === 401 && codigo !== 'CREDENCIALES_INVALIDAS') {
           sesion.cerrar();
           avisos.advertencia('Tu sesión terminó. Inicia sesión de nuevo.');
-          void router.navigateByUrl('/login');
+          router.navigateByUrl('/login');
         } else if (error.status === 403 && codigo === 'ACCESO_DENEGADO') {
-          void router.navigateByUrl('/403');
+          router.navigateByUrl('/403');
         } else if (error.status === 0) {
           avisos.error('No hay conexión con el servidor. Revisa tu red e inténtalo de nuevo.');
         } else if (error.status >= 500) {

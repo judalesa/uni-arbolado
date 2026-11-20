@@ -116,7 +116,7 @@ export class VerificarComponent {
         next: (respuesta) => {
           this.auth.correoPendiente.set(null);
           this.avisos.exito(respuesta.mensaje);
-          void this.router.navigateByUrl('/login');
+          this.router.navigateByUrl('/login');
         },
         error: (error: unknown) => {
           this.enviando.set(false);

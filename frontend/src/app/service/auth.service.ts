@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable, catchError, finalize, of } from 'rxjs';
+import { EMPTY, Observable, catchError, finalize } from 'rxjs';
 
 import { environment } from '../../environments/environment';
 import {
@@ -81,12 +81,12 @@ export class AuthService {
    */
   salir(): void {
     this.http
-      .post<void>(`${this.base}/logout`, null)
+      .post(`${this.base}/logout`, null)
       .pipe(
-        catchError(() => of(undefined)),
+        catchError(() => EMPTY),
         finalize(() => {
           this.sesion.cerrar();
-          void this.router.navigateByUrl('/login');
+          this.router.navigateByUrl('/login');
         }),
       )
       .subscribe();

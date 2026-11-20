@@ -6,19 +6,25 @@ import { ErrorResponse } from '../model/error.model';
 export const MENSAJE_GENERICO = 'No se pudo completar la operación. Inténtalo de nuevo.';
 
 /**
+ * Indica si un valor tiene la forma de `ErrorResponse`: un objeto con `codigo` y `mensaje` de texto.
+ *
+ * @param valor cuerpo de la respuesta
+ * @return {@code true} si es un error de la API
+ */
+const esCuerpoDeApi = (valor: unknown): valor is ErrorResponse => {
+  const cuerpo = valor as Partial<ErrorResponse> | null;
+  return typeof cuerpo?.codigo === 'string' && typeof cuerpo.mensaje === 'string';
+};
+
+/**
  * Extrae el `ErrorResponse` del contrato de un error HTTP.
  *
  * @param error error capturado
  * @return el cuerpo del error, o `null` si no es una respuesta de la API (por ejemplo sin conexión)
  */
 export const leerError = (error: unknown): ErrorResponse | null => {
-  if (error instanceof HttpErrorResponse && error.error && typeof error.error === 'object') {
-    const cuerpo = error.error as Partial<ErrorResponse>;
-    if (typeof cuerpo.codigo === 'string' && typeof cuerpo.mensaje === 'string') {
-      return cuerpo as ErrorResponse;
-    }
-  }
-  return null;
+  const cuerpo = error instanceof HttpErrorResponse ? error.error : null;
+  return esCuerpoDeApi(cuerpo) ? cuerpo : null;
 };
 
 /**
