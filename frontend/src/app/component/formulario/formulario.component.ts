@@ -3,6 +3,7 @@ import {
   FormControl,
   FormGroup,
   ReactiveFormsModule,
+  ValidationErrors,
   ValidatorFn,
   Validators,
 } from '@angular/forms';
@@ -54,6 +55,47 @@ export interface CampoFormulario {
 
 /** Valores del formulario, por nombre de campo. */
 export type ValoresFormulario = Record<string, string | number | null>;
+
+/** Validaciones posibles de un campo; cada una devuelve `null` si el campo no la pide. */
+const REGLAS: ((campo: CampoFormulario) => ValidatorFn | null)[] = [
+  (campo) => (campo.requerido ? Validators.required : null),
+  (campo) => (campo.tipo === 'email' ? Validators.email : null),
+  (campo) => (campo.minimo === undefined ? null : Validators.minLength(campo.minimo)),
+  (campo) => (campo.maximo === undefined ? null : Validators.maxLength(campo.maximo)),
+  (campo) => (campo.patron ? Validators.pattern(campo.patron) : null),
+  (campo) => (campo.valorMinimo === undefined ? null : Validators.min(campo.valorMinimo)),
+  (campo) => (campo.valorMaximo === undefined ? null : Validators.max(campo.valorMaximo)),
+];
+
+/** Mensaje de cada error de validación de Angular, en el orden en que se revisan. */
+const MENSAJES: { error: string; texto: (campo: CampoFormulario) => string }[] = [
+  { error: 'required', texto: () => 'Este campo es obligatorio.' },
+  { error: 'email', texto: () => 'Escribe un correo válido.' },
+  { error: 'minlength', texto: (campo) => `Debe tener al menos ${campo.minimo} caracteres.` },
+  { error: 'maxlength', texto: (campo) => `No puede tener más de ${campo.maximo} caracteres.` },
+  { error: 'pattern', texto: (campo) => campo.mensajePatron ?? 'El formato no es válido.' },
+  { error: 'min', texto: (campo) => `El valor mínimo es ${campo.valorMinimo}.` },
+  { error: 'max', texto: (campo) => `El valor máximo es ${campo.valorMaximo}.` },
+];
+
+/**
+ * Validadores de Angular que pide la definición de un campo.
+ *
+ * @param campo definición del campo
+ * @return validadores del campo
+ */
+const validadoresDe = (campo: CampoFormulario): ValidatorFn[] =>
+  REGLAS.map((regla) => regla(campo)).filter((v): v is ValidatorFn => v !== null);
+
+/**
+ * Mensaje del primer error de validación local de un campo.
+ *
+ * @param campo definición del campo
+ * @param errores errores del control
+ * @return mensaje para el usuario
+ */
+const mensajeLocal = (campo: CampoFormulario, errores: ValidationErrors): string =>
+  MENSAJES.find((mensaje) => errores[mensaje.error])?.texto(campo) ?? 'El valor no es válido.';
 
 /**
  * Formulario genérico: se declara con una lista de campos y se encarga de validar, mostrar los errores
@@ -111,32 +153,10 @@ export class FormularioComponent {
       return delServidor;
     }
     const control = this.grupo().controls[campo.nombre];
-    if (!control || !control.touched || !control.errors) {
+    if (!control?.touched || !control.errors) {
       return '';
     }
-    const errores = control.errors;
-    if (errores['required']) {
-      return 'Este campo es obligatorio.';
-    }
-    if (errores['email']) {
-      return 'Escribe un correo válido.';
-    }
-    if (errores['minlength']) {
-      return `Debe tener al menos ${campo.minimo} caracteres.`;
-    }
-    if (errores['maxlength']) {
-      return `No puede tener más de ${campo.maximo} caracteres.`;
-    }
-    if (errores['pattern']) {
-      return campo.mensajePatron ?? 'El formato no es válido.';
-    }
-    if (errores['min']) {
-      return `El valor mínimo es ${campo.valorMinimo}.`;
-    }
-    if (errores['max']) {
-      return `El valor máximo es ${campo.valorMaximo}.`;
-    }
-    return 'El valor no es válido.';
+    return mensajeLocal(campo, control.errors);
   }
 
   /**
@@ -170,42 +190,10 @@ export class FormularioComponent {
       controles[campo.nombre] = new FormControl<string | number | null>(
         valores[campo.nombre] ?? vacio,
         {
-          validators: this.validadores(campo),
+          validators: validadoresDe(campo),
         },
       );
     }
     return new FormGroup(controles);
-  }
-
-  /**
-   * Arma los validadores de un campo a partir de su definición.
-   *
-   * @param campo definición del campo
-   * @return validadores de Angular
-   */
-  private validadores(campo: CampoFormulario): ValidatorFn[] {
-    const lista: ValidatorFn[] = [];
-    if (campo.requerido) {
-      lista.push(Validators.required);
-    }
-    if (campo.tipo === 'email') {
-      lista.push(Validators.email);
-    }
-    if (campo.minimo !== undefined) {
-      lista.push(Validators.minLength(campo.minimo));
-    }
-    if (campo.maximo !== undefined) {
-      lista.push(Validators.maxLength(campo.maximo));
-    }
-    if (campo.patron) {
-      lista.push(Validators.pattern(campo.patron));
-    }
-    if (campo.valorMinimo !== undefined) {
-      lista.push(Validators.min(campo.valorMinimo));
-    }
-    if (campo.valorMaximo !== undefined) {
-      lista.push(Validators.max(campo.valorMaximo));
-    }
-    return lista;
   }
 }

@@ -9,9 +9,8 @@ import { MENSAJE_GENERICO, erroresPorCampo, mensajesDe } from './errores.util';
  * @param status código HTTP
  * @return error HTTP
  */
-function http(cuerpo: unknown, status = 400): HttpErrorResponse {
-  return new HttpErrorResponse({ error: cuerpo, status });
-}
+const http = (cuerpo: unknown, status = 400): HttpErrorResponse =>
+  new HttpErrorResponse({ error: cuerpo, status });
 
 /** Cuerpo base de un error del contrato. */
 const BASE = {

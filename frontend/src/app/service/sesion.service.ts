@@ -17,13 +17,44 @@ interface Sesion {
 }
 
 /**
+ * Lee la sesión guardada, tolerando almacenamiento bloqueado o contenido dañado.
+ *
+ * @return la sesión guardada, o `null`
+ */
+const leerSesionGuardada = (): Sesion | null => {
+  try {
+    const texto = sessionStorage.getItem(CLAVE_SESION);
+    return texto === null ? null : (JSON.parse(texto) as Sesion);
+  } catch {
+    return null;
+  }
+};
+
+/**
+ * Guarda o borra la sesión en `sessionStorage`; si el navegador lo impide, la sesión sigue en memoria.
+ *
+ * @param sesion sesión a guardar, o `null` para borrar
+ */
+const guardarSesion = (sesion: Sesion | null): void => {
+  try {
+    if (sesion === null) {
+      sessionStorage.removeItem(CLAVE_SESION);
+    } else {
+      sessionStorage.setItem(CLAVE_SESION, JSON.stringify(sesion));
+    }
+  } catch {
+    /* Sin almacenamiento: la sesión queda solo en memoria. */
+  }
+};
+
+/**
  * Guarda quién inició sesión. Usa `sessionStorage` y no `localStorage`: la sesión muere al cerrar la
  * pestaña, lo que reduce el tiempo que un token queda expuesto en un equipo compartido.
  */
 @Injectable({ providedIn: 'root' })
 export class SesionService {
   /** Sesión actual; `null` si no hay. */
-  private readonly sesion = signal<Sesion | null>(this.leer());
+  private readonly sesion = signal<Sesion | null>(leerSesionGuardada());
 
   /** Usuario autenticado, o `null`. */
   readonly usuario = computed(() => this.sesion()?.usuario ?? null);
@@ -43,13 +74,13 @@ export class SesionService {
       usuario: respuesta.usuario,
     };
     this.sesion.set(sesion);
-    this.escribir(sesion);
+    guardarSesion(sesion);
   }
 
   /** Borra la sesión local; el cierre en el servidor lo hace el servicio de autenticación. */
   cerrar(): void {
     this.sesion.set(null);
-    this.escribir(null);
+    guardarSesion(null);
   }
 
   /**
@@ -77,36 +108,5 @@ export class SesionService {
       return false;
     }
     return true;
-  }
-
-  /**
-   * Lee la sesión guardada, tolerando almacenamiento bloqueado o contenido dañado.
-   *
-   * @return la sesión guardada, o `null`
-   */
-  private leer(): Sesion | null {
-    try {
-      const texto = sessionStorage.getItem(CLAVE_SESION);
-      return texto === null ? null : (JSON.parse(texto) as Sesion);
-    } catch {
-      return null;
-    }
-  }
-
-  /**
-   * Guarda o borra la sesión en `sessionStorage`; si el navegador lo impide, la sesión sigue en memoria.
-   *
-   * @param sesion sesión a guardar, o `null` para borrar
-   */
-  private escribir(sesion: Sesion | null): void {
-    try {
-      if (sesion === null) {
-        sessionStorage.removeItem(CLAVE_SESION);
-      } else {
-        sessionStorage.setItem(CLAVE_SESION, JSON.stringify(sesion));
-      }
-    } catch {
-      /* Sin almacenamiento: la sesión queda solo en memoria. */
-    }
   }
 }
