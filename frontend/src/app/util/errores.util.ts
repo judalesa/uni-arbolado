@@ -38,7 +38,7 @@ const textosDe = (lista: { mensaje: string }[] | undefined): string[] =>
 
 /**
  * Convierte un error en la lista de mensajes que ve el usuario. Un 422 trae todos los motivos y se
- * muestran juntos (RN-22); un 400 trae un detalle por campo; el resto, el mensaje del servidor.
+ * muestran juntos; un 400 trae un detalle por campo; el resto, el mensaje del servidor.
  *
  * @param error error capturado
  * @return mensajes en español, al menos uno

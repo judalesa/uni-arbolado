@@ -11,7 +11,7 @@ import {
   ValoresFormulario,
 } from '../formulario/formulario.component';
 
-/** Segundos entre un reenvío de código y el siguiente (propuesta P-02 del contrato). */
+/** Segundos entre un reenvío de código y el siguiente. */
 export const ESPERA_REENVIO = 60;
 
 /** Pantalla para ingresar el código de verificación y pedir uno nuevo (`/verificar`). */

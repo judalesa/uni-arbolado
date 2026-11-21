@@ -100,7 +100,7 @@ describe('VerificarComponent', () => {
     expect(navegar).not.toHaveBeenCalled();
   });
 
-  /** Tras reenviar, el botón queda bloqueado 60 s con cuenta regresiva (propuesta P-02). */
+  /** Tras reenviar, el botón queda bloqueado 60 s con cuenta regresiva. */
   it('reenvía el código y bloquea el botón durante 60 segundos', async () => {
     const fixture = await dibujar('ana@example.com');
     const html = fixture.nativeElement as HTMLElement;

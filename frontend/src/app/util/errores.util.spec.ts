@@ -24,7 +24,7 @@ const BASE = {
 
 /** Pruebas de los ayudantes que interpretan errores de la API. */
 describe('errores', () => {
-  /** Un 422 muestra todos los motivos juntos (RN-22). */
+  /** Un 422 muestra todos los motivos juntos. */
   it('lista todos los motivos de un 422', () => {
     const error = http({
       ...BASE,
