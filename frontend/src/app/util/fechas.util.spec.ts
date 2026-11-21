@@ -9,7 +9,7 @@ describe('fechas.util', () => {
 
   /** Sin fecha o con un formato desconocido no se muestra nada. */
   it('devuelve vacío sin fecha válida', () => {
-    expect(formatearFecha(undefined)).toBe('');
+    expect(formatearFecha(null)).toBe('');
     expect(formatearFecha('19-01-2026')).toBe('');
   });
 

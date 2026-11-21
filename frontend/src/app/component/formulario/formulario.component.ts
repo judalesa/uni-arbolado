@@ -98,6 +98,28 @@ const mensajeLocal = (campo: CampoFormulario, errores: ValidationErrors): string
   MENSAJES.find((mensaje) => errores[mensaje.error])?.texto(campo) ?? 'El valor no es válido.';
 
 /**
+ * Construye el grupo de controles con sus validaciones.
+ *
+ * @param campos definiciones de los campos
+ * @param valores valores iniciales
+ * @return grupo listo para enlazar a la plantilla
+ */
+const crearGrupo = (
+  campos: CampoFormulario[],
+  valores: ValoresFormulario,
+): FormGroup<Record<string, FormControl<string | number | null>>> => {
+  const controles: Record<string, FormControl<string | number | null>> = {};
+  for (const campo of campos) {
+    const vacio = campo.tipo === 'number' ? null : '';
+    controles[campo.nombre] = new FormControl<string | number | null>(
+      valores[campo.nombre] ?? vacio,
+      { validators: validadoresDe(campo) },
+    );
+  }
+  return new FormGroup(controles);
+};
+
+/**
  * Formulario genérico: se declara con una lista de campos y se encarga de validar, mostrar los errores
  * (los locales y los que devuelve el backend por campo) y emitir los valores. Evita repetir el mismo
  * formulario en cada pantalla de registro, creación o edición.
@@ -130,7 +152,7 @@ export class FormularioComponent {
   readonly enviar = output<ValoresFormulario>();
 
   /** Grupo de controles; se rehace si cambian los campos o los valores iniciales. */
-  protected readonly grupo = computed(() => this.crearGrupo(this.campos(), this.valores()));
+  protected readonly grupo = computed(() => crearGrupo(this.campos(), this.valores()));
 
   /** Valida y, si todo está bien, emite los valores. */
   protected alEnviar(): void {
@@ -171,29 +193,5 @@ export class FormularioComponent {
       return { texto: mensaje, clase: 'invalid-feedback d-block' };
     }
     return campo.ayuda ? { texto: campo.ayuda, clase: 'form-text' } : null;
-  }
-
-  /**
-   * Construye el grupo de controles con sus validaciones.
-   *
-   * @param campos definiciones de los campos
-   * @param valores valores iniciales
-   * @return grupo listo para enlazar a la plantilla
-   */
-  private crearGrupo(
-    campos: CampoFormulario[],
-    valores: ValoresFormulario,
-  ): FormGroup<Record<string, FormControl<string | number | null>>> {
-    const controles: Record<string, FormControl<string | number | null>> = {};
-    for (const campo of campos) {
-      const vacio = campo.tipo === 'number' ? null : '';
-      controles[campo.nombre] = new FormControl<string | number | null>(
-        valores[campo.nombre] ?? vacio,
-        {
-          validators: validadoresDe(campo),
-        },
-      );
-    }
-    return new FormGroup(controles);
   }
 }

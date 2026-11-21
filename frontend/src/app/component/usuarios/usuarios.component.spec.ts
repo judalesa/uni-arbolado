@@ -49,7 +49,7 @@ describe('UsuariosComponent', () => {
    *
    * @param rol rol que indica la ruta
    */
-  async function abrir(rol: 'ESTUDIANTE' | 'PROFESOR'): Promise<void> {
+  function abrir(rol: 'ESTUDIANTE' | 'PROFESOR'): void {
     TestBed.configureTestingModule({
       imports: [UsuariosComponent],
       providers: [
@@ -84,7 +84,7 @@ describe('UsuariosComponent', () => {
 
   /** Estudiantes: lista su ruta y no ofrece creación. */
   it('lista estudiantes sin opción de crear', async () => {
-    await abrir('ESTUDIANTE');
+    abrir('ESTUDIANTE');
     backend.expectOne((r) => r.url.endsWith('/api/admin/estudiantes')).flush(paginaDe());
     await fixture.whenStable();
 
@@ -94,13 +94,16 @@ describe('UsuariosComponent', () => {
 
   /** La búsqueda vuelve a la primera página y se conserva al paginar. */
   it('busca y pagina con el mismo texto', async () => {
-    await abrir('PROFESOR');
+    abrir('PROFESOR');
     backend.expectOne((r) => r.url.endsWith('/api/admin/profesores')).flush(paginaDe(3));
     await fixture.whenStable();
 
     const caja = html.querySelector<HTMLInputElement>('input[type=search]');
-    caja!.value = 'rojas';
-    caja!.dispatchEvent(new Event('input'));
+    if (!caja) {
+      throw new Error('No existe la caja de búsqueda');
+    }
+    caja.value = 'rojas';
+    caja.dispatchEvent(new Event('input'));
     html.querySelector<HTMLFormElement>('form[role=search]')?.dispatchEvent(new Event('submit'));
     const busqueda = backend.expectOne((r) => r.params.get('q') === 'rojas');
     expect(busqueda.request.params.get('pagina')).toBe('0');
@@ -115,7 +118,7 @@ describe('UsuariosComponent', () => {
 
   /** Crear un profesor envía el cuerpo del contrato y recarga el listado. */
   it('crea un profesor', async () => {
-    await abrir('PROFESOR');
+    abrir('PROFESOR');
     backend.expectOne((r) => r.url.endsWith('/api/admin/profesores')).flush(paginaDe());
     await fixture.whenStable();
 
@@ -142,7 +145,7 @@ describe('UsuariosComponent', () => {
 
   /** Un correo repetido se marca en su campo. */
   it('marca el correo duplicado', async () => {
-    await abrir('PROFESOR');
+    abrir('PROFESOR');
     backend.expectOne((r) => r.url.endsWith('/api/admin/profesores')).flush(paginaDe());
     await fixture.whenStable();
 
