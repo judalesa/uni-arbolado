@@ -15,3 +15,6 @@ name = "javascript"
 
 [[analyzers]]
 name = "secrets"
+
+[[analyzers]]
+name = "css"

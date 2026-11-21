@@ -1,0 +1,78 @@
+<!-- Encabezado con el botón para crear -->
+<div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+  <h1 class="h4 mb-0">
+    <i class="fa-solid fa-calendar-days me-2" aria-hidden="true"></i>Periodos académicos
+  </h1>
+  @if (edicion() === null) {
+    <button type="button" class="btn btn-success" (click)="nuevo()">
+      <i class="fa-solid fa-plus me-1" aria-hidden="true"></i>Nuevo periodo
+    </button>
+  }
+</div>
+
+<!-- Errores generales -->
+<app-alerta-errores [mensajes]="errores()" />
+
+<!-- Formulario de creación o modificación -->
+@if (edicion() !== null) {
+  <section class="card shadow-sm mb-4">
+    <div class="card-body">
+      <h2 class="h5 mb-3">{{ tituloFormulario() }}</h2>
+      <app-formulario
+        [campos]="campos"
+        [valores]="valoresIniciales()"
+        [enviando]="enviando()"
+        [erroresServidor]="erroresCampo()"
+        (enviar)="guardar($event)"
+      >
+        <button type="button" class="btn btn-outline-secondary me-2" (click)="cancelar()">
+          Cancelar
+        </button>
+      </app-formulario>
+    </div>
+  </section>
+}
+
+<!-- Listado -->
+<section class="card shadow-sm">
+  <div class="card-body">
+    <app-tabla
+      [columnas]="columnas"
+      [filas]="periodos()"
+      [cargando]="cargando()"
+      vacio="Aún no hay periodos. Crea el primero."
+    >
+      <ng-template #acciones let-periodo>
+        <button
+          type="button"
+          class="btn btn-outline-secondary btn-sm me-1"
+          (click)="editar(periodo)"
+        >
+          <i class="fa-solid fa-pen me-1" aria-hidden="true"></i>Modificar
+        </button>
+        @if (periodo.activo) {
+          <span class="badge text-bg-success align-middle">Activo</span>
+        } @else {
+          <button
+            type="button"
+            class="btn btn-outline-success btn-sm"
+            (click)="pedirActivar(periodo)"
+          >
+            <i class="fa-solid fa-power-off me-1" aria-hidden="true"></i>Activar
+          </button>
+        }
+      </ng-template>
+    </app-tabla>
+  </div>
+</section>
+
+<!-- Confirmación de activación -->
+<app-confirmacion
+  [abierto]="porActivar() !== null"
+  titulo="Activar periodo"
+  [mensaje]="mensajeActivar()"
+  textoConfirmar="Activar"
+  [procesando]="activando()"
+  (confirmar)="activar()"
+  (cancelar)="porActivar.set(null)"
+/>

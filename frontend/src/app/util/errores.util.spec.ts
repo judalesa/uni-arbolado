@@ -9,9 +9,8 @@ import { MENSAJE_GENERICO, erroresPorCampo, mensajesDe } from './errores.util';
  * @param status código HTTP
  * @return error HTTP
  */
-function http(cuerpo: unknown, status = 400): HttpErrorResponse {
-  return new HttpErrorResponse({ error: cuerpo, status });
-}
+const http = (cuerpo: unknown, status = 400): HttpErrorResponse =>
+  new HttpErrorResponse({ error: cuerpo, status });
 
 /** Cuerpo base de un error del contrato. */
 const BASE = {
@@ -24,7 +23,7 @@ const BASE = {
 
 /** Pruebas de los ayudantes que interpretan errores de la API. */
 describe('errores', () => {
-  /** Un 422 muestra todos los motivos juntos (RN-22). */
+  /** Un 422 muestra todos los motivos juntos. */
   it('lista todos los motivos de un 422', () => {
     const error = http({
       ...BASE,

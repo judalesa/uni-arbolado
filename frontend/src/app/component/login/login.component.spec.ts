@@ -79,7 +79,7 @@ describe('LoginComponent', () => {
     expect(navegar).not.toHaveBeenCalled();
   });
 
-  /** Una cuenta pendiente se lleva a verificar con su correo recordado en memoria (RF-07). */
+  /** Una cuenta pendiente se lleva a verificar con su correo recordado en memoria. */
   it('lleva a verificar si la cuenta está pendiente', () => {
     ingresar();
     backend

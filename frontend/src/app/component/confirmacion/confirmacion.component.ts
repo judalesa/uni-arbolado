@@ -2,7 +2,7 @@ import { Component, input, output } from '@angular/core';
 
 /**
  * Cuadro de confirmación con el modal de Bootstrap. Se usa donde la acción no se puede deshacer:
- * la inscripción (RN-23) y el registro de una nota (D-20). El contenido adicional va dentro de la etiqueta.
+ * la inscripción y el registro de una nota. El contenido adicional va dentro de la etiqueta.
  */
 @Component({
   /** Etiqueta del componente. */

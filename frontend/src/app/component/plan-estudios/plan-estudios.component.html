@@ -1,0 +1,33 @@
+<!-- Encabezado con los totales del plan -->
+<div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+  <h1 class="h4 mb-0">
+    <i class="fa-solid fa-list-check me-2" aria-hidden="true"></i>Plan de estudios
+  </h1>
+  @if (!cargando()) {
+    <span class="text-muted small">
+      {{ resumen().asignaturas }} asignaturas · {{ resumen().creditos }} créditos · solo lectura
+    </span>
+  }
+</div>
+
+<!-- Errores -->
+<app-alerta-errores [mensajes]="errores()" />
+
+<!-- Un bloque por semestre -->
+@if (cargando()) {
+  <div class="text-center py-5">
+    <span class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span>Cargando…
+  </div>
+} @else {
+  @for (semestre of semestres(); track semestre.numero) {
+    <section class="card shadow-sm mb-3">
+      <div class="card-header d-flex justify-content-between">
+        <h2 class="h6 mb-0">Semestre {{ semestre.numero }}</h2>
+        <span class="small text-muted">{{ semestre.creditos }} créditos</span>
+      </div>
+      <div class="card-body p-0">
+        <app-tabla [columnas]="columnas" [filas]="semestre.asignaturas" />
+      </div>
+    </section>
+  }
+}

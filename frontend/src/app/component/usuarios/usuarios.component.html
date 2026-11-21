@@ -1,0 +1,70 @@
+<!-- Encabezado; en profesores incluye el botón para crear -->
+<div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+  <h1 class="h4 mb-0">
+    <i class="fa-solid {{ textos.icono }} me-2" aria-hidden="true"></i>{{ textos.titulo }}
+  </h1>
+  @if (permiteCrear && !creando()) {
+    <button type="button" class="btn btn-success" (click)="alternarCreacion()">
+      <i class="fa-solid fa-plus me-1" aria-hidden="true"></i>Nuevo profesor
+    </button>
+  }
+</div>
+
+<!-- Errores generales -->
+<app-alerta-errores [mensajes]="errores()" />
+
+<!-- Formulario de creación de profesor -->
+@if (creando()) {
+  <section class="card shadow-sm mb-4">
+    <div class="card-body">
+      <h2 class="h5 mb-3">Nuevo profesor</h2>
+      <app-formulario
+        [campos]="campos"
+        [valores]="valoresIniciales()"
+        etiquetaEnviar="Crear profesor"
+        [enviando]="enviando()"
+        [erroresServidor]="erroresCampo()"
+        (enviar)="crear($event)"
+      >
+        <button type="button" class="btn btn-outline-secondary me-2" (click)="alternarCreacion()">
+          Cancelar
+        </button>
+      </app-formulario>
+    </div>
+  </section>
+}
+
+<!-- Búsqueda y listado -->
+<section class="card shadow-sm">
+  <div class="card-body">
+    <form class="row g-2 mb-3" role="search" (ngSubmit)="buscar()">
+      <div class="col-sm">
+        <input
+          class="form-control"
+          type="search"
+          name="busqueda"
+          placeholder="Buscar por nombre, documento o correo"
+          aria-label="Buscar"
+          [(ngModel)]="busqueda"
+        />
+      </div>
+      <div class="col-sm-auto">
+        <button type="submit" class="btn btn-outline-success me-2">
+          <i class="fa-solid fa-magnifying-glass me-1" aria-hidden="true"></i>Buscar
+        </button>
+        <button type="button" class="btn btn-outline-secondary" (click)="limpiarBusqueda()">
+          Limpiar
+        </button>
+      </div>
+    </form>
+
+    <app-tabla
+      [columnas]="columnas"
+      [filas]="usuarios()"
+      [cargando]="cargando()"
+      [vacio]="textos.vacio"
+      [paginacion]="paginacion()"
+      (cambioPagina)="cargar($event)"
+    />
+  </div>
+</section>

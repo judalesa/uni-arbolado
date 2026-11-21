@@ -84,7 +84,7 @@ export class LoginComponent {
   }
 
   /**
-   * Una cuenta pendiente se lleva a verificar (RF-07); el resto de errores se muestran en la pantalla.
+   * Una cuenta pendiente se lleva a verificar; el resto de errores se muestran en la pantalla.
    *
    * @param error error recibido
    * @param correo correo con el que se intentó entrar

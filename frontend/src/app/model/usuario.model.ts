@@ -22,6 +22,18 @@ export interface UsuarioDto {
   fechaCreacion?: string;
 }
 
+/** Cuerpo de `POST /api/admin/profesores` (`CrearProfesorRequest`). */
+export interface CrearProfesorRequest {
+  /** Documento de 10 dígitos. */
+  documento: string;
+  /** Nombre completo. */
+  nombreCompleto: string;
+  /** Correo electrónico. */
+  correo: string;
+  /** Contraseña inicial definida por el administrador. */
+  contrasena: string;
+}
+
 /** Datos mínimos de un usuario dentro de otro objeto (`UsuarioResumen`). */
 export interface UsuarioResumen {
   /** Identificador. */
