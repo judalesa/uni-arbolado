@@ -84,7 +84,7 @@ public class GrupoService {
 		 * @param otra la otra franja
 		 * @return {@code true} si comparten algún minuto del mismo día
 		 */
-		boolean seTraslapaCon(final Franja otra) {
+		boolean seTraslapaCon(Franja otra) {
 			return dia == otra.dia() && inicio.isBefore(otra.fin()) && otra.inicio().isBefore(fin);
 		}
 	}
