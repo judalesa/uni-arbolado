@@ -1,7 +1,7 @@
 import { provideHttpClient } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { provideRouter } from '@angular/router';
+import { ActivatedRoute, provideRouter } from '@angular/router';
 
 import { environment } from '../../../environments/environment';
 import { HorarioComponent } from './horario.component';
@@ -57,5 +57,25 @@ describe('HorarioComponent', () => {
     backend.expectOne(`${environment.apiUrl}/api/estudiante/horario`).flush([]);
     await fixture.whenStable();
     expect((fixture.nativeElement as HTMLElement).textContent).toContain('No tienes clases');
+  });
+});
+
+/** Pruebas del horario abierto desde la ruta del profesor. */
+describe('HorarioComponent del profesor', () => {
+  /** Con `data.rol` de profesor consulta el horario del profesor. */
+  it('consulta el horario del profesor', () => {
+    TestBed.configureTestingModule({
+      imports: [HorarioComponent],
+      providers: [
+        provideRouter([]),
+        provideHttpClient(),
+        provideHttpClientTesting(),
+        { provide: ActivatedRoute, useValue: { snapshot: { data: { rol: 'PROFESOR' } } } },
+      ],
+    });
+    const backend = TestBed.inject(HttpTestingController);
+    TestBed.createComponent(HorarioComponent).detectChanges();
+    backend.expectOne(`${environment.apiUrl}/api/profesor/horario`).flush([]);
+    backend.verify();
   });
 });

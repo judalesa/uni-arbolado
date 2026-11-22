@@ -1,7 +1,7 @@
 import { provideHttpClient } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { provideRouter } from '@angular/router';
+import { ActivatedRoute, convertToParamMap, provideRouter } from '@angular/router';
 
 import { environment } from '../../../environments/environment';
 import { HistorialPeriodoDto } from '../../model/consulta.model';
@@ -24,7 +24,10 @@ const HISTORIAL: HistorialPeriodoDto[] = [
       },
     ],
   },
-  { periodo: PERIODOS_PRUEBA[1], inscripciones: [{ id: 2, grupo: grupoDePrueba(), estado: 'CURSANDO' }] },
+  {
+    periodo: PERIODOS_PRUEBA[1],
+    inscripciones: [{ id: 2, grupo: grupoDePrueba(), estado: 'CURSANDO' }],
+  },
 ];
 
 /** Pruebas del orden del historial. */
@@ -56,6 +59,41 @@ describe('HistorialComponent', () => {
     expect(bloques[0].textContent).toContain('Activo');
     expect(bloques[1].textContent).toContain('2.2');
     expect(bloques[1].textContent).toContain('Reprobada');
+    expect(html.querySelector('button')).toBeNull();
+    backend.verify();
+  });
+
+  /** Con el id del estudiante en la URL consulta como profesor y muestra su nombre. */
+  it('muestra el historial de un estudiante al profesor', async () => {
+    TestBed.configureTestingModule({
+      imports: [HistorialComponent],
+      providers: [
+        provideRouter([]),
+        provideHttpClient(),
+        provideHttpClientTesting(),
+        {
+          provide: ActivatedRoute,
+          useValue: { snapshot: { paramMap: convertToParamMap({ id: '3' }) } },
+        },
+      ],
+    });
+    const backend = TestBed.inject(HttpTestingController);
+    const fixture = TestBed.createComponent(HistorialComponent);
+    const html = fixture.nativeElement as HTMLElement;
+    fixture.detectChanges();
+    const estudiante = { id: 3, documento: '1000000003', nombreCompleto: 'Luis Gómez' };
+    backend
+      .expectOne(`${environment.apiUrl}/api/profesor/estudiantes/3/historial`)
+      .flush([
+        {
+          periodo: PERIODOS_PRUEBA[1],
+          inscripciones: [{ id: 2, estudiante, grupo: grupoDePrueba(), estado: 'CURSANDO' }],
+        },
+      ]);
+    await fixture.whenStable();
+
+    expect(html.querySelector('h1')?.textContent).toContain('de Luis Gómez');
+    expect(html.querySelector('button')?.textContent).toContain('Volver');
     backend.verify();
   });
 });

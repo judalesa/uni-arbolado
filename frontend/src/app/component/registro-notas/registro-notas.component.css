@@ -1,0 +1,5 @@
+/* Ancho fijo del campo de nota para que la tabla no salte al escribir */
+.nota {
+  width: 9rem;
+  margin: 0 auto;
+}

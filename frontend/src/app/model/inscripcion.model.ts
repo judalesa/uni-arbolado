@@ -10,6 +10,17 @@ export interface InscripcionRequest {
   grupoId: number;
 }
 
+/** Corte de notas: 1 y 2 pesan 30 % y el 3 pesa 40 %. */
+export type Corte = 1 | 2 | 3;
+
+/** Cuerpo de `POST /api/profesor/inscripciones/{id}/notas` (`NotaRequest`). */
+export interface NotaRequest {
+  /** Corte al que corresponde la nota. */
+  corte: Corte;
+  /** Nota de 0.0 a 5.0 con un decimal. */
+  valor: number;
+}
+
 /** Inscripción con sus notas (`InscripcionDto`). */
 export interface InscripcionDto {
   /** Identificador. */
