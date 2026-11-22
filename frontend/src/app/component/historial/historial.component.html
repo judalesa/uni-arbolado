@@ -1,0 +1,34 @@
+<!-- Encabezado -->
+<h1 class="h4 mb-3">
+  <i class="fa-solid fa-clock-rotate-left me-2" aria-hidden="true"></i>Historial académico
+</h1>
+
+<!-- Errores -->
+<app-alerta-errores [mensajes]="errores()" />
+
+<!-- Un bloque por periodo con todos sus intentos -->
+@if (cargando()) {
+  <div class="text-center py-5">
+    <span class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span>Cargando…
+  </div>
+} @else {
+  @for (item of periodos(); track item.periodo.id) {
+    <section class="card shadow-sm mb-3">
+      <div class="card-header d-flex justify-content-between">
+        <h2 class="h6 mb-0">Periodo {{ item.periodo.codigo }}</h2>
+        @if (item.periodo.activo) {
+          <span class="badge text-bg-success">Activo</span>
+        }
+      </div>
+      <div class="card-body p-0">
+        <app-tabla [columnas]="columnas" [filas]="item.inscripciones" tituloAcciones="Estado">
+          <ng-template #acciones let-inscripcion>
+            <app-etiqueta-estado [estado]="inscripcion.estado" />
+          </ng-template>
+        </app-tabla>
+      </div>
+    </section>
+  } @empty {
+    <p class="text-center text-muted py-4">Aún no tienes asignaturas en tu historial.</p>
+  }
+}

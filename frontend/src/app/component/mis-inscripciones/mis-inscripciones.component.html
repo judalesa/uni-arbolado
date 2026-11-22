@@ -1,0 +1,30 @@
+<!-- Encabezado con el periodo -->
+<h1 class="h4 mb-3">
+  <i class="fa-solid fa-clipboard-list me-2" aria-hidden="true"></i>Mis inscripciones
+  @if (periodo()) {
+    <span class="text-muted fs-6">· {{ periodo() }}</span>
+  }
+</h1>
+
+<!-- Errores -->
+<app-alerta-errores [mensajes]="errores()" />
+
+<!-- Inscripciones con notas; la definitiva la calcula el backend al tener los tres cortes -->
+<section class="card shadow-sm">
+  <div class="card-body">
+    <app-tabla
+      [columnas]="columnas"
+      [filas]="inscripciones()"
+      [cargando]="cargando()"
+      vacio="No tienes inscripciones en el periodo activo."
+      tituloAcciones="Estado"
+    >
+      <ng-template #acciones let-inscripcion>
+        <app-etiqueta-estado [estado]="inscripcion.estado" />
+      </ng-template>
+    </app-tabla>
+    <p class="small text-muted mt-3 mb-0">
+      La definitiva aparece cuando los tres cortes tienen nota: 30 %, 30 % y 40 %. Se aprueba con 3.0.
+    </p>
+  </div>
+</section>
