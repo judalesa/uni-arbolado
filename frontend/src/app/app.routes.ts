@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 
-import { rolGuard, visitanteGuard } from './guard/acceso.guard';
+import { autenticadoGuard, rolGuard, visitanteGuard } from './guard/acceso.guard';
 
 /** Rutas de la aplicación. Cada rama por rol se carga de forma diferida y solo si el rol coincide. */
 export const routes: Routes = [
@@ -45,6 +45,13 @@ export const routes: Routes = [
     path: 'admin',
     canMatch: [rolGuard('ADMINISTRADOR')],
     loadChildren: () => import('./routes/admin.routes').then((m) => m.rutasAdmin),
+  },
+  {
+    path: 'perfil',
+    canMatch: [autenticadoGuard],
+    title: 'Mi perfil',
+    loadComponent: () =>
+      import('./component/perfil/perfil.component').then((m) => m.PerfilComponent),
   },
   {
     path: '403',
