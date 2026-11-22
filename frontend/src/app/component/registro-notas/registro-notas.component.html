@@ -1,0 +1,137 @@
+<!-- Encabezado con el grupo, el periodo y el regreso a mis grupos -->
+<div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+  <h1 class="h4 mb-0">
+    <i class="fa-solid fa-user-pen me-2" aria-hidden="true"></i>
+    @if (grupo(); as datos) {
+      {{ datos.asignatura.nombre }} · Grupo {{ datos.numero }}
+      <span class="badge text-bg-light border ms-1">{{ datos.periodo.codigo }}</span>
+    } @else {
+      Estudiantes del grupo
+    }
+  </h1>
+  <a class="btn btn-outline-secondary" routerLink="/profesor/grupos">
+    <i class="fa-solid fa-arrow-left me-1" aria-hidden="true"></i>Mis grupos
+  </a>
+</div>
+
+<!-- Errores -->
+<app-alerta-errores [mensajes]="errores()" />
+
+<!-- Aviso cuando el periodo ya no está activo -->
+@if (grupo(); as datos) {
+  @if (!editable()) {
+    <div class="alert alert-info" role="status">
+      El periodo {{ datos.periodo.codigo }} no está activo: las notas solo se pueden consultar.
+    </div>
+  }
+}
+
+<!-- Estudiantes con sus notas por corte -->
+<section class="card shadow-sm">
+  <div class="card-body">
+    @if (cargando()) {
+      <div class="text-center py-4">
+        <span class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span>Cargando…
+      </div>
+    } @else if (inscripciones().length === 0) {
+      <p class="text-center text-muted py-4 mb-0">El grupo no tiene estudiantes inscritos.</p>
+    } @else {
+      <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+          <thead class="table-light">
+            <tr>
+              <th scope="col">Estudiante</th>
+              @for (corte of cortes; track corte.corte) {
+                <th scope="col" class="text-center">{{ corte.titulo }}</th>
+              }
+              <th scope="col" class="text-center">Definitiva</th>
+              <th scope="col" class="text-center">Estado</th>
+              <th scope="col"><span class="visually-hidden">Historial</span></th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (inscripcion of inscripciones(); track inscripcion.id) {
+              <tr>
+                <!-- Estudiante -->
+                <td>
+                  <div class="fw-semibold">{{ inscripcion.estudiante?.nombreCompleto }}</div>
+                  <div class="small text-muted">{{ inscripcion.estudiante?.documento }}</div>
+                </td>
+
+                <!-- Un corte: bloqueado si ya tiene nota, editable si no -->
+                @for (corte of cortes; track corte.corte) {
+                  <td class="text-center">
+                    @if (nota(inscripcion, corte) !== null) {
+                      <span class="text-nowrap" title="Registrada; no se puede corregir">
+                        {{ formatear(nota(inscripcion, corte)) }}
+                        <i class="fa-solid fa-lock text-muted ms-1" aria-hidden="true"></i>
+                      </span>
+                    } @else if (editable()) {
+                      <div class="input-group input-group-sm flex-nowrap nota">
+                        <label
+                          class="visually-hidden"
+                          [for]="'nota-' + inscripcion.id + '-' + corte.corte"
+                        >
+                          {{ corte.titulo }} de {{ inscripcion.estudiante?.nombreCompleto }}
+                        </label>
+                        <input
+                          #campo
+                          class="form-control"
+                          type="number"
+                          inputmode="decimal"
+                          min="0"
+                          max="5"
+                          step="0.1"
+                          [id]="'nota-' + inscripcion.id + '-' + corte.corte"
+                          [value]="borrador(inscripcion, corte)"
+                          (input)="escribir(inscripcion, corte, campo.value)"
+                        />
+                        <button
+                          type="button"
+                          class="btn btn-success"
+                          [disabled]="!borrador(inscripcion, corte)"
+                          (click)="pedirConfirmacion(inscripcion, corte)"
+                        >
+                          Guardar
+                        </button>
+                      </div>
+                    } @else {
+                      —
+                    }
+                  </td>
+                }
+
+                <!-- Definitiva calculada por el backend y estado -->
+                <td class="text-center fw-semibold">{{ formatear(inscripcion.notaDefinitiva) }}</td>
+                <td class="text-center"><app-etiqueta-estado [estado]="inscripcion.estado" /></td>
+
+                <!-- Historial del estudiante -->
+                <td class="text-end">
+                  @if (inscripcion.estudiante; as estudiante) {
+                    <a
+                      class="btn btn-outline-secondary btn-sm text-nowrap"
+                      [routerLink]="['/profesor/estudiantes', estudiante.id, 'historial']"
+                    >
+                      <i class="fa-solid fa-clock-rotate-left me-1" aria-hidden="true"></i>Historial
+                    </a>
+                  }
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  </div>
+</section>
+
+<!-- Confirmación: la nota registrada no se puede corregir -->
+<app-confirmacion
+  [abierto]="porRegistrar() !== null"
+  titulo="Confirmar nota"
+  [mensaje]="mensajeConfirmacion()"
+  textoConfirmar="Registrar"
+  [procesando]="registrando()"
+  (confirmar)="registrar()"
+  (cancelar)="porRegistrar.set(null)"
+/>
