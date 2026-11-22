@@ -64,4 +64,10 @@ describe('GrupoService', () => {
     servicio.modificar(7, DATOS).subscribe();
     backend.expectOne({ method: 'PUT', url: `${BASE}/7` }).flush({});
   });
+
+  /** La oferta del estudiante usa su propia ruta, fuera de `/admin`. */
+  it('consulta la oferta', () => {
+    servicio.oferta().subscribe();
+    backend.expectOne({ method: 'GET', url: `${environment.apiUrl}/api/grupos/oferta` }).flush([]);
+  });
 });
