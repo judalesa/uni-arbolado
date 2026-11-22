@@ -226,7 +226,7 @@ export class GrupoFormularioComponent implements OnInit {
         this.avisos.exito(
           `Grupo ${guardado.numero} de ${guardado.asignatura.codigo} ${actual ? 'modificado' : 'creado'}.`,
         );
-        void this.router.navigate(['/admin/grupos'], {
+        this.router.navigate(['/admin/grupos'], {
           queryParams: { periodoId: guardado.periodo.id },
         });
       },

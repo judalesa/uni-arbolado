@@ -93,7 +93,7 @@ export class GruposComponent implements OnInit {
    */
   protected cambiarPeriodo(id: number | null): void {
     this.periodoId.set(id);
-    void this.router.navigate([], {
+    this.router.navigate([], {
       relativeTo: this.ruta,
       queryParams: { periodoId: id },
       replaceUrl: true,

@@ -61,6 +61,52 @@ export interface FranjaEditable {
 }
 
 /**
+ * Error propio de una franja: incompleta o con la hora de fin antes de la de inicio.
+ *
+ * @param franja franja del formulario
+ * @param numero posición visible de la franja, desde 1
+ * @return mensaje de error, o `null` si la franja está bien
+ */
+const errorDeFranja = (franja: FranjaEditable, numero: number): string | null => {
+  if (!franja.diaSemana || !franja.horaInicio || !franja.horaFin) {
+    return `Completa el día y las horas del horario ${numero}.`;
+  }
+  return franja.horaFin <= franja.horaInicio
+    ? `En el horario ${numero} la hora de fin debe ser posterior a la de inicio.`
+    : null;
+};
+
+/**
+ * Indica si dos franjas completas caen el mismo día y se cruzan; si solo se tocan, no se traslapan.
+ *
+ * @param primera una franja
+ * @param segunda otra franja
+ * @return {@code true} si se traslapan
+ */
+const seTraslapan = (primera: FranjaEditable, segunda: FranjaEditable): boolean =>
+  primera.diaSemana === segunda.diaSemana &&
+  primera.horaInicio < segunda.horaFin &&
+  segunda.horaInicio < primera.horaFin;
+
+/**
+ * Mensajes de cada par de franjas que se traslapan.
+ *
+ * @param franjas franjas completas y bien ordenadas en el tiempo
+ * @return un mensaje por cada par traslapado
+ */
+const traslapes = (franjas: FranjaEditable[]): string[] =>
+  franjas.flatMap((primera, indice) =>
+    franjas
+      .slice(indice + 1)
+      .map((segunda, desplazamiento) => ({ segunda, otro: indice + desplazamiento + 2 }))
+      .filter(({ segunda }) => seTraslapan(primera, segunda))
+      .map(({ otro }) => {
+        const dia = DIAS[posicion(primera.diaSemana as DiaSemana)].nombre.toLowerCase();
+        return `Los horarios ${indice + 1} y ${otro} se traslapan el ${dia}.`;
+      }),
+  );
+
+/**
  * Revisa las franjas antes de enviarlas: que haya al menos una, que estén completas, que terminen
  * después de empezar y que no se traslapen. El backend aplica las mismas reglas; revisarlas aquí
  * evita una ida al servidor y señala la fila exacta. Las horas `HH:mm` se comparan como texto.
@@ -72,26 +118,8 @@ export const validarHorarios = (franjas: FranjaEditable[]): string[] => {
   if (franjas.length === 0) {
     return ['Agrega al menos un horario.'];
   }
-  const errores: string[] = [];
-  franjas.forEach((franja, i) => {
-    if (!franja.diaSemana || !franja.horaInicio || !franja.horaFin) {
-      errores.push(`Completa el día y las horas del horario ${i + 1}.`);
-    } else if (franja.horaFin <= franja.horaInicio) {
-      errores.push(`En el horario ${i + 1} la hora de fin debe ser posterior a la de inicio.`);
-    }
-  });
-  if (errores.length > 0) {
-    return errores;
-  }
-  for (let i = 0; i < franjas.length; i++) {
-    for (let j = i + 1; j < franjas.length; j++) {
-      const a = franjas[i];
-      const b = franjas[j];
-      if (a.diaSemana === b.diaSemana && a.horaInicio < b.horaFin && b.horaInicio < a.horaFin) {
-        const dia = DIAS[posicion(a.diaSemana as DiaSemana)].nombre.toLowerCase();
-        errores.push(`Los horarios ${i + 1} y ${j + 1} se traslapan el ${dia}.`);
-      }
-    }
-  }
-  return errores;
+  const errores = franjas
+    .map((franja, indice) => errorDeFranja(franja, indice + 1))
+    .filter((mensaje): mensaje is string => mensaje !== null);
+  return errores.length > 0 ? errores : traslapes(franjas);
 };
