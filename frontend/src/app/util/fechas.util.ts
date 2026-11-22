@@ -11,6 +11,21 @@ export const formatearFecha = (fecha: string | null | undefined): string => {
 };
 
 /**
+ * Convierte la fecha y hora local de un campo `datetime-local` en un instante ISO con zona, que es lo
+ * que espera el backend (`OffsetDateTime`).
+ *
+ * @param local valor del campo (`AAAA-MM-DDTHH:mm`), o vacío
+ * @return instante en UTC (`…Z`), o `null` si el campo está vacío o no es válido
+ */
+export const aInstante = (local: string | null | undefined): string | null => {
+  if (!local) {
+    return null;
+  }
+  const fecha = new Date(local);
+  return Number.isNaN(fecha.getTime()) ? null : fecha.toISOString();
+};
+
+/**
  * Muestra un instante UTC en la hora local del navegador.
  *
  * @param instante instante del backend (termina en `Z`)
