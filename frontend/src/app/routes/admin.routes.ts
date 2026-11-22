@@ -18,6 +18,28 @@ export const rutasAdmin: Routes = [
       ),
   },
   {
+    path: 'grupos',
+    title: 'Grupos',
+    loadComponent: () =>
+      import('../component/grupos/grupos.component').then((m) => m.GruposComponent),
+  },
+  {
+    path: 'grupos/nuevo',
+    title: 'Nuevo grupo',
+    loadComponent: () =>
+      import('../component/grupo-formulario/grupo-formulario.component').then(
+        (m) => m.GrupoFormularioComponent,
+      ),
+  },
+  {
+    path: 'grupos/:id',
+    title: 'Modificar grupo',
+    loadComponent: () =>
+      import('../component/grupo-formulario/grupo-formulario.component').then(
+        (m) => m.GrupoFormularioComponent,
+      ),
+  },
+  {
     path: 'profesores',
     title: 'Profesores',
     data: { rol: 'PROFESOR' },

@@ -1,0 +1,49 @@
+<!-- Encabezado con el filtro de periodo y el botón para crear -->
+<div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+  <h1 class="h4 mb-0">
+    <i class="fa-solid fa-people-group me-2" aria-hidden="true"></i>Grupos
+  </h1>
+  <div class="d-flex flex-wrap align-items-center gap-2">
+    <label class="form-label mb-0" for="filtro-periodo">Periodo</label>
+    <select
+      id="filtro-periodo"
+      class="form-select w-auto"
+      [ngModel]="periodoId()"
+      (ngModelChange)="cambiarPeriodo($event)"
+    >
+      @for (periodo of periodos(); track periodo.id) {
+        <option [ngValue]="periodo.id">
+          {{ periodo.codigo }}{{ periodo.activo ? ' (activo)' : '' }}
+        </option>
+      }
+    </select>
+    <a
+      class="btn btn-success"
+      routerLink="/admin/grupos/nuevo"
+      [queryParams]="{ periodoId: periodoId() }"
+    >
+      <i class="fa-solid fa-plus me-1" aria-hidden="true"></i>Nuevo grupo
+    </a>
+  </div>
+</div>
+
+<!-- Errores -->
+<app-alerta-errores [mensajes]="errores()" />
+
+<!-- Listado del periodo elegido -->
+<section class="card shadow-sm">
+  <div class="card-body">
+    <app-tabla
+      [columnas]="columnas"
+      [filas]="lista()"
+      [cargando]="cargando()"
+      vacio="No hay grupos en este periodo."
+    >
+      <ng-template #acciones let-grupo>
+        <a class="btn btn-outline-secondary btn-sm" [routerLink]="['/admin/grupos', grupo.id]">
+          <i class="fa-solid fa-pen me-1" aria-hidden="true"></i>Modificar
+        </a>
+      </ng-template>
+    </app-tabla>
+  </div>
+</section>

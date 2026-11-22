@@ -1,0 +1,178 @@
+<!-- Encabezado con el regreso al listado -->
+<div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+  <h1 class="h4 mb-0">
+    <i class="fa-solid fa-people-group me-2" aria-hidden="true"></i>{{ titulo() }}
+  </h1>
+  <a class="btn btn-outline-secondary" routerLink="/admin/grupos">
+    <i class="fa-solid fa-arrow-left me-1" aria-hidden="true"></i>Volver
+  </a>
+</div>
+
+<!-- Errores generales y de horarios -->
+<app-alerta-errores [mensajes]="errores()" />
+
+@if (cargando()) {
+  <div class="text-center py-5">
+    <span class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span>Cargando…
+  </div>
+} @else {
+  <form class="card shadow-sm" [formGroup]="formulario" (ngSubmit)="guardar()" novalidate>
+    <div class="card-body">
+      <!-- Aviso de campos bloqueados por inscripciones -->
+      @if (bloqueado()) {
+        <div class="alert alert-info">
+          Este grupo ya tiene {{ grupo()?.inscritos }} estudiantes inscritos: solo puedes cambiar el
+          profesor, el bloque y el salón.
+        </div>
+      }
+
+      <!-- Datos del grupo -->
+      <div class="row g-3">
+        <div class="col-md-6">
+          <label class="form-label" for="campo-asignaturaId">
+            Asignatura <span class="text-danger">*</span>
+          </label>
+          <select
+            id="campo-asignaturaId"
+            class="form-select"
+            formControlName="asignaturaId"
+            [class.is-invalid]="error('asignaturaId')"
+          >
+            <option [ngValue]="null">Selecciona…</option>
+            @for (asignatura of asignaturas(); track asignatura.id) {
+              <option [ngValue]="asignatura.id">
+                S{{ asignatura.semestre }} · {{ asignatura.codigo }} · {{ asignatura.nombre }}
+              </option>
+            }
+          </select>
+          <div class="invalid-feedback">{{ error('asignaturaId') }}</div>
+        </div>
+
+        <div class="col-md-3">
+          <label class="form-label" for="campo-periodoId">
+            Periodo <span class="text-danger">*</span>
+          </label>
+          <select
+            id="campo-periodoId"
+            class="form-select"
+            formControlName="periodoId"
+            [class.is-invalid]="error('periodoId')"
+          >
+            <option [ngValue]="null">Selecciona…</option>
+            @for (periodo of periodos(); track periodo.id) {
+              <option [ngValue]="periodo.id">
+                {{ periodo.codigo }}{{ periodo.activo ? ' (activo)' : '' }}
+              </option>
+            }
+          </select>
+          <div class="invalid-feedback">{{ error('periodoId') }}</div>
+        </div>
+
+        <div class="col-md-3">
+          <span class="form-label d-block">Cupo</span>
+          <p class="form-control-plaintext">30 estudiantes</p>
+        </div>
+
+        <div class="col-md-6">
+          <label class="form-label" for="campo-profesorId">
+            Profesor <span class="text-danger">*</span>
+          </label>
+          <select
+            id="campo-profesorId"
+            class="form-select"
+            formControlName="profesorId"
+            [class.is-invalid]="error('profesorId')"
+          >
+            <option [ngValue]="null">Selecciona…</option>
+            @for (profesor of profesores(); track profesor.id) {
+              <option [ngValue]="profesor.id">{{ profesor.nombreCompleto }}</option>
+            }
+          </select>
+          <div class="invalid-feedback">{{ error('profesorId') }}</div>
+        </div>
+
+        <div class="col-6 col-md-3">
+          <label class="form-label" for="campo-bloque">Bloque <span class="text-danger">*</span></label>
+          <input
+            id="campo-bloque"
+            class="form-control"
+            formControlName="bloque"
+            maxlength="20"
+            placeholder="B"
+            [class.is-invalid]="error('bloque')"
+          />
+          <div class="invalid-feedback">{{ error('bloque') }}</div>
+        </div>
+
+        <div class="col-6 col-md-3">
+          <label class="form-label" for="campo-salon">Salón <span class="text-danger">*</span></label>
+          <input
+            id="campo-salon"
+            class="form-control"
+            formControlName="salon"
+            maxlength="20"
+            placeholder="301"
+            [class.is-invalid]="error('salon')"
+          />
+          <div class="invalid-feedback">{{ error('salon') }}</div>
+        </div>
+      </div>
+
+      <!-- Franjas semanales -->
+      <h2 class="h6 mt-4 mb-2">Horarios <span class="text-danger">*</span></h2>
+      <div formArrayName="horarios">
+        @for (franja of franjas.controls; track franja; let i = $index) {
+          <div class="row g-2 align-items-end mb-2 franja" [formGroupName]="i">
+            <div class="col-12 col-sm-4">
+              <label class="form-label small" [for]="'dia-' + i">Día</label>
+              <select [id]="'dia-' + i" class="form-select" formControlName="diaSemana">
+                <option value="">Selecciona…</option>
+                @for (dia of dias; track dia.valor) {
+                  <option [value]="dia.valor">{{ dia.nombre }}</option>
+                }
+              </select>
+            </div>
+            <div class="col-5 col-sm-3">
+              <label class="form-label small" [for]="'inicio-' + i">Inicio</label>
+              <input [id]="'inicio-' + i" type="time" class="form-control" formControlName="horaInicio" />
+            </div>
+            <div class="col-5 col-sm-3">
+              <label class="form-label small" [for]="'fin-' + i">Fin</label>
+              <input [id]="'fin-' + i" type="time" class="form-control" formControlName="horaFin" />
+            </div>
+            <div class="col-2 col-sm-2 text-end">
+              <button
+                type="button"
+                class="btn btn-outline-danger"
+                [disabled]="bloqueado() || franjas.length === 1"
+                [attr.aria-label]="'Quitar el horario ' + (i + 1)"
+                (click)="quitarFranja(i)"
+              >
+                <i class="fa-solid fa-trash" aria-hidden="true"></i>
+              </button>
+            </div>
+          </div>
+        }
+      </div>
+      <button
+        type="button"
+        class="btn btn-outline-success btn-sm"
+        [disabled]="bloqueado()"
+        (click)="agregarFranja()"
+      >
+        <i class="fa-solid fa-plus me-1" aria-hidden="true"></i>Agregar horario
+      </button>
+    </div>
+
+    <!-- Acciones -->
+    <div class="card-footer text-end">
+      <a class="btn btn-outline-secondary me-2" routerLink="/admin/grupos">Cancelar</a>
+      <button type="submit" class="btn btn-success" [disabled]="enviando()">
+        @if (enviando()) {
+          <span class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span>
+        }
+        Guardar
+      </button>
+    </div>
+  </form>
+}
