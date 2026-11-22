@@ -5,10 +5,10 @@ import { InscripcionDto } from '../model/inscripcion.model';
  * Muestra una nota siempre con un decimal (`3.0`, no `3`). La nota ya llega redondeada del backend;
  * aquí solo se formatea.
  *
- * @param nota nota de 0.0 a 5.0, o `null` si aún no se registra
+ * @param nota nota de 0.0 a 5.0; `null` u omitida si aún no se registra
  * @return nota con un decimal, o guion si no hay nota
  */
-export const formatearNota = (nota: number | null | undefined): string =>
+export const formatearNota = (nota?: number | null): string =>
   nota === null || nota === undefined ? '—' : nota.toFixed(1);
 
 /**

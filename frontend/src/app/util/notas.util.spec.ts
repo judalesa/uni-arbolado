@@ -8,6 +8,6 @@ describe('formatearNota', () => {
     expect(formatearNota(4.5)).toBe('4.5');
     expect(formatearNota(0)).toBe('0.0');
     expect(formatearNota(null)).toBe('—');
-    expect(formatearNota(undefined)).toBe('—');
+    expect(formatearNota()).toBe('—');
   });
 });

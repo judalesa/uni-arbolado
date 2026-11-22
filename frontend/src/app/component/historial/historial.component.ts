@@ -16,7 +16,7 @@ import { ColumnaTabla, TablaComponent } from '../tabla/tabla.component';
  * @return nueva lista ordenada
  */
 export const ordenarHistorial = (historial: HistorialPeriodoDto[]): HistorialPeriodoDto[] =>
-  [...historial].sort((a, b) => b.periodo.codigo.localeCompare(a.periodo.codigo));
+  [...historial].sort((primero, segundo) => segundo.periodo.codigo.localeCompare(primero.periodo.codigo));
 
 /** Historial académico del estudiante agrupado por periodo (`/estudiante/historial`). */
 @Component({

@@ -15,7 +15,15 @@ describe('horario.util', () => {
 
   /** La cuadrícula tiene una fila por franja distinta y una columna por día de lunes a sábado. */
   it('arma la cuadrícula semanal', () => {
-    const clase = (diaSemana: 'LUNES' | 'MIERCOLES', horaInicio: string, horaFin: string) => ({
+    /**
+     * Crea una clase de prueba.
+     *
+     * @param diaSemana día de la clase
+     * @param horaInicio hora de inicio
+     * @param horaFin hora de fin
+     * @return clase con datos fijos de asignatura
+     */
+    const clase =(diaSemana: 'LUNES' | 'MIERCOLES', horaInicio: string, horaFin: string) => ({
       asignatura: { id: 1, codigo: 'DSI301', nombre: 'Desarrollo 3', creditos: 4 },
       grupoNumero: 1,
       diaSemana,

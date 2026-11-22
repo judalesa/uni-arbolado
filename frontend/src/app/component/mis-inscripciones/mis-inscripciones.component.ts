@@ -45,7 +45,9 @@ export class MisInscripcionesComponent implements OnInit {
     this.servicio.mias().subscribe({
       next: (lista) => {
         this.inscripciones.set(
-          [...lista].sort((a, b) => a.grupo.asignatura.codigo.localeCompare(b.grupo.asignatura.codigo)),
+          [...lista].sort((primera, segunda) =>
+            primera.grupo.asignatura.codigo.localeCompare(segunda.grupo.asignatura.codigo),
+          ),
         );
         this.cargando.set(false);
       },

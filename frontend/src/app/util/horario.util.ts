@@ -134,6 +134,14 @@ export interface FilaHorario {
 }
 
 /**
+ * Texto de la franja de una clase.
+ *
+ * @param clase clase del horario
+ * @return franja, por ejemplo `08:00–10:00`
+ */
+const franjaDe = (clase: ClaseDto): string => `${clase.horaInicio}–${clase.horaFin}`;
+
+/**
  * Arma la cuadrícula semanal: una fila por cada franja distinta, en orden, y una columna por día.
  * Usar las franjas reales como filas (y no horas fijas) evita partir clases que no empiezan en punto.
  *
@@ -141,10 +149,11 @@ export interface FilaHorario {
  * @return filas de la cuadrícula
  */
 export const armarCuadricula = (clases: ClaseDto[]): FilaHorario[] => {
-  const franjaDe = (clase: ClaseDto): string => `${clase.horaInicio}–${clase.horaFin}`;
-  const franjas = [...new Set(clases.map(franjaDe))].sort((a, b) => a.localeCompare(b));
+  const franjas = [...new Set(clases.map(franjaDe))].sort((primera, segunda) => primera.localeCompare(segunda));
   return franjas.map((franja) => ({
     franja,
-    dias: DIAS.map((dia) => clases.filter((c) => c.diaSemana === dia.valor && franjaDe(c) === franja)),
+    dias: DIAS.map((dia) =>
+      clases.filter((clase) => clase.diaSemana === dia.valor && franjaDe(clase) === franja),
+    ),
   }));
 };
