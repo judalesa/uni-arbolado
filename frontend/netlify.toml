@@ -1,0 +1,16 @@
+# Despliegue del frontend en Netlify (directorio base del sitio: frontend)
+
+# Compilación de producción; publica solo la carpeta del navegador
+[build]
+  command = "npm run build"
+  publish = "dist/uni-arbolado-front/browser"
+
+# Versión de Node compatible con Angular 22
+[build.environment]
+  NODE_VERSION = "24"
+
+# Aplicación de una sola página: toda ruta la resuelve Angular, así recargar /estudiante/plan no da 404
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
