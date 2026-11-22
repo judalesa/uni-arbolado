@@ -7,7 +7,9 @@
         @for (encabezado of encabezados(); track encabezado.titulo) {
           <th scope="col" [class]="encabezado.clase">{{ encabezado.titulo }}</th>
         }
-        <th scope="col" class="text-end" [hidden]="!acciones()">{{ tituloAcciones() }}</th>
+        @if (acciones()) {
+          <th scope="col" class="text-end">{{ tituloAcciones() }}</th>
+        }
       </tr>
     </thead>
 
@@ -25,9 +27,11 @@
             @for (celda of item.celdas; track $index) {
               <td [class]="celda.clase">{{ celda.texto }}</td>
             }
-            <td class="text-end text-nowrap" [hidden]="!acciones()">
-              <ng-container *ngTemplateOutlet="acciones(); context: { $implicit: item.fila }" />
-            </td>
+            @if (acciones(); as plantilla) {
+              <td class="text-end text-nowrap">
+                <ng-container *ngTemplateOutlet="plantilla; context: { $implicit: item.fila }" />
+              </td>
+            }
           </tr>
         } @empty {
           <tr>
