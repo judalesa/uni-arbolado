@@ -1,12 +1,18 @@
 import { Component, OnInit, computed, inject, signal } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 import { ClaseDto } from '../../model/consulta.model';
 import { EstudianteService } from '../../service/estudiante.service';
+import { ProfesorService } from '../../service/profesor.service';
 import { mensajesDe } from '../../util/errores.util';
 import { DIAS, armarCuadricula } from '../../util/horario.util';
 import { AlertaErroresComponent } from '../alerta-errores/alerta-errores.component';
 
-/** Horario semanal del periodo activo en una cuadrícula de lunes a sábado (`/estudiante/horario`). */
+/**
+ * Horario semanal del periodo activo en una cuadrícula de lunes a sábado. La misma pantalla sirve al
+ * estudiante (`/estudiante/horario`) y al profesor (`/profesor/horario`); la ruta del profesor lo
+ * indica con `data.rol`.
+ */
 @Component({
   /** Etiqueta del componente. */
   selector: 'app-horario',
@@ -20,6 +26,12 @@ import { AlertaErroresComponent } from '../alerta-errores/alerta-errores.compone
 export class HorarioComponent implements OnInit {
   /** Consultas del estudiante. */
   private readonly estudiante = inject(EstudianteService);
+
+  /** Consultas del profesor. */
+  private readonly profesor = inject(ProfesorService);
+
+  /** Ruta actual, para saber de qué rol es el horario. */
+  private readonly ruta = inject(ActivatedRoute);
 
   /** Días de las columnas. */
   protected readonly dias = DIAS;
@@ -36,9 +48,11 @@ export class HorarioComponent implements OnInit {
   /** Mensajes de error. */
   protected readonly errores = signal<string[]>([]);
 
-  /** Carga el horario. */
+  /** Carga el horario del rol que indica la ruta. */
   ngOnInit(): void {
-    this.estudiante.horario().subscribe({
+    const esProfesor = this.ruta.snapshot.data['rol'] === 'PROFESOR';
+    const consulta = esProfesor ? this.profesor.horario() : this.estudiante.horario();
+    consulta.subscribe({
       next: (clases) => {
         this.clases.set(clases);
         this.cargando.set(false);
