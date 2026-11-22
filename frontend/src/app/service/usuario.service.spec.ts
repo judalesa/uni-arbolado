@@ -57,4 +57,10 @@ describe('UsuarioService', () => {
     expect(peticion.request.body).toEqual(datos);
     peticion.flush({});
   });
+
+  /** El perfil propio se lee de `/api/usuarios/me`, para cualquier rol. */
+  it('consulta el perfil propio', () => {
+    servicio.yo().subscribe();
+    backend.expectOne({ method: 'GET', url: `${environment.apiUrl}/api/usuarios/me` }).flush({});
+  });
 });

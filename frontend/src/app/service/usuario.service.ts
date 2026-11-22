@@ -15,7 +15,7 @@ const RECURSO: Record<RolListable, string> = {
   PROFESOR: 'profesores',
 };
 
-/** Llamadas a `/api/admin/estudiantes` y `/api/admin/profesores`. */
+/** Llamadas de usuarios: listados del administrador (`/api/admin/...`) y perfil propio (`/api/usuarios/me`). */
 @Injectable({ providedIn: 'root' })
 export class UsuarioService {
   /** Cliente HTTP. */
@@ -50,5 +50,14 @@ export class UsuarioService {
    */
   crearProfesor(datos: CrearProfesorRequest): Observable<UsuarioDto> {
     return this.http.post<UsuarioDto>(`${this.base}/profesores`, datos);
+  }
+
+  /**
+   * Datos del usuario de la sesión, para cualquier rol.
+   *
+   * @return el usuario autenticado
+   */
+  yo(): Observable<UsuarioDto> {
+    return this.http.get<UsuarioDto>(`${environment.apiUrl}/api/usuarios/me`);
   }
 }
