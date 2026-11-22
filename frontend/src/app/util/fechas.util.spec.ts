@@ -1,4 +1,4 @@
-import { formatearFecha, formatearInstante } from './fechas.util';
+import { aInstante, formatearFecha, formatearInstante } from './fechas.util';
 
 /** Pruebas del formato de fechas. */
 describe('fechas.util', () => {
@@ -18,5 +18,14 @@ describe('fechas.util', () => {
     expect(formatearInstante('2026-11-20T15:00:00Z')).not.toBe('');
     expect(formatearInstante('no-es-fecha')).toBe('');
     expect(formatearInstante(null)).toBe('');
+  });
+
+  /** La hora local del campo se convierte en el mismo instante en UTC; vacío da nulo. */
+  it('convierte la hora local en un instante con zona', () => {
+    const instante = aInstante('2026-11-20T08:30');
+    expect(instante).toMatch(/Z$/);
+    expect(new Date(instante ?? '').getTime()).toBe(new Date(2026, 10, 20, 8, 30).getTime());
+    expect(aInstante('')).toBeNull();
+    expect(aInstante('no-es-fecha')).toBeNull();
   });
 });

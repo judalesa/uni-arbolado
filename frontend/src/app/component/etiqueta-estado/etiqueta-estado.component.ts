@@ -8,9 +8,14 @@ const ESTADOS: Record<string, { texto: string; clase: string }> = {
   REPROBADA: { texto: 'Reprobada', clase: 'text-bg-danger' },
   ACTIVO: { texto: 'Activo', clase: 'text-bg-success' },
   PENDIENTE: { texto: 'Pendiente', clase: 'text-bg-warning' },
+  EXITOSO: { texto: 'Exitoso', clase: 'text-bg-success' },
+  FALLIDO: { texto: 'Fallido', clase: 'text-bg-danger' },
 };
 
-/** Etiqueta de color para un estado de asignatura o de cuenta (mapa de pantallas, sección 2). */
+/**
+ * Etiqueta de color para un estado de asignatura, de cuenta o el resultado de un registro de
+ * auditoría (mapa de pantallas, sección 2).
+ */
 @Component({
   /** Etiqueta del componente. */
   selector: 'app-etiqueta-estado',
