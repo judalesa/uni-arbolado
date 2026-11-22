@@ -51,6 +51,16 @@ const claveDe = (inscripcion: InscripcionDto, corte: DatosCorte): string =>
   `${inscripcion.id}-${corte.corte}`;
 
 /**
+ * Nota registrada de un corte.
+ *
+ * @param inscripcion inscripción de la fila
+ * @param corte corte de la columna
+ * @return la nota, o `null` si aún no se registra
+ */
+export const notaDelCorte = (inscripcion: InscripcionDto, corte: DatosCorte): number | null =>
+  inscripcion[corte.campo] ?? null;
+
+/**
  * Estudiantes de un grupo del profesor y registro de notas (`/profesor/grupos/:id`). Cada corte se
  * registra una sola vez: cuando ya tiene nota aparece bloqueado y antes de guardar se pide confirmación.
  */
@@ -79,6 +89,9 @@ export class RegistroNotasComponent implements OnInit {
 
   /** Formato de las notas, para la plantilla. */
   protected readonly formatear = formatearNota;
+
+  /** Nota registrada de un corte, para la plantilla. */
+  protected readonly nota = notaDelCorte;
 
   /** Identificador del grupo de la URL. */
   private grupoId = 0;
@@ -121,17 +134,6 @@ export class RegistroNotasComponent implements OnInit {
   ngOnInit(): void {
     this.grupoId = Number(this.ruta.snapshot.paramMap.get('id'));
     this.cargar();
-  }
-
-  /**
-   * Nota registrada de un corte.
-   *
-   * @param inscripcion inscripción de la fila
-   * @param corte corte de la columna
-   * @return la nota, o `null` si aún no se registra
-   */
-  protected nota(inscripcion: InscripcionDto, corte: DatosCorte): number | null {
-    return inscripcion[corte.campo] ?? null;
   }
 
   /**
