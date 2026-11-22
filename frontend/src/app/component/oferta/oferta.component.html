@@ -1,0 +1,64 @@
+<!-- Encabezado con el periodo y los créditos en curso -->
+<div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+  <h1 class="h4 mb-0">
+    <i class="fa-solid fa-pen-to-square me-2" aria-hidden="true"></i>Oferta
+    {{ periodo() ?? '' }}
+  </h1>
+  @if (!cargando()) {
+    <span class="badge text-bg-light border fs-6" aria-live="polite">
+      Créditos cursando: {{ creditos() }} / {{ maximoCreditos }}
+    </span>
+  }
+</div>
+
+<!-- Motivos del rechazo o errores de carga -->
+<app-alerta-errores [mensajes]="errores()" />
+
+<!-- Búsqueda -->
+<div class="mb-3">
+  <label class="visually-hidden" for="busqueda-oferta">Buscar en la oferta</label>
+  <input
+    id="busqueda-oferta"
+    class="form-control"
+    type="search"
+    placeholder="Buscar por código, asignatura o profesor"
+    [ngModel]="busqueda()"
+    (ngModelChange)="busqueda.set($event)"
+  />
+</div>
+
+<!-- Grupos ofertados -->
+<section class="card shadow-sm">
+  <div class="card-body">
+    <app-tabla
+      [columnas]="columnas"
+      [filas]="visibles()"
+      [cargando]="cargando()"
+      vacio="No hay grupos ofertados. Puede que aún no haya un periodo activo."
+      tituloAcciones=""
+    >
+      <ng-template #acciones let-grupo>
+        @if (yaCursa(grupo)) {
+          <span class="badge text-bg-primary">Inscrita</span>
+        } @else if (grupo.cuposDisponibles === 0) {
+          <button type="button" class="btn btn-outline-secondary btn-sm" disabled>Lleno</button>
+        } @else {
+          <button type="button" class="btn btn-success btn-sm" (click)="pedirConfirmacion(grupo)">
+            <i class="fa-solid fa-check me-1" aria-hidden="true"></i>Inscribir
+          </button>
+        }
+      </ng-template>
+    </app-tabla>
+  </div>
+</section>
+
+<!-- Confirmación: la inscripción no se puede cancelar -->
+<app-confirmacion
+  [abierto]="porInscribir() !== null"
+  titulo="Confirmar inscripción"
+  [mensaje]="mensajeConfirmacion()"
+  textoConfirmar="Inscribir"
+  [procesando]="inscribiendo()"
+  (confirmar)="inscribir()"
+  (cancelar)="porInscribir.set(null)"
+/>

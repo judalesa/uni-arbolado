@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { GrupoDto, GrupoRequest } from '../model/grupo.model';
 
-/** Llamadas a `/api/admin/grupos`. */
+/** Llamadas a `/api/admin/grupos` y a la oferta del estudiante (`/api/grupos/oferta`). */
 @Injectable({ providedIn: 'root' })
 export class GrupoService {
   /** Cliente HTTP. */
@@ -54,5 +54,14 @@ export class GrupoService {
    */
   modificar(id: number, datos: GrupoRequest): Observable<GrupoDto> {
     return this.http.put<GrupoDto>(`${this.base}/${id}`, datos);
+  }
+
+  /**
+   * Oferta del periodo activo para el estudiante, con los cupos de cada grupo.
+   *
+   * @return los grupos ofertados; vacío si no hay periodo activo
+   */
+  oferta(): Observable<GrupoDto[]> {
+    return this.http.get<GrupoDto[]>(`${environment.apiUrl}/api/grupos/oferta`);
   }
 }
