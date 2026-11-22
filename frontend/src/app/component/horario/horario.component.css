@@ -1,0 +1,13 @@
+/* Columnas de los días con un ancho mínimo para que la cuadrícula se lea en pantallas angostas */
+.horario td {
+  min-width: 9rem;
+  vertical-align: top;
+}
+
+/* Bloque de una clase dentro de la celda */
+.clase {
+  background-color: var(--bs-success-bg-subtle);
+  border-left: 4px solid var(--bs-success);
+  border-radius: 0.25rem;
+  padding: 0.25rem 0.5rem;
+}

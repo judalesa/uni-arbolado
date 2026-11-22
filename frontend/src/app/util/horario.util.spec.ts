@@ -1,4 +1,4 @@
-import { formatearHorarios, validarHorarios } from './horario.util';
+import { armarCuadricula, formatearHorarios, validarHorarios } from './horario.util';
 
 /** Pruebas de las utilidades de horario. */
 describe('horario.util', () => {
@@ -11,6 +11,36 @@ describe('horario.util', () => {
         { diaSemana: 'LUNES', horaInicio: '07:00', horaFin: '09:00' },
       ]),
     ).toBe('Lu 07:00–09:00 · Lu 10:00–12:00 · Mi 08:00–10:00');
+  });
+
+  /** La cuadrícula tiene una fila por franja distinta y una columna por día de lunes a sábado. */
+  it('arma la cuadrícula semanal', () => {
+    /**
+     * Crea una clase de prueba.
+     *
+     * @param diaSemana día de la clase
+     * @param horaInicio hora de inicio
+     * @param horaFin hora de fin
+     * @return clase con datos fijos de asignatura
+     */
+    const clase =(diaSemana: 'LUNES' | 'MIERCOLES', horaInicio: string, horaFin: string) => ({
+      asignatura: { id: 1, codigo: 'DSI301', nombre: 'Desarrollo 3', creditos: 4 },
+      grupoNumero: 1,
+      diaSemana,
+      horaInicio,
+      horaFin,
+    });
+    const filas = armarCuadricula([
+      clase('MIERCOLES', '10:00', '12:00'),
+      clase('LUNES', '08:00', '10:00'),
+      clase('MIERCOLES', '08:00', '10:00'),
+    ]);
+    expect(filas.map((f) => f.franja)).toEqual(['08:00–10:00', '10:00–12:00']);
+    expect(filas[0].dias).toHaveLength(6);
+    expect(filas[0].dias[0]).toHaveLength(1);
+    expect(filas[0].dias[1]).toHaveLength(0);
+    expect(filas[0].dias[2]).toHaveLength(1);
+    expect(filas[1].dias[0]).toHaveLength(0);
   });
 
   /** Sin franjas hay que agregar al menos una. */

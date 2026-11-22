@@ -1,0 +1,35 @@
+<!-- Encabezado -->
+<h1 class="h4 mb-3"><i class="fa-solid fa-user me-2" aria-hidden="true"></i>Mi perfil</h1>
+
+<!-- Errores -->
+<app-alerta-errores [mensajes]="errores()" />
+
+<!-- Datos de la cuenta -->
+@if (usuario(); as u) {
+  <section class="card shadow-sm">
+    <div class="card-body">
+      <dl class="row mb-0">
+        <dt class="col-sm-4">Nombre</dt>
+        <dd class="col-sm-8">{{ u.nombreCompleto }}</dd>
+        <dt class="col-sm-4">Documento</dt>
+        <dd class="col-sm-8">{{ u.documento }}</dd>
+        <dt class="col-sm-4">Correo</dt>
+        <dd class="col-sm-8">{{ u.correo }}</dd>
+        <dt class="col-sm-4">Rol</dt>
+        <dd class="col-sm-8">{{ nombreRol[u.rol] }}</dd>
+        <dt class="col-sm-4">Estado</dt>
+        <dd class="col-sm-8"><app-etiqueta-estado [estado]="u.estado" /></dd>
+        <dt class="col-sm-4">Cuenta creada</dt>
+        <dd class="col-sm-8 mb-0">{{ formatearInstante(u.fechaCreacion) || '—' }}</dd>
+      </dl>
+    </div>
+    <div class="card-footer small text-muted">
+      Los datos de la cuenta no se pueden modificar desde aquí. Si alguno es incorrecto, comunícate con
+      la administración.
+    </div>
+  </section>
+} @else if (errores().length === 0) {
+  <div class="text-center py-5">
+    <span class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span>Cargando…
+  </div>
+}

@@ -1,3 +1,4 @@
+import { ClaseDto } from '../model/consulta.model';
 import { DiaSemana, HorarioDto } from '../model/grupo.model';
 
 /** Día de la semana con sus nombres visibles. */
@@ -122,4 +123,37 @@ export const validarHorarios = (franjas: FranjaEditable[]): string[] => {
     .map((franja, indice) => errorDeFranja(franja, indice + 1))
     .filter((mensaje): mensaje is string => mensaje !== null);
   return errores.length > 0 ? errores : traslapes(franjas);
+};
+
+/** Fila de la cuadrícula semanal: una franja horaria con las clases de cada día. */
+export interface FilaHorario {
+  /** Franja, por ejemplo `08:00–10:00`. */
+  franja: string;
+  /** Clases de esa franja, una lista por día de lunes a sábado. */
+  dias: ClaseDto[][];
+}
+
+/**
+ * Texto de la franja de una clase.
+ *
+ * @param clase clase del horario
+ * @return franja, por ejemplo `08:00–10:00`
+ */
+const franjaDe = (clase: ClaseDto): string => `${clase.horaInicio}–${clase.horaFin}`;
+
+/**
+ * Arma la cuadrícula semanal: una fila por cada franja distinta, en orden, y una columna por día.
+ * Usar las franjas reales como filas (y no horas fijas) evita partir clases que no empiezan en punto.
+ *
+ * @param clases clases del periodo
+ * @return filas de la cuadrícula
+ */
+export const armarCuadricula = (clases: ClaseDto[]): FilaHorario[] => {
+  const franjas = [...new Set(clases.map(franjaDe))].sort((primera, segunda) => primera.localeCompare(segunda));
+  return franjas.map((franja) => ({
+    franja,
+    dias: DIAS.map((dia) =>
+      clases.filter((clase) => clase.diaSemana === dia.valor && franjaDe(clase) === franja),
+    ),
+  }));
 };

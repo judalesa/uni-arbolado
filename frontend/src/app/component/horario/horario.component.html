@@ -1,0 +1,52 @@
+<!-- Encabezado -->
+<h1 class="h4 mb-3">
+  <i class="fa-solid fa-calendar-week me-2" aria-hidden="true"></i>Mi horario
+</h1>
+
+<!-- Errores -->
+<app-alerta-errores [mensajes]="errores()" />
+
+<!-- Cuadrícula semanal: una fila por franja y una columna por día -->
+<section class="card shadow-sm">
+  <div class="card-body">
+    @if (cargando()) {
+      <div class="text-center py-4">
+        <span class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span>Cargando…
+      </div>
+    } @else if (filas().length === 0) {
+      <p class="text-center text-muted py-4 mb-0">No tienes clases en el periodo activo.</p>
+    } @else {
+      <div class="table-responsive">
+        <table class="table table-bordered align-middle mb-0 horario">
+          <thead class="table-light">
+            <tr>
+              <th scope="col">Hora</th>
+              @for (dia of dias; track dia.valor) {
+                <th scope="col" class="text-center">{{ dia.nombre }}</th>
+              }
+            </tr>
+          </thead>
+          <tbody>
+            @for (fila of filas(); track fila.franja) {
+              <tr>
+                <th scope="row" class="text-nowrap small">{{ fila.franja }}</th>
+                @for (clasesDelDia of fila.dias; track $index) {
+                  <td>
+                    @for (clase of clasesDelDia; track clase.asignatura.id) {
+                      <div class="clase">
+                        <div class="fw-semibold">{{ clase.asignatura.nombre }}</div>
+                        <div class="small text-muted">
+                          {{ clase.asignatura.codigo }} · G{{ clase.grupoNumero }} · {{ clase.bloque }}-{{ clase.salon }}
+                        </div>
+                      </div>
+                    }
+                  </td>
+                }
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  </div>
+</section>
