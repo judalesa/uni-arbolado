@@ -53,4 +53,10 @@ export const rutasAdmin: Routes = [
     loadComponent: () =>
       import('../component/usuarios/usuarios.component').then((m) => m.UsuariosComponent),
   },
+  {
+    path: 'auditoria',
+    title: 'Auditoría',
+    loadComponent: () =>
+      import('../component/auditoria/auditoria.component').then((m) => m.AuditoriaComponent),
+  },
 ];

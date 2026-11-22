@@ -1,0 +1,87 @@
+<!-- Encabezado -->
+<h1 class="h4 mb-3"><i class="fa-solid fa-shield-halved me-2" aria-hidden="true"></i>Auditoría</h1>
+
+<!-- Errores -->
+<app-alerta-errores [mensajes]="errores()" />
+
+<section class="card shadow-sm">
+  <div class="card-body">
+    <!-- Filtros -->
+    <form class="row g-2 align-items-end mb-3" (ngSubmit)="filtrar()">
+      <div class="col-sm-6 col-lg-2">
+        <label class="form-label" for="filtro-usuario">Id de usuario</label>
+        <input
+          id="filtro-usuario"
+          class="form-control"
+          type="number"
+          min="1"
+          name="usuarioId"
+          [(ngModel)]="filtros.usuarioId"
+        />
+      </div>
+      <div class="col-sm-6 col-lg-3">
+        <label class="form-label" for="filtro-accion">Acción</label>
+        <select id="filtro-accion" class="form-select" name="accion" [(ngModel)]="filtros.accion">
+          <option [ngValue]="null">Todas</option>
+          @for (accion of opcionesAccion; track accion[0]) {
+            <option [ngValue]="accion[0]">{{ accion[1] }}</option>
+          }
+        </select>
+      </div>
+      <div class="col-sm-4 col-lg-2">
+        <label class="form-label" for="filtro-resultado">Resultado</label>
+        <select
+          id="filtro-resultado"
+          class="form-select"
+          name="resultado"
+          [(ngModel)]="filtros.resultado"
+        >
+          <option [ngValue]="null">Todos</option>
+          <option ngValue="EXITOSO">Exitoso</option>
+          <option ngValue="FALLIDO">Fallido</option>
+        </select>
+      </div>
+      <div class="col-sm-4 col-lg-2">
+        <label class="form-label" for="filtro-desde">Desde</label>
+        <input
+          id="filtro-desde"
+          class="form-control"
+          type="datetime-local"
+          name="desde"
+          [(ngModel)]="filtros.desde"
+        />
+      </div>
+      <div class="col-sm-4 col-lg-2">
+        <label class="form-label" for="filtro-hasta">Hasta</label>
+        <input
+          id="filtro-hasta"
+          class="form-control"
+          type="datetime-local"
+          name="hasta"
+          [(ngModel)]="filtros.hasta"
+        />
+      </div>
+      <div class="col-lg-auto d-flex gap-2">
+        <button type="submit" class="btn btn-outline-success">
+          <i class="fa-solid fa-filter me-1" aria-hidden="true"></i>Filtrar
+        </button>
+        <button type="button" class="btn btn-outline-secondary" (click)="limpiar()">Limpiar</button>
+      </div>
+    </form>
+
+    <!-- Registros, del más reciente al más antiguo -->
+    <app-tabla
+      [columnas]="columnas"
+      [filas]="registros()"
+      [cargando]="cargando()"
+      vacio="No hay registros con esos filtros."
+      tituloAcciones="Resultado"
+      [paginacion]="paginacion()"
+      (cambioPagina)="cargar($event)"
+    >
+      <ng-template #acciones let-registro>
+        <app-etiqueta-estado [estado]="registro.resultado" />
+      </ng-template>
+    </app-tabla>
+  </div>
+</section>
